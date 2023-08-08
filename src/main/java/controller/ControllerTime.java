@@ -1,0 +1,18 @@
+package controller;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+
+public class ControllerTime {
+    public static LocalDateTime parseDateTime(String timeStr, String dateStr) {
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+        LocalTime time = LocalTime.parse(timeStr, timeFormatter);
+
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate date = LocalDate.parse(dateStr, dateFormatter);
+
+        return LocalDateTime.of(date, time);
+    }
+}
