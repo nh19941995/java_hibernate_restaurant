@@ -139,8 +139,9 @@ public class ViewDish extends JPanel{
         this.tableModel = model;
         // lấy dữ liệu từ sever
         List<Dish> dishList = DishDAO.getInstance().getAll();
-        Object[][] dataFromDB = dishList.stream().map(
-                s -> new Object[]{
+        Object[][] dataFromDB = dishList.stream()
+                .filter(s->s.getFlag() > 0)  // chỉ lấy flag > 0
+                .map(s -> new Object[]{
                         s.getId(),
                         s.getDishName(),
                         s.getPrice(),

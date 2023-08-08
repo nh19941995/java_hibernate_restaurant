@@ -1,42 +1,37 @@
 package dao;
 
-
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
-import model.Dish;
+//import model.DishType;
+import model.Booking;
 import model.DishType;
+import model.TableList;
 import utils.PersistenceManager;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.List;
 
-public class DishDAO implements DAOInterface<Dish,Integer>{
+public class TableListDAO implements DAOInterface<TableList,Integer>{
     private EntityManagerFactory entityManagerFactory;
 
-    public EntityManagerFactory getEntityManagerFactory() {
-        return entityManagerFactory;
+
+    public static TableListDAO getInstance(){
+        return new TableListDAO();
     }
 
-    public void setEntityManagerFactory(EntityManagerFactory entityManagerFactory) {
-        this.entityManagerFactory = entityManagerFactory;
-    }
-
-    public static DishDAO getInstance(){
-        return new DishDAO();
-    }
-
-    public DishDAO() {
+    public TableListDAO() {
         entityManagerFactory = PersistenceManager.getEntityManagerFactory();
     }
+
     @Override
-    public boolean insert(Dish dish) {
+    public boolean insert(TableList tableList) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
 
         try {
             transaction.begin();
-            entityManager.persist(dish);
+            entityManager.persist(tableList);
             transaction.commit();
             return true;
         } catch (Exception e) {
@@ -51,13 +46,13 @@ public class DishDAO implements DAOInterface<Dish,Integer>{
     }
 
     @Override
-    public int update(Dish dish) {
+    public int update(TableList tableList) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
 
         try {
             transaction.begin();
-            entityManager.merge(dish);
+            entityManager.merge(tableList);
             transaction.commit();
             return 1;
         } catch (Exception e) {
@@ -72,22 +67,19 @@ public class DishDAO implements DAOInterface<Dish,Integer>{
     }
 
     @Override
-    public ArrayList<Dish> getAll() {
+    public ArrayList<TableList> getAll() {
         //        Với truy vấn đọc (SELECT), bạn không cần bắt EntityTransaction.
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         try {
             // Sử dụng JPQL (Java Persistence Query Language) để truy vấn danh sách DishType
-            String queryStr = "SELECT d FROM Dish d";
-            ArrayList<Dish> dishes  =  new ArrayList<>(entityManager.createQuery(queryStr, Dish.class).getResultList());
+            String queryStr = "SELECT d FROM TableList d";
+            ArrayList<TableList> tableLists  =  new ArrayList<>(entityManager.createQuery(queryStr, TableList.class).getResultList());
 
-            for (Dish dish : dishes) {
-                String types = dish.getType().getName();
+            for (TableList a : tableLists) {
+                String types = a.getType().getName();
             }
-
-
-//            a.stream().forEach(s-> System.out.println(s.toString()) );
-            return dishes;
+            return tableLists;
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -97,10 +89,11 @@ public class DishDAO implements DAOInterface<Dish,Integer>{
     }
 
     @Override
-    public Dish getById(int dishId) {
+    public TableList getById(int tableId) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         try {
-            return entityManager.find(Dish.class, dishId);
+            TableList tableList = entityManager.find(TableList.class, tableId);
+            return tableList;
         } catch (Exception e) {
             e.printStackTrace();
             return null;

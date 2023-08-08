@@ -50,7 +50,8 @@ public class ViewHome extends JFrame {
 //        thêm các view vào tab
         ViewDish viewDish = new ViewDish();
         tab1.add(viewDish,BorderLayout.CENTER);
-//        tab2.add(new TransactionListView(),BorderLayout.CENTER);
+        ViewTable viewTable = new ViewTable();
+        tab2.add(viewTable.viewTableMain(),BorderLayout.CENTER);
 //        tab3.add(new BookingView(),BorderLayout.CENTER);
 //        tab4.add(dishView,BorderLayout.CENTER);
 //        tab5.add(new MenuView(),BorderLayout.CENTER);
@@ -134,12 +135,12 @@ public class ViewHome extends JFrame {
                         tab1.removeAll(); // Xóa các thành phần hiện tại
                         tab1.add(viewDish, BorderLayout.CENTER); // Thêm các thành phần mới
                         break;
-//                    case 1:
-//                        // Cập nhật nội dung cho tab 2 (Giao dịch)
-//                        tab2.removeAll(); // Xóa các thành phần hiện tại
-//                        tab2.add(new TransactionListView(), BorderLayout.CENTER); // Thêm các thành phần mới
-//
-//                        break;
+                    case 1:
+                        // Cập nhật nội dung cho tab 2 (Giao dịch)
+                        tab2.removeAll(); // Xóa các thành phần hiện tại
+                        tab2.add(viewTable.viewTableMain(), BorderLayout.CENTER); // Thêm các thành phần mới
+
+                        break;
 //                    case 2:
 //                        // Load lại nội dung cho tab 3 (Đặt chỗ)
 //                        tab3.removeAll(); // Xóa các thành phần hiện tại

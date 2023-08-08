@@ -15,4 +15,16 @@ public class ControllerTime {
 
         return LocalDateTime.of(date, time);
     }
+
+    public static String formatDateTime(int choice, LocalDateTime dateTime) {
+        if (choice == 1) {
+            DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+            return dateTime.format(timeFormatter);
+        } else if (choice == 2) {
+            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            return dateTime.format(dateFormatter);
+        } else {
+            throw new IllegalArgumentException("Invalid choice");
+        }
+    }
 }
