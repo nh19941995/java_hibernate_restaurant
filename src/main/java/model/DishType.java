@@ -10,8 +10,8 @@ public class DishType {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @Column(name = "type", nullable = false, length = 500)
-    private String type;
+    @Column(name = "name", nullable = false, length = 500)
+    private String name;
 
     @Column(name = "flag")
     private Integer flag;
@@ -24,12 +24,12 @@ public class DishType {
         this.id = id;
     }
 
-    public String getType() {
-        return type;
+    public String getName() {
+        return name;
     }
 
     public void setType(String type) {
-        this.type = type;
+        this.name = type;
     }
 
     public Integer getFlag() {

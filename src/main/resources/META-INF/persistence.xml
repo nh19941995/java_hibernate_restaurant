@@ -4,6 +4,42 @@
              xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd"
              version="3.0">
     <persistence-unit name="default">
+        <class>model.DishType</class>
+        <class>model.Dish</class>
+        <class>model.Booking</class>
+        <class>model.BookingsInfo</class>
+        <class>model.Menu</class>
+        <class>model.MenuName</class>
+        <class>model.Permission</class>
+        <class>model.Person</class>
+        <class>model.Salary</class>
+        <class>model.TableList</class>
+        <class>model.TableType</class>
+        <class>model.Transaction</class>
+        <class>model.TransactionsType</class>
+        <properties>
+            <!-- Các thuộc tính cấu hình kết nối cơ sở dữ liệu -->
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/restaurant_manager"/>
+            <property name="jakarta.persistence.jdbc.user" value="root"/>
+            <property name="jakarta.persistence.jdbc.password" value="1234567"/>
+            <property name="show_sql" value="true"/>
 
+            <!-- Sử dụng HikariCP connection pool -->
+            <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
+            <property name="jakarta.persistence.jdbc.connection.provider_class" value="org.hibernate.hikaricp.internal.HikariCPConnectionProvider"/>
+            <property name="hibernate.hikari.dataSource.url" value="jdbc:mysql://localhost:3306/restaurant_manager"/>
+            <property name="hibernate.hikari.dataSource.user" value="root"/>
+            <property name="hibernate.hikari.dataSource.password" value="1234567"/>
+
+            <!-- Cấu hình HikariCP connection pool tùy chọn -->
+            <property name="hibernate.hikari.minimumIdle" value="5"/>
+            <property name="hibernate.hikari.maximumPoolSize" value="20"/>
+            <property name="hibernate.hikari.idleTimeout" value="30000"/>
+
+            <!-- Sử dụng thuộc tính mới jakarta.persistence.lock.timeout -->
+            <property name="jakarta.persistence.lock.timeout" value="5000"/>
+            <!-- Tùy chọn để tạo bảng tự động -->
+            <property name="hibernate.hbm2ddl.auto" value="update"/> <!-- hoặc value="create-drop" -->
+        </properties>
     </persistence-unit>
 </persistence>
