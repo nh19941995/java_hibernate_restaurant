@@ -3,32 +3,29 @@ package dao;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
-//import model.DishType;
+import model.Permission;
 import model.TableList;
 import utils.PersistenceManager;
 
 import java.util.ArrayList;
 
-public class TableListDAO implements DAOInterface<TableList,Integer>{
+public class PermissionDAO implements DAOInterface<Permission, Integer>{
     private EntityManagerFactory entityManagerFactory;
 
-
-    public static TableListDAO getInstance(){
-        return new TableListDAO();
+    public static PermissionDAO getInstance(){
+        return new PermissionDAO();
     }
-
-    public TableListDAO() {
+    public PermissionDAO() {
         entityManagerFactory = PersistenceManager.getEntityManagerFactory();
     }
-
     @Override
-    public boolean insert(TableList tableList) {
+    public boolean insert(Permission permission) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
 
         try {
             transaction.begin();
-            entityManager.persist(tableList);
+            entityManager.persist(permission);
             transaction.commit();
             return true;
         } catch (Exception e) {
@@ -43,13 +40,13 @@ public class TableListDAO implements DAOInterface<TableList,Integer>{
     }
 
     @Override
-    public int update(TableList tableList) {
+    public int update(Permission permission) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
 
         try {
             transaction.begin();
-            entityManager.merge(tableList);
+            entityManager.merge(permission);
             transaction.commit();
             return 1;
         } catch (Exception e) {
@@ -64,20 +61,19 @@ public class TableListDAO implements DAOInterface<TableList,Integer>{
     }
 
     @Override
-    public ArrayList<TableList> getAll() {
+    public ArrayList<Permission> getAll() {
         //        Với truy vấn đọc (SELECT), bạn không cần bắt EntityTransaction.
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         try {
             // Sử dụng JPQL (Java Persistence Query Language) để truy vấn danh sách DishType
-            String queryStr = "SELECT d FROM TableList d";
-            ArrayList<TableList> tableLists  =  new ArrayList<>(entityManager.createQuery(queryStr, TableList.class).getResultList());
+            String queryStr = "SELECT d FROM Permission d";
+            ArrayList<Permission> permissions  =  new ArrayList<>(entityManager.createQuery(queryStr, Permission.class).getResultList());
 
-            for (TableList a : tableLists) {
-                String types = a.getType().getName();
-                String status = a.getStatus().getName();
+            for (Permission a : permissions) {
+                String types = a.getPermissionName();
             }
-            return tableLists;
+            return permissions;
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -87,16 +83,7 @@ public class TableListDAO implements DAOInterface<TableList,Integer>{
     }
 
     @Override
-    public TableList getById(int tableId) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        try {
-            TableList tableList = entityManager.find(TableList.class, tableId);
-            return tableList;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        } finally {
-            entityManager.close();
-        }
+    public Permission getById(int t) {
+        return null;
     }
 }

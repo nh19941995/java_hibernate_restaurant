@@ -3,32 +3,31 @@ package dao;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
-//import model.DishType;
+import jakarta.persistence.Query;
+import model.DishType;
 import model.TableList;
+import model.TableStatus;
 import utils.PersistenceManager;
 
 import java.util.ArrayList;
 
-public class TableListDAO implements DAOInterface<TableList,Integer>{
+public class TableStatusDAO implements DAOInterface<TableStatus, Integer>{
     private EntityManagerFactory entityManagerFactory;
-
-
-    public static TableListDAO getInstance(){
-        return new TableListDAO();
+    public static TableStatusDAO getInstance(){
+        return new TableStatusDAO();
     }
-
-    public TableListDAO() {
+    public TableStatusDAO() {
         entityManagerFactory = PersistenceManager.getEntityManagerFactory();
     }
 
     @Override
-    public boolean insert(TableList tableList) {
+    public boolean insert(TableStatus tableStatus) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
 
         try {
             transaction.begin();
-            entityManager.persist(tableList);
+            entityManager.persist(tableStatus);
             transaction.commit();
             return true;
         } catch (Exception e) {
@@ -43,13 +42,13 @@ public class TableListDAO implements DAOInterface<TableList,Integer>{
     }
 
     @Override
-    public int update(TableList tableList) {
+    public int update(TableStatus tableStatus) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
 
         try {
             transaction.begin();
-            entityManager.merge(tableList);
+            entityManager.merge(tableStatus);
             transaction.commit();
             return 1;
         } catch (Exception e) {
@@ -64,20 +63,19 @@ public class TableListDAO implements DAOInterface<TableList,Integer>{
     }
 
     @Override
-    public ArrayList<TableList> getAll() {
+    public ArrayList<TableStatus> getAll() {
         //        Với truy vấn đọc (SELECT), bạn không cần bắt EntityTransaction.
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         try {
             // Sử dụng JPQL (Java Persistence Query Language) để truy vấn danh sách DishType
-            String queryStr = "SELECT d FROM TableList d";
-            ArrayList<TableList> tableLists  =  new ArrayList<>(entityManager.createQuery(queryStr, TableList.class).getResultList());
+            String queryStr = "SELECT d FROM TableStatus d";
+            ArrayList<TableStatus> tableStatuses  =  new ArrayList<>(entityManager.createQuery(queryStr, TableStatus.class).getResultList());
 
-            for (TableList a : tableLists) {
-                String types = a.getType().getName();
-                String status = a.getStatus().getName();
+            for (TableStatus a : tableStatuses) {
+                String types = a.getName();
             }
-            return tableLists;
+            return tableStatuses;
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -87,11 +85,30 @@ public class TableListDAO implements DAOInterface<TableList,Integer>{
     }
 
     @Override
-    public TableList getById(int tableId) {
+    public TableStatus getById(int tableStatusId) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         try {
-            TableList tableList = entityManager.find(TableList.class, tableId);
-            return tableList;
+            TableStatus tableStatus = entityManager.find(TableStatus.class, tableStatusId);
+            return tableStatus;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            entityManager.close();
+        }
+    }
+
+    public TableStatus getByStringName(String name){
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        try {
+            // Sử dụng JPQL (Java Persistence Query Language) để truy vấn danh sách DishType
+            Query query = entityManager.createQuery("SELECT d FROM TableStatus d WHERE d.name = :name");
+            query.setParameter("name", name);
+            TableStatus status = (TableStatus) query.getSingleResult();
+
+            // Merge the entity back into the session
+            TableStatus mergedTypex = entityManager.merge(status);
+            return mergedTypex;
         } catch (Exception e) {
             e.printStackTrace();
             return null;

@@ -48,12 +48,13 @@ public class ViewHome extends JFrame {
 
 
 //        thêm các view vào tab
-        ViewDish viewDish = new ViewDish();
-        tab1.add(viewDish,BorderLayout.CENTER);
+        ViewPerson viewPerson = new ViewPerson();
+        tab1.add(viewPerson.ViewPersonMain(),BorderLayout.CENTER);
         ViewTable viewTable = new ViewTable();
         tab2.add(viewTable.viewTableMain(),BorderLayout.CENTER);
-//        tab3.add(new BookingView(),BorderLayout.CENTER);
-//        tab4.add(dishView,BorderLayout.CENTER);
+//        tab3.add(viewDish,BorderLayout.CENTER);
+        ViewDish viewDish = new ViewDish();
+        tab4.add(viewDish,BorderLayout.CENTER);
 //        tab5.add(new MenuView(),BorderLayout.CENTER);
 //        tab6.add(oderView,BorderLayout.CENTER);
 

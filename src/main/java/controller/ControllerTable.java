@@ -1,7 +1,10 @@
 package controller;
 
+import dao.TableListDAO;
+import dao.TableStatusDAO;
 import model.TableList;
-import view.ViewDish;
+import model.TableStatus;
+import model.Transaction;
 import view.ViewTable;
 
 import javax.swing.*;
@@ -14,13 +17,9 @@ public class ControllerTable {
 
 
     public ControllerTable(ViewTable viewTable) {
-
-
-
-        JButton buttonsearch = viewTable.getButtonSearch();
-
-        // sự kiện click tạo món
-        buttonsearch.addMouseListener(new MouseAdapter() {
+        // sự kiện tìm kiếm
+        JButton buttonSearch = viewTable.getButtonSearch();
+        buttonSearch.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (checkInput(viewTable)){
@@ -29,20 +28,50 @@ public class ControllerTable {
             }
         });
 
+        // click get id
+        JTable table = viewTable.getTable();
+        table.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 1) { // Kiểm tra nếu chỉ là một lần click chuột (clickCount = 1)
+                    int row = table.getSelectedRow(); // Lấy chỉ số dòng đã được chọn
+                    if (row != -1) { // Kiểm tra xem có dòng nào được chọn không (-1 nghĩa là không có dòng nào được chọn)
+                        String id = table.getValueAt(row, 0).toString(); // Lấy giá trị từ ô ở cột đầu tiên (cột ID) của dòng đã chọn
+                        System.out.println("Table: "+ id);
+                        viewTable.setIdSelect(Integer.parseInt(id));
+
+                    }else {
+                        JOptionPane.showMessageDialog(null, "Please select the row you want to delete !", "Notice", JOptionPane.WARNING_MESSAGE);
+
+                    }
+                }
+            }
+
+        });
+
+        JButton buttonChangeStatus = viewTable.getButtonChangeStatus();
+        // sự kiện thay status
+        buttonChangeStatus.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                String status = (String)viewTable.getSelecStatusTable().getSelectedItem();
+                int idTable =  viewTable.getIdSelect();
+                changeStatus(idTable,status);
+                // Cập nhật bảng để hiển thị dữ liệu mới
+                viewTable.reload();
+                viewTable.getTable().revalidate();
+            }
+        });
+
+
 
     }
+
     private boolean checkInput(ViewTable viewTable){
         String seatingCapacityString = viewTable.getInputFilterBySeatingCapacity().getText();
         String dateString = viewTable.getInputFilterByDate().getText();
-
         System.out.println("Check input table search !");
         int check = 1;
-//        if (seatingCapacityString.isEmpty()||dateString.isEmpty()){
-//            if (check==1){
-//                JOptionPane.showMessageDialog(null, "You must fill in all the required information before searching !", "Notice", JOptionPane.WARNING_MESSAGE);
-//            }
-//            check =0;
-//        }
 
         if (!seatingCapacityString.isEmpty()){
             if (!RegexMatcher.numberCheck(seatingCapacityString,"").equals("")){
@@ -60,10 +89,15 @@ public class ControllerTable {
                 check = 0;
             }
         }
-
-
-
         return (check==1) ? true : false;
+    }
+
+    public void changeStatus(int id,String status){
+        TableStatus tableStatus = TableStatusDAO.getInstance().getByStringName(status);
+        TableList tableList = TableListDAO.getInstance().getById(id);
+        tableList.setStatus(tableStatus);
+        TableListDAO.getInstance().update(tableList);
+
     }
 
     public void search(ViewTable viewTable) {
@@ -104,5 +138,6 @@ public class ControllerTable {
         // Cập nhật bảng để hiển thị dữ liệu mới
         viewTable.getTableModel().fireTableDataChanged();
     }
+
 
 }

@@ -17,8 +17,9 @@ public class TableList {
     @JoinColumn(name = "type", nullable = false)
     private TableType type;
 
-    @Column(name = "flag")
-    private Integer flag;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "status", nullable = false)
+    private TableStatus status;
 
     public Integer getId() {
         return id;
@@ -44,12 +45,12 @@ public class TableList {
         this.type = type;
     }
 
-    public Integer getFlag() {
-        return flag;
+    public TableStatus getStatus() {
+        return status;
     }
 
-    public void setFlag(Integer flag) {
-        this.flag = flag;
+    public void setStatus(TableStatus status) {
+        this.status = status;
     }
 
 }

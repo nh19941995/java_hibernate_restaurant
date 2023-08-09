@@ -3,32 +3,32 @@ package dao;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
-//import model.DishType;
-import model.TableList;
+import model.Permission;
+import model.Person;
 import utils.PersistenceManager;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-public class TableListDAO implements DAOInterface<TableList,Integer>{
+public class PersonDAO implements DAOInterface<Person,Integer>{
+
     private EntityManagerFactory entityManagerFactory;
 
-
-    public static TableListDAO getInstance(){
-        return new TableListDAO();
+    public static PersonDAO getInstance(){
+        return new PersonDAO();
     }
-
-    public TableListDAO() {
+    public PersonDAO() {
         entityManagerFactory = PersistenceManager.getEntityManagerFactory();
     }
-
     @Override
-    public boolean insert(TableList tableList) {
+    public boolean insert(Person person) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
 
         try {
             transaction.begin();
-            entityManager.persist(tableList);
+            entityManager.persist(person);
             transaction.commit();
             return true;
         } catch (Exception e) {
@@ -43,13 +43,13 @@ public class TableListDAO implements DAOInterface<TableList,Integer>{
     }
 
     @Override
-    public int update(TableList tableList) {
+    public int update(Person person) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
 
         try {
             transaction.begin();
-            entityManager.merge(tableList);
+            entityManager.merge(person);
             transaction.commit();
             return 1;
         } catch (Exception e) {
@@ -64,20 +64,25 @@ public class TableListDAO implements DAOInterface<TableList,Integer>{
     }
 
     @Override
-    public ArrayList<TableList> getAll() {
+    public ArrayList<Person> getAll() {
         //        Với truy vấn đọc (SELECT), bạn không cần bắt EntityTransaction.
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         try {
             // Sử dụng JPQL (Java Persistence Query Language) để truy vấn danh sách DishType
-            String queryStr = "SELECT d FROM TableList d";
-            ArrayList<TableList> tableLists  =  new ArrayList<>(entityManager.createQuery(queryStr, TableList.class).getResultList());
+            String queryStr = "SELECT d FROM Person d";
+            ArrayList<Person> people  =  new ArrayList<>(entityManager.createQuery(queryStr, Person.class).getResultList());
 
-            for (TableList a : tableLists) {
-                String types = a.getType().getName();
-                String status = a.getStatus().getName();
+            for (Person a : people) {
+                String name = a.getName();
+                String lastName = a.getLastName();
+                String phone = a.getPhone();
+                String email = a.getEmail();
+                String address = a.getAddress();
+                LocalDate birth = a.getDateOfBirth();
+                String permission = a.getPermission().getPermissionName();
             }
-            return tableLists;
+            return people;
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -87,16 +92,7 @@ public class TableListDAO implements DAOInterface<TableList,Integer>{
     }
 
     @Override
-    public TableList getById(int tableId) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        try {
-            TableList tableList = entityManager.find(TableList.class, tableId);
-            return tableList;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        } finally {
-            entityManager.close();
-        }
+    public Person getById(int t) {
+        return null;
     }
 }

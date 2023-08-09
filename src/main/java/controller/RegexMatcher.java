@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 public class RegexMatcher {
 
     private static String regexHour = "^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$";
+    private static String regexPhone = "^[0-9]{10}$";
     private static String regexFloat = "^(\\d+\\.\\d+|\\d+)$";
     private static String regexDay = "^\\d{4}-\\d{2}-\\d{2}$";  // Kiểm tra định dạng ngày theo chuẩn "yyyy-MM-dd":
 
@@ -35,6 +36,16 @@ public class RegexMatcher {
     }
     public static String numberCheck(String num, String prefix){
         String a = checkRegex(regexFloat,num,"You must enter a positive number format. \n");
+        if (a.equals("")){
+            return a;
+        }else {
+            return prefix + a;
+        }
+
+    }
+
+    public static String phoneCheck(String num, String prefix){
+        String a = checkRegex(regexPhone,num,"You need to enter a phone number as a 10-digit integer. \n");
         if (a.equals("")){
             return a;
         }else {

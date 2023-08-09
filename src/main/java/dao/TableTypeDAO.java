@@ -2,7 +2,6 @@ package dao;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
-import model.TableList;
 import model.TableType;
 import utils.PersistenceManager;
 
