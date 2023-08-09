@@ -3,6 +3,8 @@ package dao;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.Query;
+import model.DishType;
 import model.Permission;
 import model.Person;
 import model.TableList;
@@ -89,6 +91,25 @@ public class PermissionDAO implements DAOInterface<Permission, Integer>{
         try {
             Permission permission = entityManager.find(Permission.class, permissionId);
             return permission;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            entityManager.close();
+        }
+    }
+
+    public Permission getByString(String permission){
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        try {
+            // Sử dụng JPQL (Java Persistence Query Language) để truy vấn danh sách DishType
+            Query query = entityManager.createQuery("SELECT d FROM Permission d WHERE d.permissionName = :permission");
+            query.setParameter("permission", permission);
+            Permission result = (Permission) query.getSingleResult();
+            // Merge the entity back into the session
+            Permission merge = entityManager.merge(result);
+
+            return merge;
         } catch (Exception e) {
             e.printStackTrace();
             return null;

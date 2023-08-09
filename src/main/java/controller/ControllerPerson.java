@@ -1,6 +1,8 @@
 package controller;
 
+import dao.PermissionDAO;
 import dao.PersonDAO;
+import model.Permission;
 import model.Person;
 import view.ViewPerson;
 
@@ -8,6 +10,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.stream.Stream;
 
@@ -32,8 +35,8 @@ public class ControllerPerson {
 
         });
 
-        JButton buttonSearch = viewPerson.getButtonSearchPerson();
         // sự kiện thay status
+        JButton buttonSearch = viewPerson.getButtonSearchPerson();
         buttonSearch.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -43,6 +46,21 @@ public class ControllerPerson {
                 }
             }
         });
+
+        // sự kiện thay creat
+        JButton buttonCreat = viewPerson.getButtonAddPerson();
+        buttonCreat.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (check(viewPerson)){
+                    creatNew(viewPerson);
+                    getNullToJtext(viewPerson);
+                    viewPerson.reload();
+                }
+            }
+        });
+
+
     }
     private void search(ViewPerson viewPerson){
         String phone = viewPerson.getInputSearchByPhone().getText();
@@ -86,6 +104,63 @@ public class ControllerPerson {
         viewPerson.getInputLastName().setText(person.getLastName());
         viewPerson.getInputFirstName().setText(person.getName());
         viewPerson.getInputPhone().setText(person.getPhone());
+    }
+    private void getNullToJtext(ViewPerson viewPerson){
+        viewPerson.getInputAdress().setText("");
+        viewPerson.getInputBirthday().setText("");
+        viewPerson.getInputEmail().setText("");
+        viewPerson.getInputLastName().setText("");
+        viewPerson.getInputFirstName().setText("");
+        viewPerson.getInputPhone().setText("");
+    }
+
+    private void creatNew(ViewPerson viewPerson){
+        String permissionString = (String) viewPerson.getSelecType().getSelectedItem();
+        Permission permission = PermissionDAO.getInstance().getByString(permissionString);
+        Person person = new Person();
+        person.setAddress(viewPerson.getInputAdress().getText());
+        person.setDateOfBirth(ControllerTime.creatLocalDateByString(viewPerson.getInputBirthday().getText()));
+        person.setEmail(viewPerson.getInputEmail().getText());
+        person.setLastName(viewPerson.getInputLastName().getText());
+        person.setName(viewPerson.getInputFirstName().getText());
+        person.setPhone(viewPerson.getInputPhone().getText());
+        person.setUsername(viewPerson.getInputPhone().getText());
+        person.setPermission(permission);
+        person.setDateCreat(LocalDateTime.now());
+        person.setDateUpdate(LocalDateTime.now());
+        person.setFlag(1);
+        PersonDAO.getInstance().insert(person);
+    }
+
+    private boolean check(ViewPerson viewPerson){
+
+        String Adress =  viewPerson.getInputAdress().getText();
+        String dob = viewPerson.getInputBirthday().getText();
+        String email = viewPerson.getInputEmail().getText();
+        String lastName = viewPerson.getInputLastName().getText();
+        String firstName = viewPerson.getInputFirstName().getText();
+        String phone = viewPerson.getInputPhone().getText();
+        int check = 1;
+        if (Adress.isEmpty()||dob.isEmpty()||email.isEmpty()||lastName.isEmpty()||firstName.isEmpty()||phone.isEmpty()){
+            if (check==1){
+                JOptionPane.showMessageDialog(null, "You must fill in all the required information before proceeding to make a reservation !", "Notice", JOptionPane.WARNING_MESSAGE);
+            }
+            check =0;
+        }
+
+        if (!RegexMatcher.dayCheck(dob,"").equals("")||!RegexMatcher.emailCheck(email,"").equals("")||!RegexMatcher.phoneCheck(phone,"").equals("")){
+            if (check ==1){
+                JOptionPane.showMessageDialog(null,
+                        RegexMatcher.dayCheck(dob, "Date of birth: ")+
+                        RegexMatcher.emailCheck(email, "Email: ") +
+                        RegexMatcher.phoneCheck(phone, "Phone number: ")
+                        , "Notice", JOptionPane.WARNING_MESSAGE);
+            }
+            check = 0;
+        }
+
+
+        return (check==1) ? true : false;
     }
 
 }

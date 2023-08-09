@@ -37,7 +37,7 @@ public class Person {
     @Column(name = "date_creat")
     private LocalDateTime dateCreat;
 
-    @Column(name = "date_update")
+    @Column(name = "date_update", nullable = true)
     private LocalDateTime dateUpdate;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

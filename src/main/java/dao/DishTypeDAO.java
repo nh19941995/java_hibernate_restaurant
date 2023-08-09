@@ -15,12 +15,9 @@ import java.util.Set;
 
 public class DishTypeDAO implements DAOInterface<DishType,Integer>{
     private EntityManagerFactory entityManagerFactory;
-
-
     public static DishTypeDAO getInstance(){
         return new DishTypeDAO();
     }
-
     public DishTypeDAO() {
         entityManagerFactory = PersistenceManager.getEntityManagerFactory();
     }

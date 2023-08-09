@@ -27,4 +27,9 @@ public class ControllerTime {
             throw new IllegalArgumentException("Invalid choice");
         }
     }
+
+    public static LocalDate creatLocalDateByString(String dateString) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        return LocalDate.parse(dateString, formatter);
+    }
 }

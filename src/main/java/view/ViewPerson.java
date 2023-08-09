@@ -58,6 +58,10 @@ public class ViewPerson extends JPanel {
     // get + set -------------------------------------------------------------------------------------------------------
 
 
+    public JComboBox<String> getSelecType() {
+        return SelecType;
+    }
+
     public JTextField getInputFirstName() {
         return inputFirstName;
     }

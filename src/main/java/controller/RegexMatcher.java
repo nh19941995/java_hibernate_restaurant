@@ -7,6 +7,10 @@ public class RegexMatcher {
 
     private static String regexHour = "^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$";
     private static String regexPhone = "^[0-9]{10}$";
+    private static String regexEmail = "^[a-zA-Z0-9_+&*-]+(?:\\." +
+            "[a-zA-Z0-9_+&*-]+)*@" +
+            "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
+            "A-Z]{2,7}$";
     private static String regexFloat = "^(\\d+\\.\\d+|\\d+)$";
     private static String regexDay = "^\\d{4}-\\d{2}-\\d{2}$";  // Kiểm tra định dạng ngày theo chuẩn "yyyy-MM-dd":
 
@@ -51,7 +55,15 @@ public class RegexMatcher {
         }else {
             return prefix + a;
         }
+    }
 
+    public static String emailCheck(String num, String prefix){
+        String a = checkRegex(regexEmail,num,"You must enter the correct email format. \n");
+        if (a.equals("")){
+            return a;
+        }else {
+            return prefix + a;
+        }
     }
     public static String dayCheck(String num, String prefix){
         String a = checkRegex(regexDay,num,"You must enter the date in the format (yyyy-MM-dd). \n");
