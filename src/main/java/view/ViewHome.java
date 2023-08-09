@@ -122,25 +122,25 @@ public class ViewHome extends JFrame {
         mainPanel.add(tabbedPane, BorderLayout.CENTER);
 
         // Thêm một ChangeListener vào tabbedPane
-        tabbedPane.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                // Lấy chỉ số của tab đang được chọn
-                int selectedIndex = tabbedPane.getSelectedIndex();
-
-                // Thực hiện hành động dựa trên chỉ số tab đang chọn
-                switch (selectedIndex) {
-                    case 0:
-                        // Cập nhật nội dung cho tab 1 (Nhân viên)
-                        tab1.removeAll(); // Xóa các thành phần hiện tại
-                        tab1.add(viewDish, BorderLayout.CENTER); // Thêm các thành phần mới
-                        break;
-                    case 1:
-                        // Cập nhật nội dung cho tab 2 (Giao dịch)
-                        tab2.removeAll(); // Xóa các thành phần hiện tại
-                        tab2.add(viewTable.viewTableMain(), BorderLayout.CENTER); // Thêm các thành phần mới
-
-                        break;
+//        tabbedPane.addChangeListener(new ChangeListener() {
+//            @Override
+//            public void stateChanged(ChangeEvent e) {
+//                // Lấy chỉ số của tab đang được chọn
+//                int selectedIndex = tabbedPane.getSelectedIndex();
+//
+//                // Thực hiện hành động dựa trên chỉ số tab đang chọn
+//                switch (selectedIndex) {
+//                    case 0:
+//                        // Cập nhật nội dung cho tab 1 (Nhân viên)
+//                        tab1.removeAll(); // Xóa các thành phần hiện tại
+//                        tab1.add(viewDish, BorderLayout.CENTER); // Thêm các thành phần mới
+//                        break;
+//                    case 1:
+//                        // Cập nhật nội dung cho tab 2 (Giao dịch)
+//                        tab2.removeAll(); // Xóa các thành phần hiện tại
+//                        tab2.add(viewTable.viewTableMain(), BorderLayout.CENTER); // Thêm các thành phần mới
+//
+//                        break;
 //                    case 2:
 //                        // Load lại nội dung cho tab 3 (Đặt chỗ)
 //                        tab3.removeAll(); // Xóa các thành phần hiện tại
@@ -165,13 +165,13 @@ public class ViewHome extends JFrame {
 //                        tab6.removeAll(); // Xóa các thành phần hiện tại
 //                        tab6.add(oderView, BorderLayout.CENTER); // Thêm các thành phần mới
 //                        break;
-                }
+//                }
 
                 // Thực hiện việc validate lại và vẽ lại tab để phản ánh các thay đổi
-                tabbedPane.revalidate();
-                tabbedPane.repaint();
-            }
-        });
+//                tabbedPane.revalidate();
+//                tabbedPane.repaint();
+//            }
+//        });
 
 
 

@@ -1,5 +1,7 @@
 package view;
 
+import controller.ControllerDish;
+import controller.ControllerTable;
 import controller.ControllerTime;
 import dao.*;
 import model.Dish;
@@ -21,10 +23,9 @@ public class ViewTable extends JPanel {
     private DefaultTableModel tableModel;
     private Object[][] data;
     // input------------------------------------------------------------------------------------------------------------
-    private JTextField filterBySeatingCapacity = new JTextField();
-    private JTextField filterByDate = new JTextField();
-    private JComboBox<String> SelecType = new JComboBox<>();
-    private JComboBox<String> SelecTypeForNewDish = new JComboBox<>();
+    private JTextField inputFilterBySeatingCapacity = new JTextField();
+    private JTextField inputFilterByDate = new JTextField();
+    private JComboBox<String> selecTypeSearch = new JComboBox<>();
     // label -----------------------------------------------------------------------------------------------------------
     private JLabel labelSeatingCapacity = new JLabel("Filter by seating capacity");
     private JLabel labelDate = new JLabel("Filter by date");
@@ -32,6 +33,34 @@ public class ViewTable extends JPanel {
     // button ----------------------------------------------------------------------------------------------------------
     private JButton buttonSelectTable = new JButton("Select table");
     private JButton buttonSearch = new JButton("Search");
+    // get + set -------------------------------------------------------------------------------------------------------
+    public JButton getButtonSelectTable() {
+        return buttonSelectTable;
+    }
+    public JButton getButtonSearch() {
+        return buttonSearch;
+    }
+    public JTextField getInputFilterBySeatingCapacity() {
+        return inputFilterBySeatingCapacity;
+    }
+    public JTextField getInputFilterByDate() {
+        return inputFilterByDate;
+    }
+    public JComboBox<String> getSelecTypeSearch() {
+        return selecTypeSearch;
+    }
+
+    public Object[][] getData() {
+        return data;
+    }
+
+    public void setData(Object[][] data) {
+        this.data = data;
+    }
+
+    public DefaultTableModel getTableModel() {
+        return tableModel;
+    }
 
     public ViewTable() {
         setLayout(new BorderLayout());
@@ -39,18 +68,17 @@ public class ViewTable extends JPanel {
         String[] selectList = TableTypeDAO.getInstance().getAll().stream()
                 .map(s -> s.getName())
                 .toArray(String[]::new);
-        SelecType.setModel(new javax.swing.DefaultComboBoxModel<>(selectList));
-        SelecTypeForNewDish.setModel(new javax.swing.DefaultComboBoxModel<>(selectList));
+        selecTypeSearch.setModel(new javax.swing.DefaultComboBoxModel<>(selectList));
+        new ControllerTable(this);
     }
 
     public JPanel viewTableMain (){
         add(blockTable(),BorderLayout.CENTER);
         add(blockSearch(),BorderLayout.NORTH);
         add(blockBot(),BorderLayout.SOUTH);
-        // Đưa thành phần lên trên cùng
-        this.setComponentZOrder(blockTable(), 1);
-//        this.setComponentZOrder(blockSearch(), 0);
-//        this.setComponentZOrder(blockBot(), 2);
+        setOpaque(false);
+        this.revalidate();
+        this.repaint();
         return this;
     }
 
@@ -148,16 +176,16 @@ public class ViewTable extends JPanel {
         GridTool input = new GridTool();
         GridTool button = new GridTool();
         input.GridAdd(labelDate,0,0,20,20,5);
-        input.GridAdd(filterByDate,0,1,20,20,5);
-        filterByDate.setPreferredSize(new Dimension(150, 25));
+        input.GridAdd(inputFilterByDate,0,1,20,20,5);
+        inputFilterByDate.setPreferredSize(new Dimension(150, 25));
 
         input.GridAdd(labelSeatingCapacity,1,0,20,20,5);
-        input.GridAdd(filterBySeatingCapacity,1,1,20,20,5);
-        filterBySeatingCapacity.setPreferredSize(new Dimension(150, 25));
+        input.GridAdd(inputFilterBySeatingCapacity,1,1,20,20,5);
+        inputFilterBySeatingCapacity.setPreferredSize(new Dimension(150, 25));
 
         input.GridAdd(labelType,2,0,20,20,5);
-        input.GridAdd(SelecType,2,1,20,20,5);
-        SelecType.setPreferredSize(new Dimension(150, 25));
+        input.GridAdd(selecTypeSearch,2,1,20,20,5);
+        selecTypeSearch.setPreferredSize(new Dimension(150, 25));
 
         button.GridAdd(buttonSearch,0 ,0,20,20,5);
         buttonSearch.setPreferredSize(new Dimension(150, 35));
@@ -186,4 +214,6 @@ public class ViewTable extends JPanel {
         System.arraycopy(arr2, 0, result, arr1Length, arr2Length);
         return result;
     }
+
+
 }
