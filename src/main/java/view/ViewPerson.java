@@ -225,6 +225,7 @@ public class ViewPerson extends JPanel {
         grid.GridAddCustom(buttonAddPerson,5,3,20,10,3,15,1);
         // thêm data cho boder box
         String[] selectList = PermissionDAO.getInstance().getAll().stream()
+                .filter(s->s.getFlag()>0)
                 .map(s -> s.getPermissionName())
                 .toArray(String[]::new);
         SelecType.setModel(new DefaultComboBoxModel<>(selectList));
@@ -263,8 +264,9 @@ public class ViewPerson extends JPanel {
         this.setTableModel(model);
         // lấy dữ liệu từ sever
         List<Person> personList = PersonDAO.getInstance().getAll();
-        Object[][] data = personList.stream().map(
-                s -> new Object[]{
+        Object[][] data = personList.stream()
+                .filter(s->s.getFlag()>0)
+                .map(s -> new Object[]{
                         s.getId(),
                         s.getName(),
                         s.getLastName(),
@@ -302,8 +304,9 @@ public class ViewPerson extends JPanel {
         tableModel.setRowCount(0);
         // lấy dữ liệu từ sever
         List<Person> personList = PersonDAO.getInstance().getAll();
-        Object[][] data = personList.stream().map(
-                s -> new Object[]{
+        Object[][] data = personList.stream()
+                .filter(s->s.getFlag()>0)
+                .map(s -> new Object[]{
                         s.getId(),
                         s.getName(),
                         s.getLastName(),

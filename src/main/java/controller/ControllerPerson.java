@@ -47,7 +47,7 @@ public class ControllerPerson {
             }
         });
 
-        // sự kiện thay creat
+        // sự kiện creat
         JButton buttonCreat = viewPerson.getButtonAddPerson();
         buttonCreat.addMouseListener(new MouseAdapter() {
             @Override
@@ -57,6 +57,16 @@ public class ControllerPerson {
                     getNullToJtext(viewPerson);
                     viewPerson.reload();
                 }
+            }
+        });
+
+        // sự kiện delete
+        JButton buttonDelete = viewPerson.getButtonDeletePerson();
+        buttonDelete.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int id = viewPerson.getIdSelect();
+                delete(viewPerson,id);
             }
         });
 
@@ -131,7 +141,12 @@ public class ControllerPerson {
         person.setFlag(1);
         PersonDAO.getInstance().insert(person);
     }
-
+    private void delete(ViewPerson viewPerson,int id){
+        Person person = PersonDAO.getInstance().getById(id);
+        person.setFlag(0);
+        PersonDAO.getInstance().update(person);
+        viewPerson.reload();
+    }
     private boolean check(ViewPerson viewPerson){
 
         String Adress =  viewPerson.getInputAdress().getText();
@@ -158,8 +173,6 @@ public class ControllerPerson {
             }
             check = 0;
         }
-
-
         return (check==1) ? true : false;
     }
 
