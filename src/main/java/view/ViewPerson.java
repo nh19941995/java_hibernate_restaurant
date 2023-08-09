@@ -58,6 +58,30 @@ public class ViewPerson extends JPanel {
     // get + set -------------------------------------------------------------------------------------------------------
 
 
+    public JTextField getInputFirstName() {
+        return inputFirstName;
+    }
+
+    public JTextField getInputLastName() {
+        return inputLastName;
+    }
+
+    public JTextField getInputEmail() {
+        return inputEmail;
+    }
+
+    public JTextField getInputAdress() {
+        return inputAdress;
+    }
+
+    public JTextField getInputBirthday() {
+        return inputBirthday;
+    }
+
+    public JTextField getInputPhone() {
+        return inputPhone;
+    }
+
     public DefaultTableModel getTableModel() {
         return tableModel;
     }

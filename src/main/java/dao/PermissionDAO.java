@@ -4,6 +4,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
 import model.Permission;
+import model.Person;
 import model.TableList;
 import utils.PersistenceManager;
 
@@ -83,7 +84,16 @@ public class PermissionDAO implements DAOInterface<Permission, Integer>{
     }
 
     @Override
-    public Permission getById(int t) {
-        return null;
+    public Permission getById(int permissionId) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        try {
+            Permission permission = entityManager.find(Permission.class, permissionId);
+            return permission;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            entityManager.close();
+        }
     }
 }

@@ -1,5 +1,6 @@
 package controller;
 
+import dao.PersonDAO;
 import model.Person;
 import view.ViewPerson;
 
@@ -24,7 +25,7 @@ public class ControllerPerson {
                         String id = table.getValueAt(row, 0).toString(); // Lấy giá trị từ ô ở cột đầu tiên (cột ID) của dòng đã chọn
                         System.out.println("Person: "+ id);
                         viewPerson.setIdSelect(Integer.parseInt(id));
-
+                        getDataToJtext(Integer.parseInt(id),viewPerson);
                     }
                 }
             }
@@ -77,4 +78,14 @@ public class ControllerPerson {
         }
         return (check==1) ? true : false;
     }
+    private void getDataToJtext(int id,ViewPerson viewPerson){
+        Person person = PersonDAO.getInstance().getById(id);
+        viewPerson.getInputAdress().setText(person.getAddress());
+        viewPerson.getInputBirthday().setText(person.getDateOfBirth().toString());
+        viewPerson.getInputEmail().setText(person.getEmail());
+        viewPerson.getInputLastName().setText(person.getLastName());
+        viewPerson.getInputFirstName().setText(person.getName());
+        viewPerson.getInputPhone().setText(person.getPhone());
+    }
+
 }

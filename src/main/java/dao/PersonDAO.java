@@ -5,6 +5,7 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
 import model.Permission;
 import model.Person;
+import model.TableList;
 import utils.PersistenceManager;
 
 import java.time.LocalDate;
@@ -92,7 +93,18 @@ public class PersonDAO implements DAOInterface<Person,Integer>{
     }
 
     @Override
-    public Person getById(int t) {
-        return null;
+    public Person getById(int personId) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        try {
+            Person person = entityManager.find(Person.class, personId);
+            return person;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            entityManager.close();
+        }
     }
+
+
 }
