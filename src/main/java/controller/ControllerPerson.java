@@ -40,6 +40,7 @@ public class ControllerPerson {
         buttonSearch.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                System.out.println("+++++++++++++++++++:"+viewPerson.getInputBirthday().getText());
                 String phone = viewPerson.getInputSearchByPhone().getText();
                 if (checkPhone(phone,viewPerson)){
                     search(viewPerson);
@@ -66,7 +67,20 @@ public class ControllerPerson {
             @Override
             public void mouseClicked(MouseEvent e) {
                 int id = viewPerson.getIdSelect();
+                getNullToJtext(viewPerson);
                 delete(viewPerson,id);
+            }
+        });
+
+        // sự kiện update
+        JButton buttonUpdate = viewPerson.getButtonUpdatePerson();
+        buttonUpdate.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int id = viewPerson.getIdSelect();
+                update(viewPerson,id);
+                getNullToJtext(viewPerson);
+
             }
         });
 
@@ -123,7 +137,6 @@ public class ControllerPerson {
         viewPerson.getInputFirstName().setText("");
         viewPerson.getInputPhone().setText("");
     }
-
     private void creatNew(ViewPerson viewPerson){
         String permissionString = (String) viewPerson.getSelecType().getSelectedItem();
         Permission permission = PermissionDAO.getInstance().getByString(permissionString);
@@ -144,6 +157,25 @@ public class ControllerPerson {
     private void delete(ViewPerson viewPerson,int id){
         Person person = PersonDAO.getInstance().getById(id);
         person.setFlag(0);
+        PersonDAO.getInstance().update(person);
+        viewPerson.reload();
+    }
+    private void update(ViewPerson viewPerson,int id){
+
+        Person person = PersonDAO.getInstance().getById(id);
+        String permissionString = (String) viewPerson.getSelecType().getSelectedItem();
+        Permission permission = PermissionDAO.getInstance().getByString(permissionString);
+        person.setAddress(viewPerson.getInputAdress().getText());
+        person.setDateOfBirth(ControllerTime.creatLocalDateByString(viewPerson.getInputBirthday().getText()));
+        person.setEmail(viewPerson.getInputEmail().getText());
+        person.setLastName(viewPerson.getInputLastName().getText());
+        person.setName(viewPerson.getInputFirstName().getText());
+        person.setPhone(viewPerson.getInputPhone().getText());
+        person.setUsername(viewPerson.getInputPhone().getText());
+        person.setPermission(permission);
+        person.setDateCreat(LocalDateTime.now());
+        person.setDateUpdate(LocalDateTime.now());
+        person.setFlag(1);
         PersonDAO.getInstance().update(person);
         viewPerson.reload();
     }
