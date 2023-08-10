@@ -32,10 +32,14 @@ public class ViewMenu extends JPanel{
     // button-----------------------------------------------------------------------------------------------------------
     private JButton buttonSelectMenu = new JButton("Select a Menu");
     private JButton buttonSearch = new JButton("Search");
+    private JButton buttonDelete = new JButton("Delete");
     // input -----------------------------------------------------------------------------------------------------------
     private JTextField inputPrice = new JTextField();
     // get +set --------------------------------------------------------------------------------------------------------
 
+    public JButton getButtonDelete() {
+        return buttonDelete;
+    }
     public ViewMenuDetail getMenuDetail() {
         return menuDetail;
     }
@@ -91,15 +95,12 @@ public class ViewMenu extends JPanel{
     public ViewMenu() {
         setLayout(new BorderLayout());
         ControllerNewMenu.setViewMenu(this);
-
-
     }
     public JPanel ViewCreatNewMenu(){
         ViewDish viewDish = new ViewDish();
         add(viewDish,BorderLayout.WEST);
         return this;
     }
-
 
     public JPanel ViewChoseMenu(){
         add(blockSearch(),BorderLayout.NORTH);
@@ -111,11 +112,16 @@ public class ViewMenu extends JPanel{
     public JPanel blockMenuDetail(){
         BoderTool main = new BoderTool();
         GridTool grid2 = new GridTool();
-        grid2.GridAddCustom(buttonSelectMenu,0,0,20,20,20,20,1);
+
+        grid2.GridAddCustom(buttonSelectMenu,1,0,20,20,20,20,1);
+        grid2.GridAddCustom(buttonDelete,0,0,20,20,20,20,1);
+
+
         buttonSelectMenu.setPreferredSize(new Dimension(150, 35));
+        buttonDelete.setPreferredSize(new Dimension(150, 35));
         BoderTool bot = new BoderTool();
         bot.setPreferredSize(new Dimension(150, 75));
-        bot.add(grid2,BorderLayout.EAST);
+        bot.add(grid2,BorderLayout.CENTER);
         main.add(menuDetail,BorderLayout.CENTER);
         main.add(bot,BorderLayout.SOUTH);
         return main;
@@ -145,8 +151,9 @@ public class ViewMenu extends JPanel{
         table.setModel(model);
         // lấy dữ liệu từ sever
         List<MenuName> menuList = MenuNameDAO.getInstance().getAll();
-        Object[][] data = menuList.stream().map(
-                s -> new Object[]{
+        Object[][] data = menuList.stream()
+                .filter(s->s.getFlag()>0)
+                .map(s -> new Object[]{
                         s.getId(),
                         s.getName(),
                         ControllerTime.formatDateTime(2,s.getDateCreat()),
@@ -180,8 +187,9 @@ public class ViewMenu extends JPanel{
         tableModel.setRowCount(0);
         // lấy dữ liệu từ sever
         List<MenuName> menuList = MenuNameDAO.getInstance().getAll();
-        Object[][] data = menuList.stream().map(
-                s -> new Object[]{
+        Object[][] data = menuList.stream()
+                .filter(s->s.getFlag()>0)
+                .map(s -> new Object[]{
                         s.getId(),
                         s.getName(),
                         ControllerTime.formatDateTime(2,s.getDateCreat()),

@@ -1,14 +1,19 @@
 package controller;
 
+import dao.MenuDAO;
+import dao.MenuNameDAO;
 import model.Menu;
+import model.MenuName;
 import view.ViewMenu;
 import view.ViewNewMenu;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Stream;
 
 public class ControllerMenu {
@@ -43,9 +48,36 @@ public class ControllerMenu {
 
         });
 
+        // sự kiện delete
+        JButton buttonDelete = viewMenu.getButtonDelete();
+        buttonDelete.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int id = viewMenu.getMenuIdSelect();
+                if (id==0){
+                    JOptionPane.showMessageDialog(null, "You haven't selected the menu you want to delete !", "Total price", JOptionPane.WARNING_MESSAGE);
+                }else {
+                    delete(viewMenu,id);
+                }
+
+            }
+        });
 
 
 
+    }
+
+    private void delete(ViewMenu viewMenu, int id){
+        MenuName menuName = MenuNameDAO.getInstance().getById(id);
+        menuName.setFlag(0);
+        MenuNameDAO.getInstance().update(menuName);
+
+        List<Menu> menu = MenuDAO.getInstance().getMenuByMenuNameID(id);
+        for (Menu s: menu) {
+            s.setFlag(0);
+            MenuDAO.getInstance().update(s);
+        }
+        viewMenu.reload();
     }
 
 

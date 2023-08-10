@@ -69,10 +69,6 @@ public class ControllerNewMenu {
 
             }
         });
-
-
-
-
     }
 
 
@@ -94,6 +90,7 @@ public class ControllerNewMenu {
         MenuNameDAO.getInstance().insert(menuName);
         newMenus.stream().forEach(s->{
             s.setMenuName(menuName);
+            s.setFlag(1);
             MenuDAO.getInstance().insert(s);
         });
     }

@@ -88,7 +88,9 @@ public class ViewMenuDetail extends JPanel{
         tableModel.setRowCount(0); // Xóa hết các dòng trong model
         // lấy dữ liệu từ sever
         List<Menu> dishList = MenuDAO.getInstance().getMenuByMenuNameID(id);
-        Object[][] xxx = dishList.stream().map(
+        Object[][] xxx = dishList.stream()
+                .filter(s->s.getFlag()>0)
+                .map(
                 s -> new Object[]{
                         "",
                         s.getDish().getDishName(),

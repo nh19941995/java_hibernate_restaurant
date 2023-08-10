@@ -127,5 +127,30 @@ public class MenuDAO implements DAOInterface<Menu,Integer>{
         }
     }
 
+    public boolean deleteById(int menuId) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction transaction = entityManager.getTransaction();
+
+        try {
+            Menu menuToDelete = entityManager.find(Menu.class, menuId);
+            if (menuToDelete != null) {
+                transaction.begin();
+                entityManager.remove(menuToDelete);
+                transaction.commit();
+                return true;
+            }
+            return false; // Trả về false nếu không tìm thấy menu theo ID
+        } catch (Exception e) {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+            return false;
+        } finally {
+            entityManager.close();
+        }
+    }
+
+
 
 }
