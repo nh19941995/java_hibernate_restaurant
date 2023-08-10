@@ -2,9 +2,15 @@ package controller;
 
 import dao.DishDAO;
 import dao.DishTypeDAO;
+import dao.MenuDAO;
+import dao.MenuNameDAO;
 import model.Dish;
 import model.DishType;
+import model.Menu;
 import view.ViewDish;
+import view.ViewHome;
+import view.ViewMenu;
+import view.ViewNewMenu;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -37,7 +43,7 @@ public class ControllerDish {
         });
 
         JButton buttonSeach = viewDish.getButtonSeach();
-        // sự kiện click tạo món
+        // sự kiện tìm kiếm
         buttonSeach.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -46,6 +52,44 @@ public class ControllerDish {
                 }
             }
         });
+
+        // click đẩy id vào tempId
+        JTable table = viewDish.getTable();
+        table.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 1) { // Kiểm tra nếu chỉ là một lần click chuột (clickCount = 1)
+                    int row = table.getSelectedRow(); // Lấy chỉ số dòng đã được chọn
+                    if (row != -1) { // Kiểm tra xem có dòng nào được chọn không (-1 nghĩa là không có dòng nào được chọn)
+                        String id = table.getValueAt(row, 0).toString(); // Lấy giá trị từ ô ở cột đầu tiên (cột ID) của dòng đã chọn
+                        System.out.println("Temp id dish: "+ id);
+                        viewDish.setTempId(Integer.parseInt(id));
+                    }
+                }
+            }
+
+        });
+
+        JButton buttonSelect = viewDish.getButtonSlectDish();
+
+        // sự kiện chọn
+        buttonSelect.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int id = viewDish.getTempId();
+                if (id==0) { // Kiểm tra nếu chỉ là một lần click chuột (clickCount = 1)
+                    JOptionPane.showMessageDialog(null, "Please choose a dish", "Notice", JOptionPane.WARNING_MESSAGE);
+                }else {
+                    Dish dish = DishDAO.getInstance().getById(id);
+                    Menu menu = new Menu();
+                    menu.setDish(dish);
+//                    ViewNewMenu newMenu = ViewHome.getViewNewMenu();
+//                    newMenu.add(menu);
+                }
+            }
+        });
+
+
 
     }
 
@@ -129,9 +173,5 @@ public class ControllerDish {
         }
         // Cập nhật bảng để hiển thị dữ liệu mới
         model.fireTableDataChanged();
-
-
-
-
     }
 }

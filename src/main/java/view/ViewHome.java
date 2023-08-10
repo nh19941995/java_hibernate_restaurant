@@ -9,13 +9,51 @@ import java.awt.*;
 
 
 public class ViewHome extends JFrame {
+    // view chính-------------------------------------------------------------------------------------------------------
+    private static ViewMenu viewMenu ;
+    private static ViewDish viewDish;
+    private static ViewNewMenu viewNewMenu ;
+    private static ViewTable viewTable ;
+    private static ViewPerson viewPerson;
+    // get + set--------------------------------------------------------------------------------------------------------
+    public static ViewMenu getViewMenu() {
+        return viewMenu;
+    }
 
+    public static ViewDish getViewDish() {
+        return viewDish;
+    }
 
+    public static ViewNewMenu getViewNewMenu() {
+        return viewNewMenu;
+    }
 
+    public static ViewTable getViewTable() {
+        return viewTable;
+    }
 
-//    JTable table;
+    public static ViewPerson getViewPerson() {
+        return viewPerson;
+    }
 
     public ViewHome(){
+
+        try {
+            // chuyển giao diện sang giống ios
+            UIManager.setLookAndFeel(new FlatLightLaf());
+
+            // Khởi tạo các thành phần tĩnh và áp dụng giao diện
+            viewMenu = new ViewMenu();
+            viewDish = new ViewDish();
+            viewNewMenu = new ViewNewMenu();
+            viewTable = new ViewTable();
+            viewPerson = new ViewPerson();
+
+            // ... (các phần mã khác)
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
 //        khung ngoài phần mềm------------------------------------------------------------------------------------------
         setTitle("Register");             //        tiêu đề cho form
         // Tạo panel chính, mainPanel là một JPanel chứa toàn bộ giao diện của ứng dụng
@@ -48,16 +86,12 @@ public class ViewHome extends JFrame {
 
 
 //        thêm các view vào tab
-        ViewPerson viewPerson = new ViewPerson();
         tab1.add(viewPerson.ViewPersonMain(),BorderLayout.CENTER);
-        ViewTable viewTable = new ViewTable();
         tab2.add(viewTable.viewTableMain(),BorderLayout.CENTER);
 //        tab3.add(viewDish,BorderLayout.CENTER);
-        ViewDish viewDish = new ViewDish();
-        tab4.add(viewDish,BorderLayout.CENTER);
-        ViewMenu viewMenu = new ViewMenu();
+        tab4.add(viewDish.ViewSelectDish(),BorderLayout.CENTER);
         tab5.add(viewMenu.ViewChoseMenu(),BorderLayout.CENTER);
-//        tab6.add(oderView,BorderLayout.CENTER);
+        tab6.add(viewNewMenu,BorderLayout.CENTER);
 
 
 

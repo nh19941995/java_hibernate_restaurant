@@ -35,7 +35,6 @@ public class ViewMenu extends JPanel{
     private JTextField inputPrice = new JTextField();
     // get +set --------------------------------------------------------------------------------------------------------
 
-
     public ViewMenuDetail getMenuDetail() {
         return menuDetail;
     }
@@ -93,13 +92,37 @@ public class ViewMenu extends JPanel{
 
 
     }
+    public JPanel ViewCreatNewMenu(){
+        ViewDish viewDish = new ViewDish();
+        add(viewDish,BorderLayout.WEST);
+
+
+
+
+        return this;
+    }
+
+
     public JPanel ViewChoseMenu(){
-        add(blockTable(),BorderLayout.CENTER);
-        add(menuDetail,BorderLayout.SOUTH);
         add(blockSearch(),BorderLayout.NORTH);
+        add(blockTable(),BorderLayout.CENTER);
+        add(blockMenuDetail(),BorderLayout.SOUTH);
         new ControllerMenu(this);
         return this;
     }
+    public JPanel blockMenuDetail(){
+        BoderTool main = new BoderTool();
+        GridTool grid2 = new GridTool();
+        grid2.GridAddCustom(buttonSelectMenu,0,0,20,20,20,20,1);
+        buttonSelectMenu.setPreferredSize(new Dimension(150, 35));
+        BoderTool bot = new BoderTool();
+        bot.setPreferredSize(new Dimension(150, 75));
+        bot.add(grid2,BorderLayout.EAST);
+        main.add(menuDetail,BorderLayout.CENTER);
+        main.add(bot,BorderLayout.SOUTH);
+        return main;
+    }
+
     private JPanel blockTable(){
         BoderTool boderTool = new BoderTool();
         DefaultTableModel model = new DefaultTableModel(
@@ -191,13 +214,6 @@ public class ViewMenu extends JPanel{
         boderTool.add(grid,BorderLayout.CENTER);
         return boderTool;
     }
-    private JPanel blockDishInMenu(){
-        BoderTool boderTool = new BoderTool();
 
-
-
-
-        return boderTool;
-    }
 
 }

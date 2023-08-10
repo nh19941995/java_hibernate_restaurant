@@ -1,11 +1,11 @@
 package controller;
 
+import model.Menu;
 import view.ViewMenu;
-import view.ViewPerson;
-
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.Stream;
 

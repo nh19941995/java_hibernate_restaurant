@@ -20,6 +20,7 @@ public class ViewDish extends JPanel{
     private DefaultTableModel tableModel;
     private Object[][] data;
     private int idSelectDish;
+    private int tempId;
     // input -----------------------------------------------------------------------------------------------------------
     private JTextField inputEnterNumber = new JTextField();
     private JTextField inputEnterPrice = new JTextField();
@@ -31,7 +32,7 @@ public class ViewDish extends JPanel{
     private JComboBox<String> selectType = new JComboBox<>();
     private JComboBox<String> selectTypeForNewDish = new JComboBox<>();
     // button ----------------------------------------------------------------------------------------------------------
-    private JButton buttonAddToNewMenu = new JButton("Add to new menu ");
+    private JButton buttonSlectDish = new JButton("Select dish");
     private JButton buttonSeach = new JButton("Seach");
     private JButton buttonCreatNewDish = new JButton("Creat new dish");
     // label -----------------------------------------------------------------------------------------------------------
@@ -44,21 +45,30 @@ public class ViewDish extends JPanel{
     private JLabel labelReferencePrice = new JLabel("Enter reference price: ");
     private JLabel LabelNewDishType = new JLabel("Select new dish type: ");
     // get + set -------------------------------------------------------------------------------------------------------
+    public int getIdSelectDish() {
+        return idSelectDish;
+    }
+    public void setIdSelectDish(int idSelectDish) {
+        this.idSelectDish = idSelectDish;
+    }
+    public int getTempId() {
+        return tempId;
+    }
+    public void setTempId(int tempId) {
+        this.tempId = tempId;
+    }
     public Object[][] getData() {
         return data;
     }
     public void setData(Object[][] data) {
         this.data = data;
     }
-
     public JTable getTable() {
         return table;
     }
-
-    public JButton getButtonAddToNewMenu() {
-        return buttonAddToNewMenu;
+    public JButton getButtonSlectDish() {
+        return buttonSlectDish;
     }
-
     public JButton getButtonSeach() {
         return buttonSeach;
     }
@@ -101,9 +111,7 @@ public class ViewDish extends JPanel{
 
     public ViewDish() {
         setLayout(new BorderLayout());
-        add(blockTable(),BorderLayout.CENTER);
-        add(blockCreatNew(),BorderLayout.SOUTH);
-        add(blockSearchBar(),BorderLayout.NORTH);
+
         // load data combobox
         String[] selectList = DishTypeDAO.getInstance().getAll().stream()
                 .map(s -> s.getName())
@@ -113,6 +121,30 @@ public class ViewDish extends JPanel{
         new ControllerDish(this);
 
     }
+    public JPanel ViewMainDish(){
+        add(blockTable(),BorderLayout.CENTER);
+        add(blockCreatNew(),BorderLayout.SOUTH);
+        add(blockSearchBar(),BorderLayout.NORTH);
+        return this;
+    }
+
+    public JPanel ViewSelectDish(){
+        add(blockSearchBar(),BorderLayout.NORTH);
+        add(blockTable(),BorderLayout.CENTER);
+        add(blockSelectDish(),BorderLayout.SOUTH);
+        return this;
+    }
+
+    private JPanel blockSelectDish(){
+        BoderTool boderTool = new BoderTool();
+        GridTool gridTool = new GridTool();
+        gridTool.GridAddCustom(buttonSlectDish,0,0,20,20,20,20,1);
+        buttonSlectDish.setPreferredSize(new Dimension(150, 35));
+        boderTool.add(gridTool,BorderLayout.EAST);
+        return boderTool;
+    }
+
+
     private JPanel blockTable() {
         BoderTool jpanel = new BoderTool();
         DefaultTableModel model = new DefaultTableModel(
