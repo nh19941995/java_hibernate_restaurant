@@ -42,12 +42,13 @@ public class ControllerMenu {
             }
 
         });
+
+
+
+
     }
 
-    private void removeDishFromANewMenu(ViewNewMenu viewNewMenu,int id){
-        ArrayList<Menu> newMenus = viewNewMenu.getNewMenus();
 
-    }
 
     private void search(ViewMenu viewMenu){
         Double price = Double.parseDouble(viewMenu.getInputPrice().getText());

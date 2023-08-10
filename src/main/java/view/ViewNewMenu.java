@@ -1,5 +1,6 @@
 package view;
 
+import controller.ControllerNewMenu;
 import model.Menu;
 import view.tool.BoderTool;
 import view.tool.GridTool;
@@ -14,7 +15,7 @@ import java.util.Arrays;
 public class ViewNewMenu extends JPanel {
     // data-------------------------------------------------------------------------------------------------------------
     private ArrayList<Menu> newMenus = new ArrayList<>();
-
+    private int idSelect;
     private JTable table = new JTable();
     private DefaultTableModel tableModel;
     private Object[][] data;
@@ -26,6 +27,29 @@ public class ViewNewMenu extends JPanel {
     // label------------------------------------------------------------------------------------------------------------
     private JLabel labelNameNewMenu = new JLabel("Menu name:");
     // get + set--------------------------------------------------------------------------------------------------------
+    public int getIdSelect() {
+        return idSelect;
+    }
+
+    public void setIdSelect(int idSelect) {
+        this.idSelect = idSelect;
+    }
+
+    public DefaultTableModel getTableModel() {
+        return tableModel;
+    }
+
+    public void setTableModel(DefaultTableModel tableModel) {
+        this.tableModel = tableModel;
+    }
+
+    public JTable getTable() {
+        return table;
+    }
+
+    public void setTable(JTable table) {
+        this.table = table;
+    }
 
     public ArrayList<Menu> getNewMenus() {
         return newMenus;
@@ -59,6 +83,7 @@ public class ViewNewMenu extends JPanel {
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         add(blockMenu());
         add(blockDish());
+        new  ControllerNewMenu(this);
     }
 
     private JPanel blockMenu(){
@@ -94,8 +119,11 @@ public class ViewNewMenu extends JPanel {
         JPanel jPanel = new JPanel();
         jPanel.setLayout(new BorderLayout());
         GridTool grid = new GridTool();
-        grid.GridAdd(buttonCreatNewMenu,0,0,20,20,20);
+        grid.GridAdd(buttonCreatNewMenu,1,0,20,20,20);
+//        GridTool grid2 = new GridTool();
+        grid.GridAdd(buttonRemoveDish,0,0,20,20,20);
 
+        buttonRemoveDish.setPreferredSize(new Dimension(150, 35));
         buttonCreatNewMenu.setPreferredSize(new Dimension(150, 35));
         // Đặt màu cho nền của JButton
         buttonCreatNewMenu.setBackground(Color.RED);
@@ -103,6 +131,7 @@ public class ViewNewMenu extends JPanel {
         buttonCreatNewMenu.setForeground(Color.WHITE);
 
         jPanel.add(grid, BorderLayout.CENTER);
+//        jPanel.add(grid2, BorderLayout.CENTER);
         // Đặt kích thước chiều ngang cho jPanel
         int width = 550; // Đặt kích thước mong muốn tại đây
         Dimension preferredSize = new Dimension(width, jPanel.getPreferredSize().height);
