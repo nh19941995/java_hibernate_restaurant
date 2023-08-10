@@ -55,7 +55,8 @@ public class ViewHome extends JFrame {
 //        tab3.add(viewDish,BorderLayout.CENTER);
         ViewDish viewDish = new ViewDish();
         tab4.add(viewDish,BorderLayout.CENTER);
-//        tab5.add(new MenuView(),BorderLayout.CENTER);
+        ViewMenu viewMenu = new ViewMenu();
+        tab5.add(viewMenu,BorderLayout.CENTER);
 //        tab6.add(oderView,BorderLayout.CENTER);
 
 

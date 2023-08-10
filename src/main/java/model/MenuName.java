@@ -20,7 +20,7 @@ public class MenuName {
     private LocalDateTime dateCreat;
 
     @Column(name = "date_update")
-    private Instant dateUpdate;
+    private LocalDateTime dateUpdate;
 
     @Column(name = "flag", nullable = false)
     private Integer flag;
@@ -49,11 +49,11 @@ public class MenuName {
         this.dateCreat = dateCreat;
     }
 
-    public Instant getDateUpdate() {
+    public LocalDateTime getDateUpdate() {
         return dateUpdate;
     }
 
-    public void setDateUpdate(Instant dateUpdate) {
+    public void setDateUpdate(LocalDateTime dateUpdate) {
         this.dateUpdate = dateUpdate;
     }
 
