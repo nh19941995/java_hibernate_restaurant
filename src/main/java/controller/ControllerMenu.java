@@ -2,6 +2,8 @@ package controller;
 
 import model.Menu;
 import view.ViewMenu;
+import view.ViewNewMenu;
+
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -40,6 +42,11 @@ public class ControllerMenu {
             }
 
         });
+    }
+
+    private void removeDishFromANewMenu(ViewNewMenu viewNewMenu,int id){
+        ArrayList<Menu> newMenus = viewNewMenu.getNewMenus();
+
     }
 
     private void search(ViewMenu viewMenu){

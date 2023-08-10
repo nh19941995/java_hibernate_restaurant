@@ -9,6 +9,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class ViewNewMenu extends JPanel {
     // data-------------------------------------------------------------------------------------------------------------
@@ -19,11 +20,31 @@ public class ViewNewMenu extends JPanel {
     private Object[][] data;
     // button-----------------------------------------------------------------------------------------------------------
     private JButton buttonCreatNewMenu = new JButton("Creat new menu");
+    private JButton buttonRemoveDish = new JButton("Remove");
     // input------------------------------------------------------------------------------------------------------------
     private JTextField inputNameNewMenu = new JTextField();
     // label------------------------------------------------------------------------------------------------------------
     private JLabel labelNameNewMenu = new JLabel("Menu name:");
     // get + set--------------------------------------------------------------------------------------------------------
+
+    public ArrayList<Menu> getNewMenus() {
+        return newMenus;
+    }
+
+    public void setNewMenus(ArrayList<Menu> newMenus) {
+        this.newMenus = newMenus;
+    }
+
+    public JButton getButtonCreatNewMenu() {
+        return buttonCreatNewMenu;
+    }
+    public JButton getButtonRemoveDish() {
+        return buttonRemoveDish;
+    }
+    public JTextField getInputNameNewMenu() {
+        return inputNameNewMenu;
+    }
+
     public Object[][] getData() {
         return data;
     }
@@ -113,12 +134,11 @@ public class ViewNewMenu extends JPanel {
         // Khởi tạo mô hình dữ liệu cho bảng
         table.setModel(model);
         this.tableModel = model;
-        final int count = 1;
         // Biến count là final, vì vậy nó sẽ không gây ra lỗi.
         Object[][] data = newMenus.stream().map(
                 s -> {
                     Object[] row = new Object[5];
-                    row[0] = 1;
+                    row[0] = "";
                     row[1] = s.getDish().getDishName();
                     row[2] = s.getQuantity();
                     row[3] = s.getUnitPrice();
@@ -126,6 +146,10 @@ public class ViewNewMenu extends JPanel {
                     return row;
                 }
         ).toArray(Object[][]::new);
+        int count = 1;
+        for (Object[] row : data) {
+            row[0] = count++;
+        }
         setData(data);
         // thêm dữ liệu vào bảng
         for (Object[] rowData : data) {
@@ -155,7 +179,7 @@ public class ViewNewMenu extends JPanel {
         Object[][] data = newMenus.stream().map(
                 s -> {
                     Object[] row = new Object[5];
-                    row[0] = 1;
+                    row[0] = "";
                     row[1] = s.getDish().getDishName();
                     row[2] = s.getQuantity();
                     row[3] = s.getUnitPrice();
@@ -163,6 +187,10 @@ public class ViewNewMenu extends JPanel {
                     return row;
                 }
         ).toArray(Object[][]::new);
+        int count = 1;
+        for (Object[] row : data) {
+            row[0] = count++;
+        }
         setData(data);
         // Thêm dữ liệu mới vào bảng
         for (Object[] rowData : data) {
