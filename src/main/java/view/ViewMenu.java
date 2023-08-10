@@ -22,6 +22,7 @@ public class ViewMenu extends JPanel{
     private DefaultTableModel tableModel;
     private Object[][] data;
     private int menuIdSelect;
+    private ViewMenuDetail menuDetail  = new ViewMenuDetail();
     // label------------------------------------------------------------------------------------------------------------
     private JLabel labelSumOutput = new JLabel();
     private JLabel title = new JLabel("List of menus");
@@ -34,6 +35,22 @@ public class ViewMenu extends JPanel{
     private JTextField inputPrice = new JTextField();
     // get +set --------------------------------------------------------------------------------------------------------
 
+
+    public ViewMenuDetail getMenuDetail() {
+        return menuDetail;
+    }
+
+    public void setMenuDetail(ViewMenuDetail menuDetail) {
+        this.menuDetail = menuDetail;
+    }
+
+    public int getMenuIdSelect() {
+        return menuIdSelect;
+    }
+
+    public void setMenuIdSelect(int menuIdSelect) {
+        this.menuIdSelect = menuIdSelect;
+    }
 
     public JButton getButtonSelectMenu() {
         return buttonSelectMenu;
@@ -73,10 +90,15 @@ public class ViewMenu extends JPanel{
 
     public ViewMenu() {
         setLayout(new BorderLayout());
+
+
+    }
+    public JPanel ViewChoseMenu(){
         add(blockTable(),BorderLayout.CENTER);
+        add(menuDetail,BorderLayout.SOUTH);
         add(blockSearch(),BorderLayout.NORTH);
         new ControllerMenu(this);
-
+        return this;
     }
     private JPanel blockTable(){
         BoderTool boderTool = new BoderTool();
@@ -167,6 +189,14 @@ public class ViewMenu extends JPanel{
 
         boderTool.add(grid2,BorderLayout.EAST);
         boderTool.add(grid,BorderLayout.CENTER);
+        return boderTool;
+    }
+    private JPanel blockDishInMenu(){
+        BoderTool boderTool = new BoderTool();
+
+
+
+
         return boderTool;
     }
 

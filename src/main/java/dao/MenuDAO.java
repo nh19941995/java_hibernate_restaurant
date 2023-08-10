@@ -1,11 +1,13 @@
 package dao;
 
 import jakarta.persistence.*;
+import model.Dish;
 import model.DishType;
 import model.Menu;
 import utils.PersistenceManager;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MenuDAO implements DAOInterface<Menu,Integer>{
     private EntityManagerFactory entityManagerFactory;
@@ -102,6 +104,24 @@ public class MenuDAO implements DAOInterface<Menu,Integer>{
         } catch (Exception e) {
             e.printStackTrace();
             return 0.0;
+        } finally {
+            entityManager.close();
+        }
+    }
+    public List<Menu> getMenuByMenuNameID(int menuNameId) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        try {
+            String queryStr = "SELECT m FROM Menu m WHERE m.menuName.id = :menuNameId";
+            TypedQuery<Menu> query = entityManager.createQuery(queryStr, Menu.class);
+            query.setParameter("menuNameId", menuNameId);
+            List<Menu> result = query.getResultList();
+            for (Menu dish : result) {
+                String types = dish.getDish().getDishName();
+            }
+            return result;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         } finally {
             entityManager.close();
         }
