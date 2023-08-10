@@ -54,6 +54,7 @@ public class ViewHome extends JFrame {
             e.printStackTrace();
         }
 
+
 //        khung ngoài phần mềm------------------------------------------------------------------------------------------
         setTitle("Register");             //        tiêu đề cho form
         // Tạo panel chính, mainPanel là một JPanel chứa toàn bộ giao diện của ứng dụng
@@ -92,8 +93,6 @@ public class ViewHome extends JFrame {
         tab4.add(viewDish.ViewSelectDish(),BorderLayout.CENTER);
         tab5.add(viewMenu.ViewChoseMenu(),BorderLayout.CENTER);
         tab6.add(viewNewMenu,BorderLayout.CENTER);
-
-
 
 
         tab1.setBackground(Color.green);
@@ -157,67 +156,8 @@ public class ViewHome extends JFrame {
         // thêm các tab vào layout chính
         mainPanel.add(tabbedPane, BorderLayout.CENTER);
 
-        // Thêm một ChangeListener vào tabbedPane
-//        tabbedPane.addChangeListener(new ChangeListener() {
-//            @Override
-//            public void stateChanged(ChangeEvent e) {
-//                // Lấy chỉ số của tab đang được chọn
-//                int selectedIndex = tabbedPane.getSelectedIndex();
-//
-//                // Thực hiện hành động dựa trên chỉ số tab đang chọn
-//                switch (selectedIndex) {
-//                    case 0:
-//                        // Cập nhật nội dung cho tab 1 (Nhân viên)
-//                        tab1.removeAll(); // Xóa các thành phần hiện tại
-//                        tab1.add(viewDish, BorderLayout.CENTER); // Thêm các thành phần mới
-//                        break;
-//                    case 1:
-//                        // Cập nhật nội dung cho tab 2 (Giao dịch)
-//                        tab2.removeAll(); // Xóa các thành phần hiện tại
-//                        tab2.add(viewTable.viewTableMain(), BorderLayout.CENTER); // Thêm các thành phần mới
-//
-//                        break;
-//                    case 2:
-//                        // Load lại nội dung cho tab 3 (Đặt chỗ)
-//                        tab3.removeAll(); // Xóa các thành phần hiện tại
-//                        tab3.add(new BookingView(), BorderLayout.CENTER); // Thêm các thành phần mới
-//                        break;
-//                    case 3:
-//                        // Load lại nội dung cho tab 4 (Quản lý)
-//                        tab4.removeAll(); // Xóa các thành phần hiện tại
-//
-////                        dishView.tabDish(dishView);
-//
-//                        tab4.add(dishView, BorderLayout.CENTER); // Thêm các thành phần mới
-//
-//                        break;
-//                    case 4:
-//                        // Load lại nội dung cho tab 5 (Thực đơn)
-//                        tab5.removeAll(); // Xóa các thành phần hiện tại
-//                        tab5.add(new MenuView(), BorderLayout.CENTER); // Thêm các thành phần mới
-//                        break;
-//                    case 5:
-//                        // Load lại nội dung cho tab 5 (Thực đơn)
-//                        tab6.removeAll(); // Xóa các thành phần hiện tại
-//                        tab6.add(oderView, BorderLayout.CENTER); // Thêm các thành phần mới
-//                        break;
-//                }
-
-                // Thực hiện việc validate lại và vẽ lại tab để phản ánh các thay đổi
-//                tabbedPane.revalidate();
-//                tabbedPane.repaint();
-//            }
-//        });
-
-
-
-
-
-
-
-
 //        Đảm bảo các thành phần giao diện được hiển thị----------------------------------------------------------------
-        //        thêm mainPanel vào cửa sổ JFrame
+
         add(mainPanel);
         revalidate();
         repaint();

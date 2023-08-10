@@ -24,6 +24,8 @@ public class ViewDish extends JPanel{
     // input -----------------------------------------------------------------------------------------------------------
     private JTextField inputEnterNumber = new JTextField();
     private JTextField inputEnterPrice = new JTextField();
+
+
     private JTextField inputFilerByPrice = new JTextField();
     private JTextField inputNewDishName = new JTextField();
     private JTextField inputReferencePrice = new JTextField();
@@ -140,7 +142,20 @@ public class ViewDish extends JPanel{
         GridTool gridTool = new GridTool();
         gridTool.GridAddCustom(buttonSlectDish,0,0,20,20,20,20,1);
         buttonSlectDish.setPreferredSize(new Dimension(150, 35));
+        GridTool gridTool1 = new GridTool();
+
+
+        gridTool1.GridAddCustom(labelEnterPrice,0,0,20,20,5,5,1);
+        gridTool1.GridAddCustom(inputEnterPrice,0,1,20,20,5,5,1);
+        inputEnterPrice.setPreferredSize(new Dimension(150, 25));
+
+        gridTool1.GridAddCustom(labelEnterNumber,1,0,20,20,5,5,1);
+        gridTool1.GridAddCustom(inputEnterNumber,1,1,20,20,5,5,1);
+        inputEnterNumber.setPreferredSize(new Dimension(150, 25));
+
+
         boderTool.add(gridTool,BorderLayout.EAST);
+        boderTool.add(gridTool1,BorderLayout.CENTER);
         return boderTool;
     }
 

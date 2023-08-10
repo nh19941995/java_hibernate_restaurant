@@ -37,7 +37,6 @@ public class ControllerDish {
                     if (checkInput(viewDish)){
                         creatNewDish(viewDish);
                     }
-
                 }
             }
         });
@@ -50,6 +49,10 @@ public class ControllerDish {
                 if (e.getClickCount() == 1) { // Kiểm tra nếu chỉ là một lần click chuột (clickCount = 1)
                    search(viewDish);
                 }
+
+
+
+
             }
         });
 
@@ -64,15 +67,18 @@ public class ControllerDish {
                         String id = table.getValueAt(row, 0).toString(); // Lấy giá trị từ ô ở cột đầu tiên (cột ID) của dòng đã chọn
                         System.out.println("Temp id dish: "+ id);
                         viewDish.setTempId(Integer.parseInt(id));
+
+                        Dish dish = DishDAO.getInstance().getById(Integer.parseInt(id));
+                        viewDish.getInputEnterPrice().setText(dish.getPrice().toString());
+                        viewDish.getInputEnterNumber().setText("1");
                     }
                 }
             }
 
         });
 
-        JButton buttonSelect = viewDish.getButtonSlectDish();
-
         // sự kiện chọn
+        JButton buttonSelect = viewDish.getButtonSlectDish();
         buttonSelect.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -83,14 +89,43 @@ public class ControllerDish {
                     Dish dish = DishDAO.getInstance().getById(id);
                     Menu menu = new Menu();
                     menu.setDish(dish);
-//                    ViewNewMenu newMenu = ViewHome.getViewNewMenu();
-//                    newMenu.add(menu);
+
+                    if (checkPriceAndNumber(viewDish)){
+                        String price = viewDish.getInputEnterPrice().getText();
+                        String number = viewDish.getInputEnterNumber().getText();
+                        menu.setQuantity(Integer.parseInt(number));
+                        menu.setUnitPrice(Double.parseDouble(price));
+                        ViewNewMenu newMenu = ViewHome.getViewNewMenu();
+                        newMenu.add(menu);
+                        newMenu.loadData();
+
+                    }
+
                 }
             }
         });
 
 
 
+    }
+
+    private boolean checkPriceAndNumber(ViewDish viewDish){
+        String price = viewDish.getInputEnterPrice().getText();
+        String number = viewDish.getInputEnterNumber().getText();
+        int check = 1;
+        if (price.isEmpty()||number.isEmpty()){
+            if (check==1){
+                JOptionPane.showMessageDialog(null, "You must fill in all the required information before proceeding to create a new dish !", "Notice", JOptionPane.WARNING_MESSAGE);
+            }
+            check =0;
+        }
+        if (!RegexMatcher.numberCheck(price,"").equals("")||!RegexMatcher.numberCheck(number,"").equals("")){
+            if (check ==1){
+                JOptionPane.showMessageDialog(null, RegexMatcher.numberCheck(price,"Price: ")+RegexMatcher.numberCheck(number,"Quantity: "), "Notice", JOptionPane.WARNING_MESSAGE);
+            }
+            check = 0;
+        }
+        return (check==1) ? true : false;
     }
 
     private boolean checkInput(ViewDish viewDish){

@@ -77,16 +77,13 @@ public class DishDAO implements DAOInterface<Dish,Integer>{
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         try {
-            // Sử dụng JPQL (Java Persistence Query Language) để truy vấn danh sách DishType
+            // Sử dụng JPQL để truy vấn danh sách DishType
             String queryStr = "SELECT d FROM Dish d";
             ArrayList<Dish> dishes  =  new ArrayList<>(entityManager.createQuery(queryStr, Dish.class).getResultList());
 
             for (Dish dish : dishes) {
                 String types = dish.getType().getName();
             }
-
-
-//            a.stream().forEach(s-> System.out.println(s.toString()) );
             return dishes;
         } catch (Exception e) {
             e.printStackTrace();
@@ -100,7 +97,9 @@ public class DishDAO implements DAOInterface<Dish,Integer>{
     public Dish getById(int dishId) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         try {
-            return entityManager.find(Dish.class, dishId);
+            Dish dish = entityManager.find(Dish.class, dishId);
+            dish.getType().getName();
+            return dish;
         } catch (Exception e) {
             e.printStackTrace();
             return null;
