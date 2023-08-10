@@ -1,6 +1,7 @@
 package view;
 
 import controller.ControllerMenu;
+import controller.ControllerNewMenu;
 import controller.ControllerTime;
 import dao.MenuDAO;
 import dao.MenuNameDAO;
@@ -89,16 +90,13 @@ public class ViewMenu extends JPanel{
 
     public ViewMenu() {
         setLayout(new BorderLayout());
+        ControllerNewMenu.setViewMenu(this);
 
 
     }
     public JPanel ViewCreatNewMenu(){
         ViewDish viewDish = new ViewDish();
         add(viewDish,BorderLayout.WEST);
-
-
-
-
         return this;
     }
 

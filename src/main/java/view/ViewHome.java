@@ -11,6 +11,7 @@ import java.awt.*;
 public class ViewHome extends JFrame {
     // view chính-------------------------------------------------------------------------------------------------------
     private static ViewMenu viewMenu ;
+
     private static ViewDish viewDish;
     private static ViewNewMenu viewNewMenu ;
     private static ViewTable viewTable ;
