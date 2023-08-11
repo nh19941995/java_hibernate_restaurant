@@ -144,7 +144,6 @@ public class ViewDish extends JPanel{
         buttonSlectDish.setPreferredSize(new Dimension(150, 35));
         GridTool gridTool1 = new GridTool();
 
-
         gridTool1.GridAddCustom(labelEnterPrice,0,0,20,20,5,5,1);
         gridTool1.GridAddCustom(inputEnterPrice,0,1,20,20,5,5,1);
         inputEnterPrice.setPreferredSize(new Dimension(150, 25));
@@ -289,7 +288,4 @@ public class ViewDish extends JPanel{
         }
         this.revalidate();
     }
-
-
-
 }

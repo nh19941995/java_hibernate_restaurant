@@ -19,6 +19,8 @@ public class ViewHome extends JFrame {
     private static ViewNewMenu viewNewMenu ;
     private static ViewTable viewTable ;
     private static ViewPerson viewPerson;
+    private static ViewBooking viewBooking;
+
     // controller-------------------------------------------------------------------------------------------------------
     private static ControllerTable controllerTable;
     private static ControllerPerson controllerPerson;
@@ -66,6 +68,7 @@ public class ViewHome extends JFrame {
             viewNewMenu = new ViewNewMenu();
             viewTable = new ViewTable();
             viewPerson = new ViewPerson();
+            viewBooking = new ViewBooking();
 
             // ... (các phần mã khác)
         } catch (Exception e){
@@ -111,7 +114,7 @@ public class ViewHome extends JFrame {
 //        thêm các view vào tab
         tab1.add(viewPerson.ViewPersonMain(),BorderLayout.CENTER);
         tab2.add(viewTable.viewTableMain(),BorderLayout.CENTER);
-//        tab3.add(viewDish,BorderLayout.CENTER);
+        tab3.add(viewBooking,BorderLayout.CENTER);
         tab4.add(viewDish.ViewSelectDish(),BorderLayout.CENTER);
         tab5.add(viewMenu.ViewChoseMenu(),BorderLayout.CENTER);
         tab6.add(viewNewMenu,BorderLayout.CENTER);

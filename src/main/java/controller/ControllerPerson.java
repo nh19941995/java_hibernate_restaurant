@@ -161,7 +161,6 @@ public class ControllerPerson {
         viewPerson.reload();
     }
     private void update(ViewPerson viewPerson,int id){
-
         Person person = PersonDAO.getInstance().getById(id);
         String permissionString = (String) viewPerson.getSelecType().getSelectedItem();
         Permission permission = PermissionDAO.getInstance().getByString(permissionString);
