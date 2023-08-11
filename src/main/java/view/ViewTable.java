@@ -91,11 +91,6 @@ public class ViewTable extends JPanel {
                 .map(s -> s.getName())
                 .toArray(String[]::new);
         selecStatusTable.setModel(new javax.swing.DefaultComboBoxModel<>(status));
-
-
-
-
-        new ControllerTable(this);
     }
 
     public JPanel viewTableMain (){

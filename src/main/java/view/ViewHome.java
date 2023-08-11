@@ -1,5 +1,8 @@
 package view;
 import com.formdev.flatlaf.FlatLightLaf;
+import controller.ControllerDish;
+import controller.ControllerPerson;
+import controller.ControllerTable;
 
 
 import javax.swing.*;
@@ -11,11 +14,18 @@ import java.awt.*;
 public class ViewHome extends JFrame {
     // view chính-------------------------------------------------------------------------------------------------------
     private static ViewMenu viewMenu ;
-
     private static ViewDish viewDish;
+    private static ViewDish viewDishInCreatNewMenu;
     private static ViewNewMenu viewNewMenu ;
     private static ViewTable viewTable ;
     private static ViewPerson viewPerson;
+    // controller-------------------------------------------------------------------------------------------------------
+    private static ControllerTable controllerTable;
+    private static ControllerPerson controllerPerson;
+    private static ControllerDish controllerDish;
+    private static ControllerDish controllerInCreatNewMenu;
+
+
     // get + set--------------------------------------------------------------------------------------------------------
     public static ViewMenu getViewMenu() {
         return viewMenu;
@@ -36,6 +46,12 @@ public class ViewHome extends JFrame {
     public static ViewPerson getViewPerson() {
         return viewPerson;
     }
+    public static ViewDish getViewDishInCreatNewMenu() {
+        return viewDishInCreatNewMenu;
+    }
+    public static void setViewDishInCreatNewMenu(ViewDish viewDishInCreatNewMenu) {
+        ViewHome.viewDishInCreatNewMenu = viewDishInCreatNewMenu;
+    }
 
     public ViewHome(){
 
@@ -46,6 +62,7 @@ public class ViewHome extends JFrame {
             // Khởi tạo các thành phần tĩnh và áp dụng giao diện
             viewMenu = new ViewMenu();
             viewDish = new ViewDish();
+            viewDishInCreatNewMenu = new ViewDish();
             viewNewMenu = new ViewNewMenu();
             viewTable = new ViewTable();
             viewPerson = new ViewPerson();
@@ -54,7 +71,11 @@ public class ViewHome extends JFrame {
         } catch (Exception e){
             e.printStackTrace();
         }
-
+        // set controller-----------------------------------------------------------------------------------------------
+        controllerTable = new ControllerTable(viewTable);
+        controllerPerson = new ControllerPerson(viewPerson);
+        controllerDish = new ControllerDish(viewDish);
+        controllerInCreatNewMenu = new ControllerDish(viewDishInCreatNewMenu);
 
 //        khung ngoài phần mềm------------------------------------------------------------------------------------------
         setTitle("Register");             //        tiêu đề cho form

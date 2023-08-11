@@ -144,7 +144,6 @@ public class ViewPerson extends JPanel {
 
     public ViewPerson() {
         setLayout(new BorderLayout());
-        new ControllerPerson(this);
 
     }
 

@@ -120,7 +120,7 @@ public class ViewDish extends JPanel{
                 .toArray(String[]::new);
         selectType.setModel(new javax.swing.DefaultComboBoxModel<>(selectList));
         selectTypeForNewDish.setModel(new javax.swing.DefaultComboBoxModel<>(selectList));
-        new ControllerDish(this);
+//        new ControllerDish(this);
 
     }
     public JPanel ViewMainDish(){
