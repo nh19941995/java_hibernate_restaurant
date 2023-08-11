@@ -15,7 +15,6 @@ public class ViewHome extends JFrame {
     // view chính-------------------------------------------------------------------------------------------------------
     private static ViewMenu viewMenu ;
     private static ViewDish viewDish;
-    private static ViewDish viewDishInCreatNewMenu;
     private static ViewNewMenu viewNewMenu ;
     private static ViewTable viewTable ;
     private static ViewPerson viewPerson;
@@ -24,7 +23,6 @@ public class ViewHome extends JFrame {
     // controller-------------------------------------------------------------------------------------------------------
     private static ControllerTable controllerTable;
     private static ControllerPerson controllerPerson;
-    private static ControllerDish controllerDish;
     private static ControllerDish controllerInCreatNewMenu;
 
 
@@ -36,23 +34,14 @@ public class ViewHome extends JFrame {
     public static ViewDish getViewDish() {
         return viewDish;
     }
-
     public static ViewNewMenu getViewNewMenu() {
         return viewNewMenu;
     }
-
     public static ViewTable getViewTable() {
         return viewTable;
     }
-
     public static ViewPerson getViewPerson() {
         return viewPerson;
-    }
-    public static ViewDish getViewDishInCreatNewMenu() {
-        return viewDishInCreatNewMenu;
-    }
-    public static void setViewDishInCreatNewMenu(ViewDish viewDishInCreatNewMenu) {
-        ViewHome.viewDishInCreatNewMenu = viewDishInCreatNewMenu;
     }
 
     public ViewHome(){
@@ -64,7 +53,6 @@ public class ViewHome extends JFrame {
             // Khởi tạo các thành phần tĩnh và áp dụng giao diện
             viewMenu = new ViewMenu();
             viewDish = new ViewDish();
-            viewDishInCreatNewMenu = new ViewDish();
             viewNewMenu = new ViewNewMenu();
             viewTable = new ViewTable();
             viewPerson = new ViewPerson();
@@ -75,10 +63,7 @@ public class ViewHome extends JFrame {
             e.printStackTrace();
         }
         // set controller-----------------------------------------------------------------------------------------------
-        controllerTable = new ControllerTable(viewTable);
-        controllerPerson = new ControllerPerson(viewPerson);
-        controllerDish = new ControllerDish(viewDish);
-        controllerInCreatNewMenu = new ControllerDish(viewDishInCreatNewMenu);
+
 
 //        khung ngoài phần mềm------------------------------------------------------------------------------------------
         setTitle("Register");             //        tiêu đề cho form
@@ -115,7 +100,7 @@ public class ViewHome extends JFrame {
         tab1.add(viewPerson.ViewPersonMain(),BorderLayout.CENTER);
         tab2.add(viewTable.viewTableMain(),BorderLayout.CENTER);
         tab3.add(viewBooking,BorderLayout.CENTER);
-        tab4.add(viewDish.ViewSelectDish(),BorderLayout.CENTER);
+        tab4.add(viewDish.ViewMainDish(),BorderLayout.CENTER);
         tab5.add(viewMenu.ViewChoseMenu(),BorderLayout.CENTER);
         tab6.add(viewNewMenu,BorderLayout.CENTER);
 

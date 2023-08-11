@@ -120,7 +120,7 @@ public class ViewDish extends JPanel{
                 .toArray(String[]::new);
         selectType.setModel(new javax.swing.DefaultComboBoxModel<>(selectList));
         selectTypeForNewDish.setModel(new javax.swing.DefaultComboBoxModel<>(selectList));
-//        new ControllerDish(this);
+        new ControllerDish(this);
 
     }
     public JPanel ViewMainDish(){
@@ -272,7 +272,9 @@ public class ViewDish extends JPanel{
         tableModel.setRowCount(0);
         // lấy dữ liệu từ sever
         List<Dish> dishList = DishDAO.getInstance().getAll();
-        Object[][] dataFromDB = dishList.stream().map(
+        Object[][] dataFromDB = dishList.stream()
+                .filter(s->s.getFlag()>0)
+                .map(
                 s -> new Object[]{
                         s.getId(),
                         s.getDishName(),

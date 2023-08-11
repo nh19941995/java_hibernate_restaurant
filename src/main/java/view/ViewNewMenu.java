@@ -96,7 +96,7 @@ public class ViewNewMenu extends JPanel {
 
     private JPanel blockDish(){
         BoderTool boderTool = new BoderTool();
-        ViewDish viewDish = ViewHome.getViewDishInCreatNewMenu();
+        ViewDish viewDish = new ViewDish();
         boderTool.add(viewDish.ViewSelectDish(),BorderLayout.CENTER);
         return boderTool;
     }
