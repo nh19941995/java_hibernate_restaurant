@@ -144,17 +144,18 @@ public class ViewPerson extends JPanel {
 
     public ViewPerson() {
         setLayout(new BorderLayout());
-
-        // thêm controller
-        new ControllerPerson(this);
-    }
-
-    public JPanel ViewPersonMain(){
         add(blockTable(),BorderLayout.CENTER);
         add(blockAddPerson(),BorderLayout.SOUTH);
         add(blockSearch(),BorderLayout.NORTH);
-        return this;
+        // thêm controller
+        new ControllerPerson(this);
+
     }
+
+//    public ViewPerson ViewPersonMain(){
+//
+//        return this;
+//    }
 
     private JPanel blockSearch(){
         BoderTool jPanel = new BoderTool();

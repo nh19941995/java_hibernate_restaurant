@@ -102,7 +102,7 @@ public class ViewTable extends JPanel {
         return this;
     }
 
-    public JPanel viewTableSelectTable(){
+    public ViewTable viewTableSelectTable(){
         add(blockTable(),BorderLayout.CENTER);
         add(blockSearch(),BorderLayout.NORTH);
         add(blockBotSelectTable(),BorderLayout.SOUTH);

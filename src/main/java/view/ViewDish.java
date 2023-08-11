@@ -130,7 +130,7 @@ public class ViewDish extends JPanel{
         return this;
     }
 
-    public JPanel ViewSelectDish(){
+    public ViewDish ViewSelectDish(){
         add(blockSearchBar(),BorderLayout.NORTH);
         add(blockTable(),BorderLayout.CENTER);
         add(blockSelectDish(),BorderLayout.SOUTH);

@@ -94,7 +94,7 @@ public class ViewMenu extends JPanel{
 
     public ViewMenu() {
         setLayout(new BorderLayout());
-        ControllerNewMenu.setViewMenu(this);
+
     }
     public JPanel ViewCreatNewMenu(){
         ViewDish viewDish = new ViewDish();
@@ -102,7 +102,7 @@ public class ViewMenu extends JPanel{
         return this;
     }
 
-    public JPanel ViewChoseMenu(){
+    public ViewMenu ViewChoseMenu(){
         add(blockSearch(),BorderLayout.NORTH);
         add(blockTable(),BorderLayout.CENTER);
         add(blockMenuDetail(),BorderLayout.SOUTH);

@@ -1,6 +1,9 @@
 package view;
 
 import controller.ControllerNewMenu;
+import controller.RegexMatcher;
+import dao.DishDAO;
+import model.Dish;
 import model.Menu;
 import view.tool.BoderTool;
 import view.tool.GridTool;
@@ -9,24 +12,43 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class ViewNewMenu extends JPanel {
     // data-------------------------------------------------------------------------------------------------------------
-    private ArrayList<Menu> newMenus = new ArrayList<>();
+    private ArrayList<Menu> newMenus = new ArrayList<>();   // dữ liệu menu tạm
     private int idSelect;
     private JTable table = new JTable();
     private DefaultTableModel tableModel;
     private Object[][] data;
+    // view ------------------------------------------------------------------------------------------------------------
+    private ViewDish viewDish = new ViewDish();            // đối tượng dish
     // button-----------------------------------------------------------------------------------------------------------
     private JButton buttonCreatNewMenu = new JButton("Creat new menu");
     private JButton buttonRemoveDish = new JButton("Remove");
+    private JButton buttonAddDishToMenu = viewDish.getButtonSlectDish();
+
     // input------------------------------------------------------------------------------------------------------------
     private JTextField inputNameNewMenu = new JTextField();
     // label------------------------------------------------------------------------------------------------------------
     private JLabel labelNameNewMenu = new JLabel("Menu name:");
     // get + set--------------------------------------------------------------------------------------------------------
+
+    public JButton getButtonAddDishToMenu() {
+        return buttonAddDishToMenu;
+    }
+
+    public ViewDish getViewDish() {
+        return viewDish;
+    }
+
+    public void setViewDish(ViewDish viewDish) {
+        this.viewDish = viewDish;
+    }
+
     public int getIdSelect() {
         return idSelect;
     }
@@ -83,8 +105,55 @@ public class ViewNewMenu extends JPanel {
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         add(blockMenu());
         add(blockDish());
-        new  ControllerNewMenu(this);
+        new ControllerNewMenu(this);
+
+
+
+//         sự kiện chọn
+//        JButton buttonSelect = viewDish.getButtonSlectDish();
+//        buttonSelect.addMouseListener(new MouseAdapter() {
+//            @Override
+//            public void mouseClicked(MouseEvent e) {
+//                int id = viewDish.getTempId();
+//                if (id==0) { // Kiểm tra nếu chỉ là một lần click chuột (clickCount = 1)
+//                    JOptionPane.showMessageDialog(null, "Please choose a dish", "Notice", JOptionPane.WARNING_MESSAGE);
+//                }else {
+//                    Dish dish = DishDAO.getInstance().getById(id);
+//                    Menu menu = new Menu();
+//                    menu.setDish(dish);
+//
+//                    if (checkPriceAndNumber(viewDish)){
+//                        String price = viewDish.getInputEnterPrice().getText();
+//                        String number = viewDish.getInputEnterNumber().getText();
+//                        menu.setQuantity(Integer.parseInt(number));
+//                        menu.setUnitPrice(Double.parseDouble(price));
+//                        newMenus.add(menu);
+//                        loadData();
+//                    }
+//
+//                }
+//            }
+//        });
     }
+
+//    private boolean checkPriceAndNumber(ViewDish viewDish){
+//        String price = viewDish.getInputEnterPrice().getText();
+//        String number = viewDish.getInputEnterNumber().getText();
+//        int check = 1;
+//        if (price.isEmpty()||number.isEmpty()){
+//            if (check==1){
+//                JOptionPane.showMessageDialog(null, "You must fill in all the required information before proceeding to create a new dish !", "Notice", JOptionPane.WARNING_MESSAGE);
+//            }
+//            check =0;
+//        }
+//        if (!RegexMatcher.numberCheck(price,"").equals("")||!RegexMatcher.numberCheck(number,"").equals("")){
+//            if (check ==1){
+//                JOptionPane.showMessageDialog(null, RegexMatcher.numberCheck(price,"Price: ")+RegexMatcher.numberCheck(number,"Quantity: "), "Notice", JOptionPane.WARNING_MESSAGE);
+//            }
+//            check = 0;
+//        }
+//        return (check==1) ? true : false;
+//    }
 
     private JPanel blockMenu(){
         BoderTool boderTool = new BoderTool();
@@ -96,7 +165,6 @@ public class ViewNewMenu extends JPanel {
 
     private JPanel blockDish(){
         BoderTool boderTool = new BoderTool();
-        ViewDish viewDish = new ViewDish();
         boderTool.add(viewDish.ViewSelectDish(),BorderLayout.CENTER);
         return boderTool;
     }
@@ -139,7 +207,7 @@ public class ViewNewMenu extends JPanel {
         return jPanel;
     }
 
-    private JPanel blockTableMenu() {
+    private JPanel blockTableMenu() {   // lấy dữ liệu từ list tạm newMenus
         BoderTool boderTool = new BoderTool();
         DefaultTableModel model = new DefaultTableModel(
                 new Object [][] {

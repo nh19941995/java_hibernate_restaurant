@@ -1,5 +1,8 @@
 package view;
 
+import controller.ControllerBooking;
+import dao.PersonDAO;
+import model.Person;
 import view.tool.BoderTool;
 import view.tool.GridTool;
 
@@ -8,11 +11,11 @@ import java.awt.*;
 
 public class ViewBooking extends JPanel {
     // button-----------------------------------------------------------------------------------------------------------
-    private JButton buttonSelectTable = new JButton("Select table from list");
-    private JButton buttonRemoveARow = new JButton("Remove a row");
-    private JButton buttonSelectClient = new JButton("Sellect client from list");
+    private JButton buttonSelectTableFromList = new JButton("Select table from list");
+    private JButton buttonRemoveARowFromTempBooking = new JButton("Remove a row");
+    private JButton buttonSelectClientFromList = new JButton("Sellect client from list");
     private JButton buttonShowAllBooking = new JButton("Show all booking");
-    private JButton buttonSelectMenu = new JButton("Select menu from list");
+    private JButton buttonSelectMenuFromList = new JButton("Select menu from list");
     private JButton buttonAddNewMenu = new JButton("Creat new menu");
     private JButton buttonSubmitBooking = new JButton("Submit a new booking");
     // label------------------------------------------------------------------------------------------------------------
@@ -31,14 +34,85 @@ public class ViewBooking extends JPanel {
     private  JTextField inputEndTime = new JTextField();
     private  JTextField inputComment = new JTextField();
     private  JTextField inputDate = new JTextField();
+    // block -----------------------------------------------------------------------------------------------------------
+    private BoderTool leftViewBooking = new BoderTool();
+    private BoderTool centerViewBooking = new BoderTool();
+
+    // get + set -------------------------------------------------------------------------------------------------------
+
+
+    public JLabel getLabelFirstName() {
+        return labelFirstName;
+    }
+
+    public JLabel getLabelFirstNameValue() {
+        return labelFirstNameValue;
+    }
+
+    public JLabel getLabelLastName() {
+        return labelLastName;
+    }
+
+    public JLabel getLabelLastNameValue() {
+        return labelLastNameValue;
+    }
+
+    public JLabel getLabelDeposit() {
+        return labelDeposit;
+    }
+
+    public JLabel getLabelDate() {
+        return labelDate;
+    }
+
+    public JLabel getLabelStartTime() {
+        return labelStartTime;
+    }
+
+    public JLabel getLabelEndTime() {
+        return labelEndTime;
+    }
+
+    public JLabel getLabelComment() {
+        return labelComment;
+    }
+
+    public BoderTool getLeftViewBooking() {
+        return leftViewBooking;
+    }
+    public BoderTool getCenterViewBooking() {
+        return centerViewBooking;
+    }
+    public JButton getButtonSelectTableFromList() {
+        return buttonSelectTableFromList;
+    }
+    public JButton getButtonRemoveARowFromTempBooking() {
+        return buttonRemoveARowFromTempBooking;
+    }
+    public JButton getButtonSelectClientFromList() {
+        return buttonSelectClientFromList;
+    }
+    public JButton getButtonSelectMenuFromList() {
+        return buttonSelectMenuFromList;
+    }
+    public JButton getButtonShowAllBooking() {
+        return buttonShowAllBooking;
+    }
+    public JButton getButtonAddNewMenu() {
+        return buttonAddNewMenu;
+    }
+    public JButton getButtonSubmitBooking() {
+        return buttonSubmitBooking;
+    }
 
     public ViewBooking() {
         setLayout(new BorderLayout());
-        BoderTool left = new BoderTool();
-        BoderTool center = new BoderTool();
-        left.add(blockLeft());
-        add(left,BorderLayout.WEST);
-        add(center,BorderLayout.CENTER);
+        leftViewBooking.add(blockLeft());
+        add(leftViewBooking,BorderLayout.WEST);
+        add(centerViewBooking,BorderLayout.CENTER);
+        // đặt controller
+        ControllerBooking controllerBooking = new ControllerBooking(this);
+
     }
     public JPanel blockLeft(){
         JPanel jPanel = new JPanel();
@@ -57,16 +131,16 @@ public class ViewBooking extends JPanel {
 //        grid.GridAddCustom(table,0,0,0,0,20,20,2);
         // đặt kích thước
 //        table.setPreferredSize(new Dimension(400, 200));
-        grid.GridAddCustom(buttonSelectMenu,0,1,20,20,20,20,1);
+        grid.GridAddCustom(buttonSelectMenuFromList,0,1,20,20,20,20,1);
         grid.GridAddCustom(buttonAddNewMenu,1,1,20,20,20,20,1);
-        grid.GridAddCustom(buttonSelectTable,0,2,20,20,20,20,1);
-        grid.GridAddCustom(buttonRemoveARow,1,2,20,20,20,20,1);
+        grid.GridAddCustom(buttonSelectTableFromList,0,2,20,20,20,20,1);
+        grid.GridAddCustom(buttonRemoveARowFromTempBooking,1,2,20,20,20,20,1);
 
         // đặt kích thước
-        buttonSelectTable.setPreferredSize(new Dimension(150, 20));
-        buttonSelectMenu.setPreferredSize(new Dimension(150, 20));
+        buttonSelectTableFromList.setPreferredSize(new Dimension(150, 20));
+        buttonSelectMenuFromList.setPreferredSize(new Dimension(150, 20));
         buttonAddNewMenu.setPreferredSize(new Dimension(150, 20));
-        buttonRemoveARow.setPreferredSize(new Dimension(150, 20));
+        buttonRemoveARowFromTempBooking.setPreferredSize(new Dimension(150, 20));
         jPanel.add(grid,BorderLayout.CENTER);
         return jPanel;
     }
@@ -81,12 +155,12 @@ public class ViewBooking extends JPanel {
         // đặt kích thước
 //        table.setPreferredSize(new Dimension(450, 200));
 
-        grid.GridAddCustom(buttonSelectClient,0,1,20,20,20,20,1);
+        grid.GridAddCustom(buttonSelectClientFromList,0,1,20,20,20,20,1);
         grid.GridAddCustom(buttonShowAllBooking,1,1,20,20,20,20,1);
         grid.GridAddCustom(buttonSubmitBooking,0,2,20,20,20,20,2);
 
         // đặt kích thước
-        buttonSelectClient.setPreferredSize(new Dimension(150, 20));
+        buttonSelectClientFromList.setPreferredSize(new Dimension(150, 20));
         buttonSubmitBooking.setPreferredSize(new Dimension(150, 20));
         buttonShowAllBooking.setPreferredSize(new Dimension(150, 20));
         buttonSubmitBooking.setPreferredSize(new Dimension(150, 35));
@@ -131,4 +205,6 @@ public class ViewBooking extends JPanel {
         jPanel.add(grid,BorderLayout.CENTER);
         return  jPanel;
     }
+
+
 }
