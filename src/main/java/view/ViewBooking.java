@@ -13,7 +13,7 @@ public class ViewBooking extends JPanel {
     // button-----------------------------------------------------------------------------------------------------------
     private JButton buttonSelectTableFromList = new JButton("Select table from list");
     private JButton buttonRemoveARowFromTempBooking = new JButton("Remove a row");
-    private JButton buttonSelectClientFromList = new JButton("Sellect client from list");
+    private JButton buttonSelectPersonFromList = new JButton("Sellect client from list");
     private JButton buttonShowAllBooking = new JButton("Show all booking");
     private JButton buttonSelectMenuFromList = new JButton("Select menu from list");
     private JButton buttonAddNewMenu = new JButton("Creat new menu");
@@ -90,8 +90,8 @@ public class ViewBooking extends JPanel {
     public JButton getButtonRemoveARowFromTempBooking() {
         return buttonRemoveARowFromTempBooking;
     }
-    public JButton getButtonSelectClientFromList() {
-        return buttonSelectClientFromList;
+    public JButton getButtonSelectPersonFromList() {
+        return buttonSelectPersonFromList;
     }
     public JButton getButtonSelectMenuFromList() {
         return buttonSelectMenuFromList;
@@ -110,11 +110,15 @@ public class ViewBooking extends JPanel {
         setLayout(new BorderLayout());
         leftViewBooking.add(blockLeft());
 
+        System.out.println("dddddddddddd");
 
-//        centerViewBooking.add(ControllerBooking.getViewPerson().ViewPersonSelect());
-
-
-
+        ViewPerson viewPerson = ControllerBooking.getViewPerson();
+        if (viewPerson == null) {
+            System.out.println("Gọi từ Booking 111: đm null rồi");
+        } else {
+            centerViewBooking.add(viewPerson,BorderLayout.CENTER);
+            System.out.println("Gọi từ Booking 111: lol ko null nhé");
+        }
 
         add(leftViewBooking,BorderLayout.WEST);
         add(centerViewBooking,BorderLayout.CENTER);
@@ -187,12 +191,12 @@ public class ViewBooking extends JPanel {
         // đặt kích thước
 //        table.setPreferredSize(new Dimension(450, 200));
 
-        grid.GridAddCustom(buttonSelectClientFromList,0,1,20,20,20,20,1);
+        grid.GridAddCustom(buttonSelectPersonFromList,0,1,20,20,20,20,1);
         grid.GridAddCustom(buttonShowAllBooking,1,1,20,20,20,20,1);
         grid.GridAddCustom(buttonSubmitBooking,0,2,20,20,20,20,2);
 
         // đặt kích thước
-        buttonSelectClientFromList.setPreferredSize(new Dimension(150, 20));
+        buttonSelectPersonFromList.setPreferredSize(new Dimension(150, 20));
         buttonSubmitBooking.setPreferredSize(new Dimension(150, 20));
         buttonShowAllBooking.setPreferredSize(new Dimension(150, 20));
         buttonSubmitBooking.setPreferredSize(new Dimension(150, 35));

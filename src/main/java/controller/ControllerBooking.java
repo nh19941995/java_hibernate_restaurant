@@ -13,8 +13,9 @@ import java.util.ArrayList;
 public class ControllerBooking {
     private static ArrayList<Booking> bookings = new ArrayList<>();
     public static ViewTable viewTable = new ViewTable().viewTableSelectTable();
-    public static JPanel viewMenu = new ViewMenu().ViewChoseMenu();
-    public static JPanel viewNewMenu = new ViewNewMenu();
+    public static ViewMenu viewMenu = new ViewMenu().ViewChoseMenu();
+    public static ViewBooking viewBooking  = new ViewBooking();
+    public static ViewNewMenu viewNewMenu = new ViewNewMenu();
     public static ViewPerson viewPerson = new ViewPerson().ViewPersonSelect();
     public static int idPerson;
 
@@ -24,6 +25,14 @@ public class ControllerBooking {
 
     // get + set--------------------------------------------------------------------------------------------------------
 
+
+    public static ViewBooking getViewBooking() {
+        return viewBooking;
+    }
+
+    public static void setViewBooking(ViewBooking viewBooking) {
+        ControllerBooking.viewBooking = viewBooking;
+    }
 
     public static ViewTable getViewTable() {
         return viewTable;
@@ -37,7 +46,7 @@ public class ControllerBooking {
         return viewMenu;
     }
 
-    public static void setViewMenu(JPanel viewMenu) {
+    public static void setViewMenu(ViewMenu viewMenu) {
         ControllerBooking.viewMenu = viewMenu;
     }
 
@@ -45,7 +54,7 @@ public class ControllerBooking {
         return viewNewMenu;
     }
 
-    public static void setViewNewMenu(JPanel viewNewMenu) {
+    public static void setViewNewMenu(ViewNewMenu viewNewMenu) {
         ControllerBooking.viewNewMenu = viewNewMenu;
     }
 
@@ -70,6 +79,7 @@ public class ControllerBooking {
     }
 
     public ControllerBooking(ViewBooking viewBooking) {
+
 
 
 
@@ -118,8 +128,8 @@ public class ControllerBooking {
         });
 
         // sự kiện mở bảng person
-        JButton buttonSelectClientFromList = viewBooking.getButtonSelectClientFromList();
-        buttonSelectClientFromList.addMouseListener(new MouseAdapter() {
+        JButton buttonSelectPersonFromList = viewBooking.getButtonSelectPersonFromList();
+        buttonSelectPersonFromList.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 // Xóa tất cả các thành phần con khỏi JPanel
@@ -135,19 +145,16 @@ public class ControllerBooking {
 
 
 
+
         // sự kiện chọn người từ bảng person
-//        JButton buttonAddNewMenu = viewBooking.getButtonAddNewMenu();
-        buttonAddNewMenu.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                // Xóa tất cả các thành phần con khỏi JPanel
-                viewBooking.getCenterViewBooking().removeAll();
-                // Gọi hàm searchTableList() để thực hiện tìm kiếm và cập nhật dữ liệu
-                viewBooking.getCenterViewBooking().add(viewNewMenu, BorderLayout.CENTER);
-                viewBooking.revalidate();
-                viewBooking.repaint();
-            }
-        });
+//        JButton buttonSelectPerson = viewPerson.ViewPersonSelect().getButtonSelectPerson();
+//        JButton buttonSelectPerson = viewPerson.getButtonSelectPerson();
+//        buttonSelectPerson.addMouseListener(new MouseAdapter() {
+//            @Override
+//            public void mouseClicked(MouseEvent e) {
+//
+//            }
+//        });
 
 
 
@@ -156,12 +163,12 @@ public class ControllerBooking {
 
 
     }
-    public static void reloadBlockInfoPerson(ViewBooking viewBooking){
-        int id = ControllerBooking.getIdPerson();
-        Person person = PersonDAO.getInstance().getById(id);
-        viewBooking.getLabelFirstName().setText(person.getName()); // Đặt giá trị cho JLabel
-        viewBooking.getLabelLastName().setText(person.getLastName()); // Đặt giá trị cho JLabel
-        viewBooking.getLabelFirstName().repaint(); // Thông báo cho nhãn vẽ lại để hiển thị nội dung mới
-        viewBooking.getLabelLastName().repaint(); // Thông báo cho nhãn vẽ lại để hiển thị nội dung mới
-    }
+//    public static void reloadBlockInfoPerson(ViewBooking viewBooking){
+//        int id = ControllerBooking.getIdPerson();
+//        Person person = PersonDAO.getInstance().getById(id);
+//        viewBooking.getLabelFirstName().setText(person.getName()); // Đặt giá trị cho JLabel
+//        viewBooking.getLabelLastName().setText(person.getLastName()); // Đặt giá trị cho JLabel
+//        viewBooking.getLabelFirstName().repaint(); // Thông báo cho nhãn vẽ lại để hiển thị nội dung mới
+//        viewBooking.getLabelLastName().repaint(); // Thông báo cho nhãn vẽ lại để hiển thị nội dung mới
+//    }
 }

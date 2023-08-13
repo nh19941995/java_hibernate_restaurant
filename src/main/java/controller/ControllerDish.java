@@ -77,19 +77,19 @@ public class ControllerDish {
 
         });
 
-//        // sự kiện chọn
-//        JButton buttonSelect = viewDish.getButtonSlectDish();
-//        buttonSelect.addMouseListener(new MouseAdapter() {
-//            @Override
-//            public void mouseClicked(MouseEvent e) {
-//                int id = viewDish.getTempId();
-//                if (id==0) { // Kiểm tra nếu chỉ là một lần click chuột (clickCount = 1)
-//                    JOptionPane.showMessageDialog(null, "Please choose a dish", "Notice", JOptionPane.WARNING_MESSAGE);
-//                }else {
-//                    Dish dish = DishDAO.getInstance().getById(id);
-//                    Menu menu = new Menu();
-//                    menu.setDish(dish);
-//
+        // sự kiện chọn
+        JButton buttonSelect = viewDish.getButtonSlectDish();
+        buttonSelect.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int id = viewDish.getTempId();
+                if (id==0) { // Kiểm tra nếu chỉ là một lần click chuột (clickCount = 1)
+                    JOptionPane.showMessageDialog(null, "Please choose a dish", "Notice", JOptionPane.WARNING_MESSAGE);
+                }else {
+                    Dish dish = DishDAO.getInstance().getById(id);
+                    Menu menu = new Menu();
+                    menu.setDish(dish);
+
 //                    if (checkPriceAndNumber(viewDish)){
 //                        String price = viewDish.getInputEnterPrice().getText();
 //                        String number = viewDish.getInputEnterNumber().getText();
@@ -101,10 +101,10 @@ public class ControllerDish {
 //                        newMenu.loadData();
 //
 //                    }
-//
-//                }
-//            }
-//        });
+
+                }
+            }
+        });
 
 
 

@@ -1,5 +1,6 @@
 package view;
 
+import controller.ControllerBooking;
 import controller.ControllerPerson;
 import controller.ControllerTime;
 import dao.PermissionDAO;
@@ -145,7 +146,8 @@ public class ViewPerson extends JPanel {
     public ViewPerson() {
         setLayout(new BorderLayout());
         // thêm controller
-        new ControllerPerson(this);
+//        new ControllerPerson(this);
+
     }
 
     public ViewPerson ViewPersonSelect(){
@@ -153,6 +155,13 @@ public class ViewPerson extends JPanel {
         add(blockAddPerson(),BorderLayout.SOUTH);
         add(blockSearch(),BorderLayout.NORTH);
         // thêm controller
+        new ControllerPerson(this);
+
+        if (ControllerBooking.getViewPerson() == null) {
+            System.out.println("Gọi từ Person : đm null rồi");
+        } else {
+            System.out.println("Gọi từ Person: lol ko null nhé");
+        }
         return this;
     }
 
@@ -162,6 +171,8 @@ public class ViewPerson extends JPanel {
         add(blockAddPersonForMain(),BorderLayout.SOUTH);
         add(blockSearch(),BorderLayout.NORTH);
         // thêm controller
+        new ControllerPerson(this);
+
         return this;
     }
 

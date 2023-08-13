@@ -8,6 +8,8 @@ import view.ViewPerson;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.time.LocalDateTime;
@@ -16,7 +18,10 @@ import java.util.stream.Stream;
 
 public class ControllerPerson {
 
+
+
     public ControllerPerson(ViewPerson viewPerson) {
+        System.out.println("ControllerPerson dc gọi");
         // click get id
         JTable table = viewPerson.getTable();
         table.addMouseListener(new MouseAdapter() {
@@ -83,6 +88,19 @@ public class ControllerPerson {
 
             }
         });
+
+        // sự kiên select
+//        JButton buttonSelect = viewPerson.getButtonUpdatePerson();
+//        buttonUpdate.addMouseListener(new MouseAdapter() {
+//            @Override
+//            public void mouseClicked(MouseEvent e) {
+////                ControllerBooking.setIdPerson(viewPerson.getIdSelect());
+////                ControllerBooking.reloadBlockInfoPerson(ControllerBooking.getViewBooking());
+//                System.out.println(" chọn người");
+////                TransactionListView.reloadJpanel();
+//
+//            }
+//        });
 
 
     }
