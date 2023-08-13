@@ -76,7 +76,7 @@ public class ControllerBooking {
                 // Xóa tất cả các thành phần con khỏi JPanel
                 viewBooking.getCenterViewBooking().removeAll();
                 // Gọi hàm searchTableList() để thực hiện tìm kiếm và cập nhật dữ liệu
-                viewBooking.getCenterViewBooking().add(new ViewPerson(), BorderLayout.CENTER);
+                viewBooking.getCenterViewBooking().add(viewPerson.ViewPersonSelect(), BorderLayout.CENTER);
                 viewBooking.revalidate();
                 viewBooking.repaint();
             }

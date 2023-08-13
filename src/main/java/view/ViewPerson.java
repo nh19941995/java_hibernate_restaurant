@@ -17,7 +17,7 @@ import java.util.List;
 public class ViewPerson extends JPanel {
     // data-------------------------------------------------------------------------------------------------------------
     private Object[][] data;
-    private static JTable table = new JTable();
+    private JTable table = new JTable();
     private DefaultTableModel tableModel;
     private int idSelect;
     // tiêu đề----------------------------------------------------------------------------------------------------------
@@ -106,12 +106,12 @@ public class ViewPerson extends JPanel {
         this.idSelect = idSelect;
     }
 
-    public static JTable getTable() {
+    public JTable getTable() {
         return table;
     }
 
-    public static void setTable(JTable table) {
-        ViewPerson.table = table;
+    public void setTable(JTable table) {
+        this.table = table;
     }
 
     public JButton getButtonAddPerson() {
@@ -144,18 +144,26 @@ public class ViewPerson extends JPanel {
 
     public ViewPerson() {
         setLayout(new BorderLayout());
+        // thêm controller
+        new ControllerPerson(this);
+    }
+
+    public ViewPerson ViewPersonSelect(){
         add(blockTable(),BorderLayout.CENTER);
         add(blockAddPerson(),BorderLayout.SOUTH);
         add(blockSearch(),BorderLayout.NORTH);
         // thêm controller
-        new ControllerPerson(this);
-
+        return this;
     }
 
-//    public ViewPerson ViewPersonMain(){
-//
-//        return this;
-//    }
+
+    public ViewPerson ViewPersonMain(){
+        add(blockTable(),BorderLayout.CENTER);
+        add(blockAddPersonForMain(),BorderLayout.SOUTH);
+        add(blockSearch(),BorderLayout.NORTH);
+        // thêm controller
+        return this;
+    }
 
     private JPanel blockSearch(){
         BoderTool jPanel = new BoderTool();
@@ -240,6 +248,78 @@ public class ViewPerson extends JPanel {
         jPanel.add(gridAddPerson,BorderLayout.EAST);
         return jPanel;
     }
+
+    private JPanel blockAddPersonForMain(){
+        JPanel jPanel = new JPanel();
+        jPanel.setLayout(new BorderLayout());
+        // đặt kích thước
+        // cột 1
+        inputFirstName.setPreferredSize(new Dimension(200, 20));
+        inputEmail.setPreferredSize(new Dimension(200, 20));
+        // cột 2
+        inputLastName.setPreferredSize(new Dimension(100, 20));
+        SelecType.setPreferredSize(new Dimension(100, 20));
+        // cột 3
+        inputBirthday.setPreferredSize(new Dimension(100, 20));
+        inputPhone.setPreferredSize(new Dimension(100, 20));
+        // cột 4 + 5
+        inputSearchByPhone.setPreferredSize(new Dimension(138, 20));
+        inputAdress.setPreferredSize(new Dimension(230, 20));
+        buttonAddPerson.setPreferredSize(new Dimension(150, 20));
+        buttonDeletePerson.setPreferredSize(new Dimension(150, 20));
+        buttonUpdatePerson.setPreferredSize(new Dimension(150, 20));
+        buttonSelectPerson.setPreferredSize(new Dimension(150, 35));
+        // Đặt màu cho nền của JButton
+        buttonSelectPerson.setBackground(Color.RED);
+        // Đặt màu cho văn bản của JButton
+        buttonSelectPerson.setForeground(Color.WHITE);
+        // bố trí các phần tử
+        GridTool grid = new GridTool();
+        // cột 1
+        grid.GridAdd(labelFirstName,0,0,10,10,5);
+        grid.GridAddCustom(inputFirstName,0,1,10,10,5,5,1);
+        grid.GridAddCustom(labelEmail,0,2,10,10,5,5,1);
+        grid.GridAddCustom(inputEmail,0,3,10,10,5,15,1);
+        // cột 2
+        grid.GridAdd(labelLastName,1,0,10,10,5);
+        grid.GridAddCustom(inputLastName,1,1,10,10,5,5,1);
+        grid.GridAddCustom(labelPermission,1,2,10,10,5,5,1);
+        grid.GridAddCustom(SelecType,1,3,10,10,5,15,1);
+        // cột 3
+        grid.GridAdd(labelBirthday,2,0,10,10,5);
+        grid.GridAdd(inputBirthday,2,1,10,10,5);
+        // cột 4
+        grid.GridAdd(labelPhone,3,0,10,10,5);
+        grid.GridAddCustom(inputPhone,3,1,10,10,5,5,1);
+        // cột 4
+//        grid.GridAddCustom(labelfilterByPhone,3,0,10,10,5,5,2);
+//        grid.GridAddCustom(inputfilterByPhone,3,1,10,10,10,10,1);
+        // cột 3-5
+//        grid.GridAddCustom(buttonSearchPerson,4,1,10,10,5,5,1);
+        grid.GridAddCustom(labelAdress,2,2,10,10,5,5,2);
+        grid.GridAddCustom(inputAdress,2,3,10,10,5,15,2);
+        // cột 5
+        grid.GridAdd(buttonDeletePerson,5,1,20,10,3);
+        grid.GridAdd(buttonUpdatePerson,5,2,20,10,3);
+        grid.GridAddCustom(buttonAddPerson,5,3,20,10,3,15,1);
+        // thêm data cho boder box
+        String[] selectList = PermissionDAO.getInstance().getAll().stream()
+                .filter(s->s.getFlag()>0)
+                .map(s -> s.getPermissionName())
+                .toArray(String[]::new);
+        SelecType.setModel(new DefaultComboBoxModel<>(selectList));
+        // nút select
+//        GridTool gridAddPerson = new GridTool();
+//        gridAddPerson.GridAddCustom(buttonSelectPerson,0,1,10,20,5,5,2);
+
+        // thêm toàn bộ các phần tử vào layout chính
+        jPanel.add(grid,BorderLayout.CENTER);
+//        jPanel.add(gridAddPerson,BorderLayout.EAST);
+        return jPanel;
+    }
+
+
+
 
     private JPanel blockTable() {
         BoderTool jpanel = new BoderTool();
