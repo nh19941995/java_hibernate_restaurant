@@ -377,6 +377,13 @@ public class ViewPerson extends JPanel {
 
         JScrollPane scrollPane = new JScrollPane(table);
         // Đặt layout cho table_Panel là BorderLayout
+
+        JPanel left = new JPanel();
+        JPanel right = new JPanel();
+        left.setPreferredSize(new Dimension(20, 20));
+        right.setPreferredSize(new Dimension(20, 20));
+        jpanel.add(left,BorderLayout.EAST);
+        jpanel.add(right,BorderLayout.WEST);
         jpanel.add(scrollPane,BorderLayout.CENTER);
         return jpanel;
     }

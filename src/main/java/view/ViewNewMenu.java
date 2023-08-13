@@ -263,6 +263,12 @@ public class ViewNewMenu extends JPanel {
         table.getColumnModel().getColumn(0).setMaxWidth(50); // Cột ID
         JScrollPane scrollPane = new JScrollPane(table);
         // Đặt layout cho table_Panel là BorderLayout
+        JPanel left = new JPanel();
+        JPanel right = new JPanel();
+        left.setPreferredSize(new Dimension(20, 20));
+        right.setPreferredSize(new Dimension(20, 20));
+//        boderTool.add(left,BorderLayout.EAST);
+        boderTool.add(right,BorderLayout.WEST);
         boderTool.add(scrollPane,BorderLayout.CENTER);
         return boderTool;
     }

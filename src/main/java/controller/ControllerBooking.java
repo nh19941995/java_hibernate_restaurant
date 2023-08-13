@@ -1,23 +1,72 @@
 package controller;
 
 import dao.PersonDAO;
+import model.Booking;
 import model.Person;
 import view.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 public class ControllerBooking {
-//    public static JPanel viewTable = new ViewTable().viewTableSelectTable();
+    private static ArrayList<Booking> bookings = new ArrayList<>();
     public static ViewTable viewTable = new ViewTable().viewTableSelectTable();
     public static JPanel viewMenu = new ViewMenu().ViewChoseMenu();
     public static JPanel viewNewMenu = new ViewNewMenu();
-    public static ViewPerson viewPerson = new ViewPerson();
+    public static ViewPerson viewPerson = new ViewPerson().ViewPersonSelect();
     public static int idPerson;
 
     public static int getIdPerson() {
         return idPerson;
+    }
+
+    // get + set--------------------------------------------------------------------------------------------------------
+
+
+    public static ViewTable getViewTable() {
+        return viewTable;
+    }
+
+    public static void setViewTable(ViewTable viewTable) {
+        ControllerBooking.viewTable = viewTable;
+    }
+
+    public static JPanel getViewMenu() {
+        return viewMenu;
+    }
+
+    public static void setViewMenu(JPanel viewMenu) {
+        ControllerBooking.viewMenu = viewMenu;
+    }
+
+    public static JPanel getViewNewMenu() {
+        return viewNewMenu;
+    }
+
+    public static void setViewNewMenu(JPanel viewNewMenu) {
+        ControllerBooking.viewNewMenu = viewNewMenu;
+    }
+
+    public static ViewPerson getViewPerson() {
+        return viewPerson;
+    }
+
+    public static void setViewPerson(ViewPerson viewPerson) {
+        ControllerBooking.viewPerson = viewPerson;
+    }
+
+    public static void setIdPerson(int idPerson) {
+        ControllerBooking.idPerson = idPerson;
+    }
+
+    public static ArrayList<Booking> getBookings() {
+        return bookings;
+    }
+
+    public static void setBookings(ArrayList<Booking> bookings) {
+        ControllerBooking.bookings = bookings;
     }
 
     public ControllerBooking(ViewBooking viewBooking) {
@@ -76,7 +125,7 @@ public class ControllerBooking {
                 // Xóa tất cả các thành phần con khỏi JPanel
                 viewBooking.getCenterViewBooking().removeAll();
                 // Gọi hàm searchTableList() để thực hiện tìm kiếm và cập nhật dữ liệu
-                viewBooking.getCenterViewBooking().add(viewPerson.ViewPersonSelect(), BorderLayout.CENTER);
+                viewBooking.getCenterViewBooking().add(viewPerson, BorderLayout.CENTER);
                 viewBooking.revalidate();
                 viewBooking.repaint();
             }

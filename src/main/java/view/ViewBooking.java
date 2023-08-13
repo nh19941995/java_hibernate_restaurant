@@ -28,6 +28,7 @@ public class ViewBooking extends JPanel {
     private JLabel labelStartTime = new JLabel("Start time: ");
     private JLabel labelEndTime = new JLabel("End time: ");
     private JLabel labelComment = new JLabel("Comment: ");
+    private JLabel labelTittle = new JLabel("New booking information");
     // input -----------------------------------------------------------------------------------------------------------
     private  JTextField inputStartTime = new JTextField();
     private  JTextField inputDeposit = new JTextField();
@@ -108,6 +109,13 @@ public class ViewBooking extends JPanel {
     public ViewBooking() {
         setLayout(new BorderLayout());
         leftViewBooking.add(blockLeft());
+
+
+//        centerViewBooking.add(ControllerBooking.getViewPerson().ViewPersonSelect());
+
+
+
+
         add(leftViewBooking,BorderLayout.WEST);
         add(centerViewBooking,BorderLayout.CENTER);
         // đặt controller
@@ -117,12 +125,36 @@ public class ViewBooking extends JPanel {
     public JPanel blockLeft(){
         JPanel jPanel = new JPanel();
         jPanel.setLayout(new BoxLayout(jPanel, BoxLayout.Y_AXIS));
+        jPanel.add(block_0());
         jPanel.add(block_1());
         jPanel.add(block_2());
         jPanel.add(block_3());
 
         return jPanel;
     }
+    public JPanel block_0(){
+        BoderTool main = new BoderTool();
+        GridTool gridTool = new GridTool();
+        gridTool.GridAddCustom(labelTittle,0,0,20,20,28,28 ,1);
+
+
+        labelTittle.setFont(new Font("Arial", Font.BOLD, 16));
+
+        ViewTempMenu viewTempMenu = new ViewTempMenu();
+        JPanel left = new JPanel();
+        JPanel right = new JPanel();
+        left.setPreferredSize(new Dimension(20, 20));
+        right.setPreferredSize(new Dimension(20, 20));
+
+        main.setPreferredSize(new Dimension(400, 300));
+        main.add(viewTempMenu,BorderLayout.CENTER);
+        main.add(gridTool,BorderLayout.NORTH);
+        main.add(left,BorderLayout.WEST);
+        main.add(right,BorderLayout.EAST);
+
+        return main;
+    }
+
     public JPanel block_1(){
         JPanel jPanel = new JPanel();
         jPanel.setLayout(new BorderLayout());
@@ -131,10 +163,10 @@ public class ViewBooking extends JPanel {
 //        grid.GridAddCustom(table,0,0,0,0,20,20,2);
         // đặt kích thước
 //        table.setPreferredSize(new Dimension(400, 200));
-        grid.GridAddCustom(buttonSelectMenuFromList,0,1,20,20,20,20,1);
-        grid.GridAddCustom(buttonAddNewMenu,1,1,20,20,20,20,1);
-        grid.GridAddCustom(buttonSelectTableFromList,0,2,20,20,20,20,1);
-        grid.GridAddCustom(buttonRemoveARowFromTempBooking,1,2,20,20,20,20,1);
+        grid.GridAddCustom(buttonSelectMenuFromList,0,1,20,20,10,10,1);
+        grid.GridAddCustom(buttonAddNewMenu,1,1,20,20,10,10,1);
+        grid.GridAddCustom(buttonSelectTableFromList,0,2,20,20,10,10,1);
+        grid.GridAddCustom(buttonRemoveARowFromTempBooking,1,2,20,20,10,10,1);
 
         // đặt kích thước
         buttonSelectTableFromList.setPreferredSize(new Dimension(150, 20));

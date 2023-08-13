@@ -179,6 +179,12 @@ public class ViewMenu extends JPanel{
         table.getColumnModel().getColumn(0).setMaxWidth(50); // Cột ID
         JScrollPane scrollPane = new JScrollPane(table);
         // Đặt layout cho table_Panel là BorderLayout
+        JPanel left = new JPanel();
+        JPanel right = new JPanel();
+        left.setPreferredSize(new Dimension(20, 20));
+        right.setPreferredSize(new Dimension(20, 20));
+        boderTool.add(left,BorderLayout.EAST);
+        boderTool.add(right,BorderLayout.WEST);
         boderTool.add(scrollPane, BorderLayout.CENTER);
         return boderTool;
     }
@@ -211,6 +217,7 @@ public class ViewMenu extends JPanel{
         grid.GridAddCustom(labelSearchByPrice,0,0,20,20,5,5,1);
         grid.GridAddCustom(inputPrice,0,1,20,20,5,5,1);
         inputPrice.setPreferredSize(new Dimension(150, 25));
+        boderTool.setPreferredSize(new Dimension(150, 75));
 
         GridTool grid2 = new GridTool();
         grid2.GridAddCustom(buttonSearch,0,0,20,20,5,5,1);
