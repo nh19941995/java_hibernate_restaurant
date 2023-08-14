@@ -37,7 +37,7 @@ public class ControllerTable {
                     int row = table.getSelectedRow(); // Lấy chỉ số dòng đã được chọn
                     if (row != -1) { // Kiểm tra xem có dòng nào được chọn không (-1 nghĩa là không có dòng nào được chọn)
                         String id = table.getValueAt(row, 0).toString(); // Lấy giá trị từ ô ở cột đầu tiên (cột ID) của dòng đã chọn
-                        System.out.println("Table: "+ id);
+                        System.out.println("Đang chọn bàn có id là: "+ id);
                         viewTable.setIdSelect(Integer.parseInt(id));
 
                     }else {

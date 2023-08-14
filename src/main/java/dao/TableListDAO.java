@@ -91,6 +91,8 @@ public class TableListDAO implements DAOInterface<TableList,Integer>{
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         try {
             TableList tableList = entityManager.find(TableList.class, tableId);
+            tableList.getType().getName();
+            tableList.getStatus().getName();
             return tableList;
         } catch (Exception e) {
             e.printStackTrace();

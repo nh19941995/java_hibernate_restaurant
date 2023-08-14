@@ -21,10 +21,13 @@ import java.util.Arrays;
 import java.util.stream.Stream;
 
 public class ControllerDish {
-    private Dish dish = new Dish();
+
+
 
 
     public ControllerDish(ViewDish viewDish) {
+        System.out.println("ControllerDish dc gọi a");
+
         JButton buttonCreatNewDish = viewDish.getButtonCreatNewDish();
         // sự kiện click tạo món
         buttonCreatNewDish.addMouseListener(new MouseAdapter() {

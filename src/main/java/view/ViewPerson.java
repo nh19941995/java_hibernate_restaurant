@@ -169,9 +169,6 @@ public class ViewPerson extends JPanel {
         add(blockTable(),BorderLayout.CENTER);
         add(blockAddPersonForMain(),BorderLayout.SOUTH);
         add(blockSearch(),BorderLayout.NORTH);
-        // thêm controller
-        new ControllerPerson(this);
-
         return this;
     }
 

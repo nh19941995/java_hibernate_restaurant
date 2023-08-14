@@ -50,7 +50,7 @@ public class ViewHome extends JFrame {
         tab3.add(MainProgram.getViewBooking(),BorderLayout.CENTER);
         tab4.add(MainProgram.getViewDishMain(),BorderLayout.CENTER);
         tab5.add(MainProgram.getViewNewMenuMain(),BorderLayout.CENTER);
-//        tab6.add(viewNewMenu,BorderLayout.CENTER);
+        tab6.add(MainProgram.getViewListBooking(),BorderLayout.CENTER);
 
 
 

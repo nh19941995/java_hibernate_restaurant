@@ -26,16 +26,29 @@ public class MainProgram {
     private static ViewNewMenu viewNewMenuMain ;
     private static ViewNewMenu viewNewMenuInBooking ;
     // table
-    private static ViewTable viewTable ;
+    private static ViewTable viewTableMain ;
+    private static ViewTable viewTableInBooking ;
     // person
     private static ViewPerson viewPersonMain;
     private static ViewPerson viewPersonInBooking;
     // booking
     private static ViewBooking viewBooking;
+    private static ViewListBooking viewListBooking;
     private static ViewTransaction viewTransaction;
     private static ViewHome viewHome ;
     // get + set -------------------------------------------------------------------------------------------------------
-
+    public static ViewTable getViewTableInBooking() {
+        return viewTableInBooking;
+    }
+    public static void setViewTableInBooking(ViewTable viewTableInBooking) {
+        MainProgram.viewTableInBooking = viewTableInBooking;
+    }
+    public static ViewListBooking getViewListBooking() {
+        return viewListBooking;
+    }
+    public static void setViewListBooking(ViewListBooking viewListBooking) {
+        MainProgram.viewListBooking = viewListBooking;
+    }
     public static ViewDish getViewDishInNewMenuMain() {
         return viewDishInNewMenuMain;
     }
@@ -43,7 +56,6 @@ public class MainProgram {
     public static void setViewDishInNewMenuMain(ViewDish viewDishInNewMenuMain) {
         MainProgram.viewDishInNewMenuMain = viewDishInNewMenuMain;
     }
-
     public static ViewNewMenu getViewNewMenuInBooking() {
         return viewNewMenuInBooking;
     }
@@ -62,15 +74,12 @@ public class MainProgram {
     public static void setViewMenuSelectInBooking(ViewMenu viewMenuSelectInBooking) {
         MainProgram.viewMenuSelectInBooking = viewMenuSelectInBooking;
     }
-
     public static ViewDish getViewDishInNewMenuInBooking() {
         return viewDishInNewMenuInBooking;
     }
-
     public static void setViewDishInNewMenuInBooking(ViewDish viewDishInNewMenuInBooking) {
         MainProgram.viewDishInNewMenuInBooking = viewDishInNewMenuInBooking;
     }
-
     public static ViewMenu getViewMenuMain() {
         return viewMenuMain;
     }
@@ -89,12 +98,15 @@ public class MainProgram {
     public static void setViewNewMenuMain(ViewNewMenu viewNewMenuMain) {
         MainProgram.viewNewMenuMain = viewNewMenuMain;
     }
-    public static ViewTable getViewTable() {
-        return viewTable;
+
+    public static ViewTable getViewTableMain() {
+        return viewTableMain;
     }
-    public static void setViewTable(ViewTable viewTable) {
-        MainProgram.viewTable = viewTable;
+
+    public static void setViewTableMain(ViewTable viewTableMain) {
+        MainProgram.viewTableMain = viewTableMain;
     }
+
     public static ViewPerson getViewPersonMain() {
         return viewPersonMain;
     }
@@ -132,6 +144,10 @@ public class MainProgram {
         MainProgram.newMenus = newMenus;
     }
 
+    public MainProgram() {
+
+    }
+
     public static void main(String[] args) {
         try {
             // chuyển giao diện sang giống ios
@@ -149,12 +165,15 @@ public class MainProgram {
             viewNewMenuMain = new ViewNewMenu().ViewNewMenuMain();
             viewNewMenuInBooking = new ViewNewMenu().ViewNewMenuInBooing();
             // table
-            viewTable = new ViewTable();
+            viewTableMain = new ViewTable();
+            viewTableInBooking = new ViewTable().viewTableSelectTable();
             // person
             viewPersonMain = new ViewPerson().ViewPersonMain();
             viewPersonInBooking = new ViewPerson().ViewPersonSelect();
             // booing
             viewBooking = new ViewBooking();
+            // list booking
+            viewListBooking = new ViewListBooking();
             setViewBooking(viewBooking);
             // transaction
             viewTransaction = new ViewTransaction();
@@ -163,11 +182,12 @@ public class MainProgram {
         } catch (Exception e){
             e.printStackTrace();
         }
-        if (viewBooking!= null){
-            System.out.println("main không null nhé");
-        }else {
-            System.out.println("null rồi bà con ơi");
-        }
+
+//        if (viewBooking!= null){
+//            System.out.println("main không null nhé");
+//        }else {
+//            System.out.println("null rồi bà con ơi");
+//        }
         // set controller cho các view
         // person
         ControllerPerson controllerPersonMain = new ControllerPerson(viewPersonMain);
@@ -184,8 +204,10 @@ public class MainProgram {
         ControllerMenu controllerMenuCreatInBooking = new ControllerMenu(viewMenuCreatInBooking);
         ControllerMenu controllerMenuSelectInBooking = new ControllerMenu(viewMenuSelectInBooking);
         // booking
-
         ControllerBooking controllerBooking = new ControllerBooking(viewBooking);
+        // table
+        ControllerTable controllerTableMain = new ControllerTable(viewTableMain);
+        ControllerTable controllerTableInBooking = new ControllerTable(viewTableInBooking);
 
 
 

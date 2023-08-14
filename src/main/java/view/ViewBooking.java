@@ -113,12 +113,12 @@ public class ViewBooking extends JPanel {
         System.out.println("dddddddddddd");
 
         ViewPerson viewPerson = ControllerBooking.getViewPerson();
-        if (viewPerson == null) {
-            System.out.println("Gọi từ Booking 111: đm null rồi");
-        } else {
-            centerViewBooking.add(viewPerson,BorderLayout.CENTER);
-            System.out.println("Gọi từ Booking 111: lol ko null nhé");
-        }
+//        if (viewPerson == null) {
+//            System.out.println("Gọi từ Booking 111: đm null rồi");
+//        } else {
+//            centerViewBooking.add(viewPerson,BorderLayout.CENTER);
+//            System.out.println("Gọi từ Booking 111: lol ko null nhé");
+//        }
 
         add(leftViewBooking,BorderLayout.WEST);
         add(centerViewBooking,BorderLayout.CENTER);

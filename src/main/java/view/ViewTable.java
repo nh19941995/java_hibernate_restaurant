@@ -1,10 +1,8 @@
 package view;
 
-import controller.ControllerDish;
-import controller.ControllerTable;
+
 import controller.ControllerTime;
 import dao.*;
-import model.Dish;
 import view.tool.BoderTool;
 import view.tool.GridTool;
 
@@ -91,8 +89,7 @@ public class ViewTable extends JPanel {
                 .map(s -> s.getName())
                 .toArray(String[]::new);
         selecStatusTable.setModel(new javax.swing.DefaultComboBoxModel<>(status));
-        // thêm controller
-        new ControllerTable(this);
+
     }
 
     public JPanel viewTableMain (){

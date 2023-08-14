@@ -15,13 +15,12 @@ import java.awt.event.MouseEvent;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.stream.Stream;
-
 public class ControllerPerson {
 
 
 
     public ControllerPerson(ViewPerson viewPerson) {
-        System.out.println("ControllerPerson dc gọi");
+        System.out.println("ControllerPerson dc gọi a");
         // click get id
         JTable table = viewPerson.getTable();
         table.addMouseListener(new MouseAdapter() {

@@ -19,7 +19,7 @@ import java.util.stream.Stream;
 public class ControllerMenu {
 
     public ControllerMenu(ViewMenu viewMenu) {
-
+        System.out.println("ControllerMenu dc gọi a");
         // sự kiện search
         JButton buttonUpdate = viewMenu.getButtonSearch();
         buttonUpdate.addMouseListener(new MouseAdapter() {
