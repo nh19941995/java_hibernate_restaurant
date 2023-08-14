@@ -56,12 +56,8 @@ public class ControllerMenu {
                 }else {
                     delete(viewMenu,id);
                 }
-
             }
         });
-
-
-
     }
 
     private void delete(ViewMenu viewMenu, int id){
@@ -81,7 +77,6 @@ public class ControllerMenu {
 
     private void search(ViewMenu viewMenu){
         Double price = Double.parseDouble(viewMenu.getInputPrice().getText());
-
 
         if (checkPrice(viewMenu)) {
             Object[][] originalData = viewMenu.getData();

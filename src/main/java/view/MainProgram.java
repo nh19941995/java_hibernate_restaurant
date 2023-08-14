@@ -12,7 +12,6 @@ public class MainProgram {
     // creat new menu
     private static ArrayList<Menu> newMenus = new ArrayList<>();   // dữ liệu menu tạm
 
-
     // view chính-------------------------------------------------------------------------------------------------------
     // menu
     private static ViewMenu viewMenuMain ;
@@ -40,15 +39,12 @@ public class MainProgram {
     private static ViewTransaction viewTransaction;
     private static ViewHome viewHome ;
     // get + set -------------------------------------------------------------------------------------------------------
-
     public static ViewPerson getViewPersonInTransaction() {
         return viewPersonInTransaction;
     }
-
     public static void setViewPersonInTransaction(ViewPerson viewPersonInTransaction) {
         MainProgram.viewPersonInTransaction = viewPersonInTransaction;
     }
-
     public static ViewTempMenu getViewTempMenu() {
         return viewTempMenu;
     }
@@ -158,7 +154,6 @@ public class MainProgram {
     public static void setNewMenus(ArrayList<Menu> newMenus) {
         MainProgram.newMenus = newMenus;
     }
-
     public MainProgram() {
 
     }
@@ -201,11 +196,6 @@ public class MainProgram {
             e.printStackTrace();
         }
 
-//        if (viewBooking!= null){
-//            System.out.println("main không null nhé");
-//        }else {
-//            System.out.println("null rồi bà con ơi");
-//        }
         // set controller cho các view
         // person
         ControllerPerson controllerPersonMain = new ControllerPerson(viewPersonMain);
@@ -230,10 +220,6 @@ public class MainProgram {
         // table
         ControllerTable controllerTableMain = new ControllerTable(viewTableMain);
         ControllerTable controllerTableInBooking = new ControllerTable(viewTableInBooking);
-
-
-
-
     }
 
 

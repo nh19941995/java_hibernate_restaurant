@@ -33,54 +33,42 @@ public class ViewMenu extends JPanel{
     // input -----------------------------------------------------------------------------------------------------------
     private JTextField inputPrice = new JTextField();
     // get +set --------------------------------------------------------------------------------------------------------
-
     public JButton getButtonDelete() {
         return buttonDelete;
     }
     public ViewMenuDetail getMenuDetail() {
         return menuDetail;
     }
-
     public void setMenuDetail(ViewMenuDetail menuDetail) {
         this.menuDetail = menuDetail;
     }
-
     public int getMenuIdSelect() {
         return menuIdSelect;
     }
-
     public void setMenuIdSelect(int menuIdSelect) {
         this.menuIdSelect = menuIdSelect;
     }
-
     public JButton getButtonSelectMenu() {
         return buttonSelectMenu;
     }
-
     public JButton getButtonSearch() {
         return buttonSearch;
     }
-
     public JTextField getInputPrice() {
         return inputPrice;
     }
-
     public DefaultTableModel getTableModel() {
         return tableModel;
     }
-
     public void setTableModel(DefaultTableModel tableModel) {
         this.tableModel = tableModel;
     }
-
     public JTable getTable() {
         return table;
     }
-
     public void setTable(JTable table) {
         this.table = table;
     }
-
     public Object[][] getData() {
         return data;
     }
@@ -96,7 +84,6 @@ public class ViewMenu extends JPanel{
                 new Object[][]{},
                 new String[]{"ID", "Tên menu", "Ngày tạo", "Ngày cập nhật", "Giá", "Trạng thái"}
         );
-
     }
     public ViewMenu ViewCreatNewMenu(){
         ViewDish viewDish = new ViewDish();
@@ -116,7 +103,6 @@ public class ViewMenu extends JPanel{
 
         grid2.GridAddCustom(buttonSelectMenu,1,0,20,20,20,20,1);
         grid2.GridAddCustom(buttonDelete,0,0,20,20,20,20,1);
-
 
         buttonSelectMenu.setPreferredSize(new Dimension(150, 35));
         buttonDelete.setPreferredSize(new Dimension(150, 35));

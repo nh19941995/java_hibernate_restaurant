@@ -58,7 +58,6 @@ public class ViewPerson extends JPanel {
     private String searchPhone;
     // get + set -------------------------------------------------------------------------------------------------------
 
-
     public JComboBox<String> getSelecType() {
         return SelecType;
     }
@@ -153,7 +152,6 @@ public class ViewPerson extends JPanel {
         add(blockSearch(),BorderLayout.NORTH);
         return this;
     }
-
 
     public ViewPerson ViewPersonMain(){
         add(blockTable(),BorderLayout.CENTER);
@@ -302,9 +300,6 @@ public class ViewPerson extends JPanel {
         jPanel.add(grid,BorderLayout.CENTER);
         return jPanel;
     }
-
-
-
 
     private JPanel blockTable() {
         BoderTool jpanel = new BoderTool();

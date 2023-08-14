@@ -239,7 +239,6 @@ public class ViewNewMenu extends JPanel {
         for (int i = 0; i < data.length; i++) {
             data[i][0] = i + 1; // Số thứ tự
         }
-
         setData(data);
         // Thêm dữ liệu mới vào bảng
         for (Object[] rowData : data) {

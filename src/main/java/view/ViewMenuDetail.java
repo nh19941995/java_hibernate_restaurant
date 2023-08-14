@@ -3,8 +3,6 @@ package view;
 import dao.MenuDAO;
 import model.Menu;
 import view.tool.BoderTool;
-import view.tool.GridTool;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -22,7 +20,6 @@ public class ViewMenuDetail extends JPanel{
     private JLabel title = new JLabel("      List of dishes");
     // get + set -------------------------------------------------------------------------------------------------------
 
-
     public double getSum() {
         return sum;
     }
@@ -34,14 +31,10 @@ public class ViewMenuDetail extends JPanel{
     public ViewMenuDetail() {
         setLayout(new BorderLayout());
         this.setPreferredSize(new Dimension(150, 300));
-//        GridTool gridTool = new GridTool();
-//        gridTool.GridAddCustom(title,0,0,20,20,20,20,1);
         title.setPreferredSize(new Dimension(150, 30));
-//        title.setFont(new Font("Arial", Font.BOLD, 15));
         add(title,BorderLayout.NORTH);
         add(blockTable(),BorderLayout.CENTER);
     }
-
 
     private JPanel blockTable() {
         BoderTool boderTool = new BoderTool();

@@ -5,11 +5,7 @@ import dao.PersonDAO;
 import model.Permission;
 import model.Person;
 import view.ViewPerson;
-
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.time.LocalDateTime;
@@ -44,7 +40,6 @@ public class ControllerPerson {
         buttonSearch.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                System.out.println("+++++++++++++++++++:"+viewPerson.getInputBirthday().getText());
                 String phone = viewPerson.getInputSearchByPhone().getText();
                 if (checkPhone(phone,viewPerson)){
                     search(viewPerson);
@@ -84,23 +79,8 @@ public class ControllerPerson {
                 int id = viewPerson.getIdSelect();
                 update(viewPerson,id);
                 getNullToJtext(viewPerson);
-
             }
         });
-
-//        // sự kiên select
-//        JButton buttonSelect = viewPerson.getButtonSelectPerson();
-//        buttonSelect.addMouseListener(new MouseAdapter() {
-//            @Override
-//            public void mouseClicked(MouseEvent e) {
-////                ControllerBooking.setIdPerson(viewPerson.getIdSelect());
-////                ControllerBooking.reloadBlockInfoPerson(ControllerBooking.getViewBooking());
-//                System.out.println(" chọn người");
-////                TransactionListView.reloadJpanel();
-//
-//            }
-//        });
-
 
     }
     private void search(ViewPerson viewPerson){
@@ -123,7 +103,6 @@ public class ControllerPerson {
             // Cập nhật bảng để hiển thị dữ liệu mới
             viewPerson.getTableModel().fireTableDataChanged();
         }
-
     }
     private boolean checkPhone(String phone,ViewPerson viewPerson){
         int check = 1;

@@ -14,8 +14,6 @@ import java.util.Arrays;
 import java.util.stream.Stream;
 
 public class ControllerTable {
-
-
     public ControllerTable(ViewTable viewTable) {
         // sự kiện tìm kiếm
         JButton buttonSearch = viewTable.getButtonSearch();
@@ -62,13 +60,7 @@ public class ControllerTable {
                 viewTable.getTable().revalidate();
             }
         });
-
-
-
     }
-
-
-
 
     private boolean checkInput(ViewTable viewTable){
         String seatingCapacityString = viewTable.getInputFilterBySeatingCapacity().getText();
@@ -108,8 +100,6 @@ public class ControllerTable {
         String seatingCapacityString = viewTable.getInputFilterBySeatingCapacity().getText();
         String dateString = viewTable.getInputFilterByDate().getText();
         String type = (String) viewTable.getSelecTypeSearch().getSelectedItem();
-
-
         Object[][] arr;
         Object[][] originData = viewTable.getData();
 
@@ -141,6 +131,4 @@ public class ControllerTable {
         // Cập nhật bảng để hiển thị dữ liệu mới
         viewTable.getTableModel().fireTableDataChanged();
     }
-
-
 }

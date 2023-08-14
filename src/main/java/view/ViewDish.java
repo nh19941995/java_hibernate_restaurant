@@ -74,43 +74,33 @@ public class ViewDish extends JPanel{
     public JButton getButtonSeach() {
         return buttonSeach;
     }
-
     public JButton getButtonCreatNewDish() {
         return buttonCreatNewDish;
     }
-
     public JTextField getInputEnterNumber() {
         return inputEnterNumber;
     }
-
     public JTextField getInputEnterPrice() {
         return inputEnterPrice;
     }
-
     public JTextField getInputFilerByPrice() {
         return inputFilerByPrice;
     }
-
     public JTextField getInputNewDishName() {
         return inputNewDishName;
     }
-
     public JTextField getInputReferencePrice() {
         return inputReferencePrice;
     }
-
     public JTextField getInputComment() {
         return inputComment;
     }
-
     public JComboBox<String> getSelectType() {
         return selectType;
     }
-
     public JComboBox<String> getSelectTypeForNewDish() {
         return selectTypeForNewDish;
     }
-
     public ViewDish() {
         setLayout(new BorderLayout());
 
@@ -155,7 +145,6 @@ public class ViewDish extends JPanel{
         boderTool.add(gridTool1,BorderLayout.CENTER);
         return boderTool;
     }
-
 
     private JPanel blockTable() {
         BoderTool jpanel = new BoderTool();
