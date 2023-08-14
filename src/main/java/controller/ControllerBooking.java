@@ -189,7 +189,7 @@ public class ControllerBooking {
             public void actionPerformed(ActionEvent e) {
 
                 idMenu = viewMenu.getMenuIdSelect();
-                System.out.println("Select Menu");
+                System.out.println("Select Menu id:" + idMenu);
                 MenuName menuName = MenuNameDAO.getInstance().getById(idMenu);
                 if (bookings.size() == 0){
                     Booking booking = new Booking();
@@ -211,7 +211,7 @@ public class ControllerBooking {
                         bookings.add(newBooking);
                     }
                 }
-                MainProgram.getViewListBooking().loadData();
+                MainProgram.getViewTempMenu().loadData();
             }
         });
     }
@@ -225,7 +225,6 @@ public class ControllerBooking {
             @Override
             public void mouseClicked(MouseEvent e) {
                 System.out.println("selectTable");
-                bookings.stream().forEach(s-> System.out.println(s.getTable().getId()));
                 int tableIdSelect = viewTable.getIdSelect();
                 System.out.println("nhận :" + tableIdSelect);
                 // lấy về đối tương table theo id bàn đã chọn từ bảng
