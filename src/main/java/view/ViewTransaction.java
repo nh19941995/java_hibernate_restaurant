@@ -15,7 +15,6 @@ import java.util.List;
 
 public class ViewTransaction extends JPanel{
     private Object[][] data;
-//    private String[] columnName =  new String [] {"ID", "Content","Type","Value","Time", "Date","Person Name", "Phone number", "Status"};
     // Khởi tạo lockObject
     private final Object lockObject = new Object();
     private JTable table = new JTable();

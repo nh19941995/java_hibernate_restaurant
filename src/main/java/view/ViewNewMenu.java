@@ -1,6 +1,5 @@
 package view;
 
-import controller.ControllerNewMenu;
 import controller.RegexMatcher;
 import dao.DishDAO;
 import model.Dish;
@@ -15,21 +14,17 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class ViewNewMenu extends JPanel {
     // data-------------------------------------------------------------------------------------------------------------
-    private ArrayList<Menu> newMenus = new ArrayList<>();   // dữ liệu menu tạm
     private int idSelect;
     private JTable table = new JTable();
     private DefaultTableModel tableModel;
     private Object[][] data;
-    // view ------------------------------------------------------------------------------------------------------------
-    private ViewDish viewDish = new ViewDish();            // đối tượng dish
     // button-----------------------------------------------------------------------------------------------------------
     private JButton buttonCreatNewMenu = new JButton("Creat new menu");
     private JButton buttonRemoveDish = new JButton("Remove");
-    private JButton buttonAddDishToMenu = viewDish.getButtonSlectDish();
+//    private JButton buttonAddDishToMenu =  MainProgram.getViewDishInNewMenu().getButtonSlectDish();
 
     // input------------------------------------------------------------------------------------------------------------
     private JTextField inputNameNewMenu = new JTextField();
@@ -37,17 +32,9 @@ public class ViewNewMenu extends JPanel {
     private JLabel labelNameNewMenu = new JLabel("Menu name:");
     // get + set--------------------------------------------------------------------------------------------------------
 
-    public JButton getButtonAddDishToMenu() {
-        return buttonAddDishToMenu;
-    }
-
-    public ViewDish getViewDish() {
-        return viewDish;
-    }
-
-    public void setViewDish(ViewDish viewDish) {
-        this.viewDish = viewDish;
-    }
+//    public JButton getButtonAddDishToMenu() {
+//        return buttonAddDishToMenu;
+//    }
 
     public int getIdSelect() {
         return idSelect;
@@ -73,13 +60,7 @@ public class ViewNewMenu extends JPanel {
         this.table = table;
     }
 
-    public ArrayList<Menu> getNewMenus() {
-        return newMenus;
-    }
 
-    public void setNewMenus(ArrayList<Menu> newMenus) {
-        this.newMenus = newMenus;
-    }
 
     public JButton getButtonCreatNewMenu() {
         return buttonCreatNewMenu;
@@ -99,61 +80,36 @@ public class ViewNewMenu extends JPanel {
     }
 
     public void add(Menu menu) {
-        newMenus.add(menu);
+        MainProgram.getNewMenus().add(menu);
     }
     public ViewNewMenu() {
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         add(blockMenu());
         add(blockDish());
-        new ControllerNewMenu(this);
 
 
 
-//         sự kiện chọn
-//        JButton buttonSelect = viewDish.getButtonSlectDish();
-//        buttonSelect.addMouseListener(new MouseAdapter() {
-//            @Override
-//            public void mouseClicked(MouseEvent e) {
-//                int id = viewDish.getTempId();
-//                if (id==0) { // Kiểm tra nếu chỉ là một lần click chuột (clickCount = 1)
-//                    JOptionPane.showMessageDialog(null, "Please choose a dish", "Notice", JOptionPane.WARNING_MESSAGE);
-//                }else {
-//                    Dish dish = DishDAO.getInstance().getById(id);
-//                    Menu menu = new Menu();
-//                    menu.setDish(dish);
-//
-//                    if (checkPriceAndNumber(viewDish)){
-//                        String price = viewDish.getInputEnterPrice().getText();
-//                        String number = viewDish.getInputEnterNumber().getText();
-//                        menu.setQuantity(Integer.parseInt(number));
-//                        menu.setUnitPrice(Double.parseDouble(price));
-//                        newMenus.add(menu);
-//                        loadData();
-//                    }
-//
-//                }
-//            }
-//        });
+
     }
 
-//    private boolean checkPriceAndNumber(ViewDish viewDish){
-//        String price = viewDish.getInputEnterPrice().getText();
-//        String number = viewDish.getInputEnterNumber().getText();
-//        int check = 1;
-//        if (price.isEmpty()||number.isEmpty()){
-//            if (check==1){
-//                JOptionPane.showMessageDialog(null, "You must fill in all the required information before proceeding to create a new dish !", "Notice", JOptionPane.WARNING_MESSAGE);
-//            }
-//            check =0;
-//        }
-//        if (!RegexMatcher.numberCheck(price,"").equals("")||!RegexMatcher.numberCheck(number,"").equals("")){
-//            if (check ==1){
-//                JOptionPane.showMessageDialog(null, RegexMatcher.numberCheck(price,"Price: ")+RegexMatcher.numberCheck(number,"Quantity: "), "Notice", JOptionPane.WARNING_MESSAGE);
-//            }
-//            check = 0;
-//        }
-//        return (check==1) ? true : false;
-//    }
+    private boolean checkPriceAndNumber(ViewDish viewDish){
+        String price = viewDish.getInputEnterPrice().getText();
+        String number = viewDish.getInputEnterNumber().getText();
+        int check = 1;
+        if (price.isEmpty()||number.isEmpty()){
+            if (check==1){
+                JOptionPane.showMessageDialog(null, "You must fill in all the required information before proceeding to create a new dish !", "Notice", JOptionPane.WARNING_MESSAGE);
+            }
+            check =0;
+        }
+        if (!RegexMatcher.numberCheck(price,"").equals("")||!RegexMatcher.numberCheck(number,"").equals("")){
+            if (check ==1){
+                JOptionPane.showMessageDialog(null, RegexMatcher.numberCheck(price,"Price: ")+RegexMatcher.numberCheck(number,"Quantity: "), "Notice", JOptionPane.WARNING_MESSAGE);
+            }
+            check = 0;
+        }
+        return (check==1) ? true : false;
+    }
 
     private JPanel blockMenu(){
         BoderTool boderTool = new BoderTool();
@@ -165,7 +121,7 @@ public class ViewNewMenu extends JPanel {
 
     private JPanel blockDish(){
         BoderTool boderTool = new BoderTool();
-        boderTool.add(viewDish.ViewSelectDish(),BorderLayout.CENTER);
+        boderTool.add(MainProgram.getViewDishInNewMenu(),BorderLayout.CENTER);
         return boderTool;
     }
 
@@ -232,7 +188,7 @@ public class ViewNewMenu extends JPanel {
         table.setModel(model);
         this.tableModel = model;
         // Biến count là final, vì vậy nó sẽ không gây ra lỗi.
-        Object[][] data = newMenus.stream().map(
+        Object[][] data = MainProgram.getNewMenus().stream().map(
                 s -> {
                     Object[] row = new Object[5];
                     row[0] = "";
@@ -279,7 +235,11 @@ public class ViewNewMenu extends JPanel {
         // Xóa hết dữ liệu hiện có trong bảng
         model.setRowCount(0);
         // Biến count là final, vì vậy nó sẽ không gây ra lỗi.
-        Object[][] data = newMenus.stream().map(
+//        for (Menu s:MainProgram.getNewMenus())
+//        {
+//            System.out.println(s.getDish().getDishName());
+//        }
+        Object[][] data = MainProgram.getNewMenus().stream().map(
                 s -> {
                     Object[] row = new Object[5];
                     row[0] = "";

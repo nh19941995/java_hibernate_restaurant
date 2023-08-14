@@ -120,10 +120,8 @@ public class ViewDish extends JPanel{
                 .toArray(String[]::new);
         selectType.setModel(new javax.swing.DefaultComboBoxModel<>(selectList));
         selectTypeForNewDish.setModel(new javax.swing.DefaultComboBoxModel<>(selectList));
-        new ControllerDish(this);
-
     }
-    public JPanel ViewMainDish(){
+    public ViewDish ViewMainDish(){
         add(blockTable(),BorderLayout.CENTER);
         add(blockCreatNew(),BorderLayout.SOUTH);
         add(blockSearchBar(),BorderLayout.NORTH);

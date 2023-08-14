@@ -52,36 +52,36 @@ public class ViewTempMenu extends JPanel{
         this.tableModel = model;
         // lấy dữ liệu từ sever
 
-//        Object[][] data = ControllerBooking.getBookings().stream().map(
-//                s -> new Object[]{
-//                        null,
-//                        s.getTable() != null ? s.getTable().getId() : "", // Thay thế bằng giá trị mặc định nếu s.getTable() là null
-//                        s.getTable() != null ? s.getTable().getType().getName() : "", // Thay thế bằng giá trị mặc định nếu s.getTable() là null
-//                        s.getMenuName() != null ? s.getMenuName().getName() : "", // Thay thế bằng giá trị mặc định nếu s.getMenuName() là null
-//                        s.getTable() != null ? s.getTable().getStatus().getName() : "", // Thay thế bằng giá trị mặc định nếu s.getTable() là null
-//                }
-//        ).toArray(Object[][]::new);
-//        setData(data);
-//
-//        // thêm dữ liệu vào bảng
-//        for (Object[] rowData : data) {
-//            model.addRow(rowData);
-//        }
-//        // Căn giữa chữ trong bảng
-//        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-//        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
-//        for (int i = 0; i < model.getColumnCount(); i++) {
-//            table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
-//        }
-//        // Thiết lập chiều rộng cho các cột
-//        table.getColumnModel().getColumn(0).setMinWidth(25); // Cột ID
-//        table.getColumnModel().getColumn(0).setMaxWidth(35); // Cột ID
-//        table.getColumnModel().getColumn(1).setMaxWidth(50);
-//        table.getColumnModel().getColumn(2).setMaxWidth(60);
-//        table.getColumnModel().getColumn(4).setMaxWidth(50);
-//        JScrollPane scrollPane = new JScrollPane(table);
-//        // Đặt layout cho table_Panel là BorderLayout
-//        jPanel.add(scrollPane, BorderLayout.CENTER);
+        Object[][] data = ControllerBooking.getBookings().stream().map(
+                s -> new Object[]{
+                        null,
+                        s.getTable() != null ? s.getTable().getId() : "", // Thay thế bằng giá trị mặc định nếu s.getTable() là null
+                        s.getTable() != null ? s.getTable().getType().getName() : "", // Thay thế bằng giá trị mặc định nếu s.getTable() là null
+                        s.getMenuName() != null ? s.getMenuName().getName() : "", // Thay thế bằng giá trị mặc định nếu s.getMenuName() là null
+                        s.getTable() != null ? s.getTable().getStatus().getName() : "", // Thay thế bằng giá trị mặc định nếu s.getTable() là null
+                }
+        ).toArray(Object[][]::new);
+        setData(data);
+
+        // thêm dữ liệu vào bảng
+        for (Object[] rowData : data) {
+            model.addRow(rowData);
+        }
+        // Căn giữa chữ trong bảng
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        for (int i = 0; i < model.getColumnCount(); i++) {
+            table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
+        // Thiết lập chiều rộng cho các cột
+        table.getColumnModel().getColumn(0).setMinWidth(25); // Cột ID
+        table.getColumnModel().getColumn(0).setMaxWidth(35); // Cột ID
+        table.getColumnModel().getColumn(1).setMaxWidth(50);
+        table.getColumnModel().getColumn(2).setMaxWidth(60);
+        table.getColumnModel().getColumn(4).setMaxWidth(50);
+        JScrollPane scrollPane = new JScrollPane(table);
+        // Đặt layout cho table_Panel là BorderLayout
+        jPanel.add(scrollPane, BorderLayout.CENTER);
         return jPanel;
     }
 

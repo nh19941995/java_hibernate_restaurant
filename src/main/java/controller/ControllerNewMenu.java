@@ -6,10 +6,7 @@ import dao.MenuNameDAO;
 import model.Dish;
 import model.Menu;
 import model.MenuName;
-import view.ViewDish;
-import view.ViewHome;
-import view.ViewMenu;
-import view.ViewNewMenu;
+import view.*;
 
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
@@ -18,19 +15,11 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class ControllerNewMenu {
-    private static ViewMenu viewMenu = ViewHome.getViewMenu();
-
-    public static ViewMenu getViewMenu() {
-        return viewMenu;
-    }
-
-    public static void setViewMenu(ViewMenu viewMenu) {
-        ControllerNewMenu.viewMenu = viewMenu;
-    }
+    private ViewMenu viewMenu = MainProgram.getViewMenu();
 
     public ControllerNewMenu(ViewNewMenu viewNewMenu) {
 
-        // click get id
+        // lấy id từ bảng
         JTable table = viewNewMenu.getTable();
         table.addMouseListener(new MouseAdapter() {
             @Override
@@ -52,6 +41,7 @@ public class ControllerNewMenu {
         buttonUpdate.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                System.out.println("hahahaha");
                 removeDishFromANewMenu(viewNewMenu,viewNewMenu.getIdSelect());
                 viewNewMenu.loadData();
             }
@@ -62,23 +52,26 @@ public class ControllerNewMenu {
         buttonCreat.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                System.out.println("check controller creat new menu");
                 if (check(viewNewMenu)){
                     creatNewMenu(viewNewMenu);
                     viewMenu.reload();
-                    ArrayList<Menu> newMenus = viewNewMenu.getNewMenus();
+                    ArrayList<Menu> newMenus = MainProgram.getNewMenus();
                     newMenus.clear();
-                    viewNewMenu.setNewMenus(newMenus);
+                    MainProgram.setNewMenus(newMenus);
                     viewNewMenu.loadData();
                 }
 
             }
         });
-        JButton buttonAddToMenu = viewNewMenu.getButtonAddDishToMenu();
-        buttonAddToMenu.addMouseListener(new MouseAdapter() {
+
+        ////         sự kiện chọn
+        ViewDish viewDish = MainProgram.getViewDishInNewMenu();
+        JButton buttonSelect = viewDish.getButtonSlectDish();
+        buttonSelect.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                ViewDish viewDish = viewNewMenu.getViewDish();
-                int id = viewDish.getTempId();
+                int id = MainProgram.getViewDishInNewMenu().getTempId();
                 if (id==0) { // Kiểm tra nếu chỉ là một lần click chuột (clickCount = 1)
                     JOptionPane.showMessageDialog(null, "Please choose a dish", "Notice", JOptionPane.WARNING_MESSAGE);
                 }else {
@@ -91,14 +84,19 @@ public class ControllerNewMenu {
                         String number = viewDish.getInputEnterNumber().getText();
                         menu.setQuantity(Integer.parseInt(number));
                         menu.setUnitPrice(Double.parseDouble(price));
-                        viewNewMenu.add(menu);
-                        viewNewMenu.loadData();
-                    }
+                        MainProgram.getNewMenus().add(menu);
 
+                        for (Menu s:MainProgram.getNewMenus()
+                             ) {
+                            System.out.println(s.getDish().getDishName());
+                        }
+
+                        MainProgram.getViewNewMenu().loadData();
+                    }
                 }
+                System.out.println("in ra ");
             }
         });
-
 
     }
     private boolean checkPriceAndNumber(ViewDish viewDish){
@@ -121,14 +119,14 @@ public class ControllerNewMenu {
     }
 
     private void removeDishFromANewMenu(ViewNewMenu viewNewMenu,int id){
-        ArrayList<Menu> newMenus = viewNewMenu.getNewMenus();
+        ArrayList<Menu> newMenus = MainProgram.getNewMenus();
         newMenus.remove(id);
-        viewNewMenu.setNewMenus(newMenus);
+        MainProgram.setNewMenus(newMenus);
         viewNewMenu.loadData();
     }
 
     private void creatNewMenu(ViewNewMenu viewNewMenu){
-        ArrayList<Menu> newMenus = viewNewMenu.getNewMenus();
+        ArrayList<Menu> newMenus = MainProgram.getNewMenus();
         String name = viewNewMenu.getInputNameNewMenu().getText();
         MenuName menuName = new MenuName();
         menuName.setFlag(1);
@@ -145,7 +143,7 @@ public class ControllerNewMenu {
 
     private boolean check(ViewNewMenu viewNewMenu){
         String name = viewNewMenu.getInputNameNewMenu().getText();
-        ArrayList<Menu> newMenus = viewNewMenu.getNewMenus();
+        ArrayList<Menu> newMenus = MainProgram.getNewMenus();
 
         int check = 1;
         if (name.isEmpty()){

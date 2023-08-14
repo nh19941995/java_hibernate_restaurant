@@ -1,7 +1,6 @@
 package view;
 
-import controller.ControllerMenu;
-import controller.ControllerNewMenu;
+
 import controller.ControllerTime;
 import dao.MenuDAO;
 import dao.MenuNameDAO;
@@ -106,7 +105,6 @@ public class ViewMenu extends JPanel{
         add(blockSearch(),BorderLayout.NORTH);
         add(blockTable(),BorderLayout.CENTER);
         add(blockMenuDetail(),BorderLayout.SOUTH);
-        new ControllerMenu(this);
         return this;
     }
     public JPanel blockMenuDetail(){

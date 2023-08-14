@@ -154,14 +154,13 @@ public class ViewPerson extends JPanel {
         add(blockTable(),BorderLayout.CENTER);
         add(blockAddPerson(),BorderLayout.SOUTH);
         add(blockSearch(),BorderLayout.NORTH);
-        // thêm controller
-        new ControllerPerson(this);
 
-        if (ControllerBooking.getViewPerson() == null) {
-            System.out.println("Gọi từ Person : đm null rồi");
-        } else {
-            System.out.println("Gọi từ Person: lol ko null nhé");
-        }
+
+//        if (ControllerBooking.getViewPerson() == null) {
+//            System.out.println("Gọi từ Person : đm null rồi");
+//        } else {
+//            System.out.println("Gọi từ Person: lol ko null nhé");
+//        }
         return this;
     }
 

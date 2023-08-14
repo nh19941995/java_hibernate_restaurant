@@ -1,63 +1,19 @@
 package view;
 import com.formdev.flatlaf.FlatLightLaf;
-import controller.ControllerDish;
-import controller.ControllerPerson;
-import controller.ControllerTable;
-
-
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
 
 
+
 public class ViewHome extends JFrame {
-    // view chính-------------------------------------------------------------------------------------------------------
-    private static ViewMenu viewMenu ;
-    private static ViewDish viewDish;
-    private static ViewNewMenu viewNewMenu ;
-    private static ViewTable viewTable ;
-    private static ViewPerson viewPerson;
-    private static ViewBooking viewBooking;
-    private static ViewTransaction viewTransaction;
 
-    // get + set--------------------------------------------------------------------------------------------------------
-    public static ViewMenu getViewMenu() {
-        return viewMenu;
-    }
 
-    public static ViewDish getViewDish() {
-        return viewDish;
-    }
-    public static ViewNewMenu getViewNewMenu() {
-        return viewNewMenu;
-    }
-    public static ViewTable getViewTable() {
-        return viewTable;
-    }
-    public static ViewPerson getViewPerson() {
-        return viewPerson;
-    }
+
+
 
     public ViewHome(){
 
-        try {
-            // chuyển giao diện sang giống ios
-            UIManager.setLookAndFeel(new FlatLightLaf());
 
-            // Khởi tạo các thành phần tĩnh và áp dụng giao diện
-            viewMenu = new ViewMenu();
-            viewDish = new ViewDish();
-            viewNewMenu = new ViewNewMenu();
-            viewTable = new ViewTable();
-            viewPerson = new ViewPerson();
-            viewBooking = new ViewBooking();
-            viewTransaction = new ViewTransaction();
-
-            // ... (các phần mã khác)
-        } catch (Exception e){
-            e.printStackTrace();
-        }
         // set controller-----------------------------------------------------------------------------------------------
 
 
@@ -93,11 +49,12 @@ public class ViewHome extends JFrame {
 
 
 //        thêm các view vào tab
-        tab1.add(viewPerson.ViewPersonMain(),BorderLayout.CENTER);
-        tab2.add(viewTransaction,BorderLayout.CENTER);
-        tab3.add(viewBooking,BorderLayout.CENTER);
-        tab4.add(viewDish.ViewMainDish(),BorderLayout.CENTER);
-        tab5.add(viewNewMenu,BorderLayout.CENTER);
+        // một đối tượng jpanel chỉ dùng dc ở một nơi, nếu gọi lần hai ở nơi khác thì nơi gọi đầu tiên sẽ bị mất jpanel đó
+        tab1.add(MainProgram.getViewPersonMain(),BorderLayout.CENTER);
+        tab2.add(MainProgram.getViewTransaction(),BorderLayout.CENTER);
+        tab3.add(MainProgram.getViewBooking(),BorderLayout.CENTER);
+        tab4.add(MainProgram.getViewDishMain(),BorderLayout.CENTER);
+        tab5.add(MainProgram.getViewMenu().ViewChoseMenu(),BorderLayout.CENTER);
 //        tab6.add(viewNewMenu,BorderLayout.CENTER);
 
 
@@ -219,11 +176,7 @@ public class ViewHome extends JFrame {
 //        });
 
 //        Đảm bảo các thành phần giao diện được hiển thị----------------------------------------------------------------
-        if (viewPerson == null) {
-            System.out.println("Gọi từ Home: đm null rồi");
-        } else {
-            System.out.println("Gọi từ Home: lol ko null nhé");
-        }
+
         add(mainPanel);
         revalidate();
         repaint();

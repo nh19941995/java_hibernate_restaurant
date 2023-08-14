@@ -89,9 +89,9 @@ public class ControllerPerson {
             }
         });
 
-        // sự kiên select
-//        JButton buttonSelect = viewPerson.getButtonUpdatePerson();
-//        buttonUpdate.addMouseListener(new MouseAdapter() {
+//        // sự kiên select
+//        JButton buttonSelect = viewPerson.getButtonSelectPerson();
+//        buttonSelect.addMouseListener(new MouseAdapter() {
 //            @Override
 //            public void mouseClicked(MouseEvent e) {
 ////                ControllerBooking.setIdPerson(viewPerson.getIdSelect());

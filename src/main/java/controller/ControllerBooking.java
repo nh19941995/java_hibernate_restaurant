@@ -135,7 +135,7 @@ public class ControllerBooking {
                 // Xóa tất cả các thành phần con khỏi JPanel
                 viewBooking.getCenterViewBooking().removeAll();
                 // Gọi hàm searchTableList() để thực hiện tìm kiếm và cập nhật dữ liệu
-                viewBooking.getCenterViewBooking().add(viewPerson, BorderLayout.CENTER);
+                viewBooking.getCenterViewBooking().add(MainProgram.getViewPersonInBooking(), BorderLayout.CENTER);
                 viewBooking.revalidate();
                 viewBooking.repaint();
             }
@@ -147,11 +147,13 @@ public class ControllerBooking {
 
 
         // sự kiện chọn người từ bảng person
-//        JButton buttonSelectPerson = viewPerson.ViewPersonSelect().getButtonSelectPerson();
-//        JButton buttonSelectPerson = viewPerson.getButtonSelectPerson();
+//
+//        JButton buttonSelectPerson = ControllerBooking.getViewPerson().ViewPersonSelect().getButtonSelectPerson();
+////        JButton buttonSelectPerson = viewPerson.getButtonSelectPerson();
 //        buttonSelectPerson.addMouseListener(new MouseAdapter() {
 //            @Override
 //            public void mouseClicked(MouseEvent e) {
+//                System.out.println("haha");
 //
 //            }
 //        });
