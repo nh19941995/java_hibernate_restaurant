@@ -12,6 +12,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -229,6 +230,12 @@ public class ViewNewMenu extends JPanel {
                     return row;
                 }
         ).toArray(Object[][]::new);
+
+        for (int i = 0; i < data.length; i++) {
+            data[i][0] = i + 1; // Số thứ tự
+        }
+
+
         setData(data);
         // Thêm dữ liệu mới vào bảng
         for (Object[] rowData : data) {
