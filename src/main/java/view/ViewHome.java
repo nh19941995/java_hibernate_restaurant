@@ -7,20 +7,13 @@ import java.awt.*;
 
 public class ViewHome extends JFrame {
     public ViewHome(){
-
-
-        // set controller-----------------------------------------------------------------------------------------------
-
-
 //        khung ngoài phần mềm------------------------------------------------------------------------------------------
         setTitle("Register");             //        tiêu đề cho form
         // Tạo panel chính, mainPanel là một JPanel chứa toàn bộ giao diện của ứng dụng
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
         mainPanel.setBackground(Color.decode("#293740"));
-
 //        phần tab chuyển-----------------------------------------------------------------------------------------------
-        //        tạo đối tượng tab
         JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
         JPanel tab1 = new JPanel();
         JPanel tab2 = new JPanel();
@@ -34,14 +27,12 @@ public class ViewHome extends JFrame {
         tabbedPane.addTab("Dish", tab4);
         tabbedPane.addTab("Menu", tab5);
         tabbedPane.addTab("Oder", tab6);
-
         tab1.setLayout(new BorderLayout());
         tab2.setLayout(new BorderLayout());
         tab3.setLayout(new BorderLayout());
         tab4.setLayout(new BorderLayout());
         tab5.setLayout(new BorderLayout());
         tab6.setLayout(new BorderLayout());
-
 
 //        thêm các view vào tab
         // một đối tượng jpanel chỉ dùng dc ở một nơi, nếu gọi lần hai ở nơi khác thì nơi gọi đầu tiên sẽ bị mất jpanel đó
@@ -51,9 +42,6 @@ public class ViewHome extends JFrame {
         tab4.add(MainProgram.getViewDishMain(),BorderLayout.CENTER);
         tab5.add(MainProgram.getViewNewMenuMain(),BorderLayout.CENTER);
         tab6.add(MainProgram.getViewListBooking(),BorderLayout.CENTER);
-
-
-
 
         tab1.setBackground(Color.green);
         tab2.setBackground(Color.ORANGE);
@@ -115,20 +103,16 @@ public class ViewHome extends JFrame {
 
         // thêm các tab vào layout chính
         mainPanel.add(tabbedPane, BorderLayout.CENTER);
-
-
         add(mainPanel);
         revalidate();
         repaint();
         setSize(1500, 900);
         setLocationRelativeTo(null);
-        //        setBackground(Color.BLUE);
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
     public static void main(String[] args) {
         // Thực hiện các tác vụ khi chạy ứng dụng từ lớp HomeView
-        // Ví dụ: Tạo đối tượng HomeView và hiển thị giao diện
         try {
             //            chuyển giao diện sang giống ios
             UIManager.setLookAndFeel(new FlatLightLaf());
@@ -137,17 +121,7 @@ public class ViewHome extends JFrame {
         }catch (Exception e){
             e.printStackTrace();
         }
-
-
-
-
-
     }
-
-
-
-
-
 }
 
 

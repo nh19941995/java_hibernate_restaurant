@@ -21,6 +21,7 @@ public class ControllerTransaction {
     private static JTable table = MainProgram.getViewTransaction().getTable();
 
     public ControllerTransaction() {
+        creatTransaction();
     }
     public static void creatTransaction(){
         ViewTransaction viewTransaction = MainProgram.getViewTransaction();

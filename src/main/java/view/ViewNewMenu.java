@@ -30,7 +30,6 @@ public class ViewNewMenu extends JPanel {
     // label------------------------------------------------------------------------------------------------------------
     private JLabel labelNameNewMenu = new JLabel("Menu name:");
     // get + set--------------------------------------------------------------------------------------------------------
-
     public int getIdSelect() {
         return idSelect;
     }
@@ -49,7 +48,6 @@ public class ViewNewMenu extends JPanel {
     public void setTable(JTable table) {
         this.table = table;
     }
-
     public JButton getButtonCreatNewMenu() {
         return buttonCreatNewMenu;
     }
@@ -85,9 +83,6 @@ public class ViewNewMenu extends JPanel {
         add(blockDishInNewMenuInBooking());
         return  this;
     }
-
-
-
     private JPanel blockDishInNewMenuMain(){
         BoderTool boderTool = new BoderTool();
         boderTool.add(MainProgram.getViewDishInNewMenuMain(),BorderLayout.CENTER);
@@ -98,7 +93,6 @@ public class ViewNewMenu extends JPanel {
         boderTool.add(MainProgram.getViewDishInNewMenuInBooking(),BorderLayout.CENTER);
         return boderTool;
     }
-
 
     private boolean checkPriceAndNumber(ViewDish viewDish){
         String price = viewDish.getInputEnterPrice().getText();
@@ -127,9 +121,6 @@ public class ViewNewMenu extends JPanel {
         return boderTool;
     }
 
-
-
-
     private JPanel blockTop(){
         JPanel jPanel = new JPanel();
         jPanel.setPreferredSize(new Dimension(150, 75));
@@ -148,7 +139,6 @@ public class ViewNewMenu extends JPanel {
         jPanel.setLayout(new BorderLayout());
         GridTool grid = new GridTool();
         grid.GridAdd(buttonCreatNewMenu,1,0,20,20,20);
-//        GridTool grid2 = new GridTool();
         grid.GridAdd(buttonRemoveDish,0,0,20,20,20);
 
         buttonRemoveDish.setPreferredSize(new Dimension(150, 35));
@@ -159,7 +149,6 @@ public class ViewNewMenu extends JPanel {
         buttonCreatNewMenu.setForeground(Color.WHITE);
 
         jPanel.add(grid, BorderLayout.CENTER);
-//        jPanel.add(grid2, BorderLayout.CENTER);
         // Đặt kích thước chiều ngang cho jPanel
         int width = 550; // Đặt kích thước mong muốn tại đây
         Dimension preferredSize = new Dimension(width, jPanel.getPreferredSize().height);
@@ -226,16 +215,12 @@ public class ViewNewMenu extends JPanel {
         JPanel right = new JPanel();
         left.setPreferredSize(new Dimension(20, 20));
         right.setPreferredSize(new Dimension(20, 20));
-//        boderTool.add(left,BorderLayout.EAST);
         boderTool.add(right,BorderLayout.WEST);
         boderTool.add(scrollPane,BorderLayout.CENTER);
         return boderTool;
     }
 
-
     public void loadData(){
-        // Lấy model của bảng
-//        DefaultTableModel model = MainProgram.getViewNewMenu().getTableModel();
         // Xóa hết dữ liệu hiện có trong bảng
         tableModel.setRowCount(0);
         ArrayList<Menu> menus = MainProgram.getNewMenus();
@@ -254,7 +239,6 @@ public class ViewNewMenu extends JPanel {
         for (int i = 0; i < data.length; i++) {
             data[i][0] = i + 1; // Số thứ tự
         }
-
 
         setData(data);
         // Thêm dữ liệu mới vào bảng

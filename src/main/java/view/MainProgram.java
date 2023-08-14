@@ -33,12 +33,21 @@ public class MainProgram {
     // person
     private static ViewPerson viewPersonMain;
     private static ViewPerson viewPersonInBooking;
+    private static ViewPerson viewPersonInTransaction;
     // booking
     private static ViewBooking viewBooking;
     private static ViewListBooking viewListBooking;
     private static ViewTransaction viewTransaction;
     private static ViewHome viewHome ;
     // get + set -------------------------------------------------------------------------------------------------------
+
+    public static ViewPerson getViewPersonInTransaction() {
+        return viewPersonInTransaction;
+    }
+
+    public static void setViewPersonInTransaction(ViewPerson viewPersonInTransaction) {
+        MainProgram.viewPersonInTransaction = viewPersonInTransaction;
+    }
 
     public static ViewTempMenu getViewTempMenu() {
         return viewTempMenu;
@@ -178,6 +187,7 @@ public class MainProgram {
             // person
             viewPersonMain = new ViewPerson().ViewPersonMain();
             viewPersonInBooking = new ViewPerson().ViewPersonSelect();
+            viewPersonInTransaction = new ViewPerson().ViewPersonSelect();
             // booing
             viewBooking = new ViewBooking();
             // list booking
@@ -200,6 +210,7 @@ public class MainProgram {
         // person
         ControllerPerson controllerPersonMain = new ControllerPerson(viewPersonMain);
         ControllerPerson controllerPersonInBooking = new ControllerPerson(viewPersonInBooking);
+        ControllerPerson controllerPersonInTransaction = new ControllerPerson(viewPersonInTransaction);
         // Dish
         ControllerDish controllerDishMain = new ControllerDish(viewDishMain);
         ControllerDish controllerDishInNewMenuInBooking = new ControllerDish(viewDishInNewMenuInBooking);

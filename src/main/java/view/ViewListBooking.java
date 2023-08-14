@@ -2,13 +2,10 @@ package view;
 
 import controller.ControllerBooking;
 import view.tool.BoderTool;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 public class ViewListBooking extends JPanel{
     // data ------------------------------------------------------------------------------------------------------------
@@ -17,28 +14,22 @@ public class ViewListBooking extends JPanel{
     private DefaultTableModel tableModel;
     private Object[][] data;
     private int idSelect;
-
     public int getIdSelect() {
         return idSelect;
     }
-
     public void setIdSelect(int idSelect) {
         this.idSelect = idSelect;
     }
-
     public Object[][] getData() {
         return data;
     }
-
     public void setData(Object[][] data) {
         this.data = data;
     }
-
     public ViewListBooking() {
         setLayout(new BorderLayout());
         this.add(blockTable(), BorderLayout.CENTER);
     }
-
 
     private JPanel blockTable() {
         BoderTool boderTool = new BoderTool();
@@ -53,11 +44,9 @@ public class ViewListBooking extends JPanel{
             boolean[] canEdit = new boolean [] {
                     false, false, false, false, false
             };
-
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
-
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
@@ -100,7 +89,6 @@ public class ViewListBooking extends JPanel{
         return boderTool;
     }
 
-
     public void loadData(){
         // Lấy model của bảng
         DefaultTableModel model = (DefaultTableModel) table.getModel();
@@ -120,10 +108,6 @@ public class ViewListBooking extends JPanel{
             a[0] = n++;
         }
         setData(data);
-
-//        ClientListView.setData(data);
-
-
         // Thêm dữ liệu mới vào bảng
         for (Object[] rowData : data) {
             model.addRow(rowData);

@@ -1,8 +1,11 @@
 package view;
 
 import controller.ControllerTime;
+import controller.RegexMatcher;
+import dao.PersonDAO;
 import dao.TransactionDAO;
 import dao.TransactionsTypeDAO;
+import model.Person;
 import model.Transaction;
 import view.tool.BoderTool;
 import view.tool.GridTool;
@@ -11,6 +14,12 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class ViewTransaction extends JPanel{
@@ -18,6 +27,7 @@ public class ViewTransaction extends JPanel{
     // Khởi tạo lockObject
     private final Object lockObject = new Object();
     private JTable table = new JTable();
+    private int idPerson;
     // label------------------------------------------------------------------------------------------------------------
     private JLabel labelType = new JLabel("Transaction type");
     private JLabel labelVale = new JLabel("Value:");
@@ -54,6 +64,14 @@ public class ViewTransaction extends JPanel{
     private JButton buttonExportToExcel = new JButton("Export to Excel");
     // get + set--------------------------------------------------------------------------------------------------------
 
+
+    public int getIdPerson() {
+        return idPerson;
+    }
+
+    public void setIdPerson(int idPerson) {
+        this.idPerson = idPerson;
+    }
 
     public JTable getTable() {
         return table;
@@ -155,6 +173,105 @@ public class ViewTransaction extends JPanel{
         boderCenter.add(blockTable(),BorderLayout.CENTER);
         boderRight.add(blockTool(),BorderLayout.WEST);
 
+
+        buttonSelect.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                boderCenter.removeAll();
+                boderCenter.add(MainProgram.getViewPersonInTransaction(),BorderLayout.CENTER);
+                revalidate();
+                repaint();
+            }
+        });
+
+        buttonAllTransaction.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                boderCenter.removeAll();
+                boderCenter.add(blockTable(),BorderLayout.CENTER);
+                revalidate();
+                repaint();
+            }
+        });
+
+        buttonCreatTransaction.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Transaction newTransaction = new Transaction();
+                int id = MainProgram.getViewPersonInTransaction().getIdSelect();
+                ViewTransaction viewTransaction = MainProgram.getViewTransaction();
+                String Stringvalue = viewTransaction.getInputValue().getText();
+                String type = (String) viewTransaction.getSelecType().getSelectedItem();
+                String comment = viewTransaction.getInputComment().getText();
+                String day = viewTransaction.getInputDate().getText();
+                String hour = viewTransaction.getInputTime().getText();
+
+                int check = 1;
+                if (hour.isEmpty()||Stringvalue.isEmpty()||comment.isEmpty()||id==0||day.isEmpty()){
+                    if (check==1){
+                        JOptionPane.showMessageDialog(null, "You must fill in all the required information before proceeding to make a reservation !", "Notice", JOptionPane.WARNING_MESSAGE);
+                    }
+                    check =0;
+                }
+                if (!RegexMatcher.hourCheck(hour, "").equals("") ||!RegexMatcher.dayCheck(day,"").equals(""))
+                {
+                    if (check ==1){
+                        JOptionPane.showMessageDialog(null,
+                                RegexMatcher.hourCheck(hour, "End time: ")+
+                                        RegexMatcher.dayCheck(day,"Date of event: "),
+                                "Notice", JOptionPane.WARNING_MESSAGE);
+                    }
+                    check = 0;
+                }
+                if (!Stringvalue.equals("")){
+                    if (!RegexMatcher.numberCheck(Stringvalue,"").equals("")){
+                        if (check ==1){
+                            JOptionPane.showMessageDialog(null, RegexMatcher.numberCheck(Stringvalue, "Deposit: "), "Notice", JOptionPane.WARNING_MESSAGE);
+                        }
+                        check = 0;
+                    }
+                }
+
+                if (check==1 ){
+                    Person person = PersonDAO.getInstance().getById(id);
+                    Double value = Double.parseDouble(Stringvalue);
+                    LocalDateTime instant = ControllerTime.parseDateTime(hour,day);
+                    newTransaction.setPerson(person);
+                    newTransaction.setQuantity(value);
+                    newTransaction.setComment(comment);
+                    newTransaction.setType(TransactionsTypeDAO.getInstance().getByName(type));
+                    newTransaction.setDateCreat(instant);
+                    newTransaction.setFlag(1);
+                    TransactionDAO.getInstance().insert(newTransaction);
+                    viewTransaction.loadData();
+                    viewTransaction.setNullData();
+                }
+
+            }
+        });
+
+
+
+
+
+    }
+
+    public static void setNullData(){
+        ViewTransaction viewTransaction = MainProgram.getViewTransaction();
+
+        viewTransaction.getFirstName().setText(""); // Đặt giá trị cho JLabel
+        viewTransaction.getLastName().setText("");
+        viewTransaction.getPhone().setText("");
+
+        viewTransaction.getFirstName().repaint(); // Thông báo cho nhãn vẽ lại để hiển thị nội dung mới
+        viewTransaction.getLastName().repaint(); // Thông báo cho nhãn vẽ lại để hiển thị nội dung mới
+        viewTransaction.getPhone().repaint(); // Thông báo cho nhãn vẽ lại để hiển thị nội dung mới
+
+        viewTransaction.getInputValue().setText("");
+        viewTransaction.getInputTime().setText("");
+        viewTransaction.getInputDate().setText("");
+        viewTransaction.getInputFilterPhone().setText("");
+        viewTransaction.getInputComment().setText("");
     }
 
     private JPanel blockInforPerson(){
@@ -307,6 +424,9 @@ public class ViewTransaction extends JPanel{
         jPanel.add(scrollPane, BorderLayout.CENTER);
         return jPanel;
     }
+
+
+
 
     public void loadData(){
         // Lấy model của bảng

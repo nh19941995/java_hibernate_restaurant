@@ -230,7 +230,6 @@ public class ViewTable extends JPanel {
         GridTool select = new GridTool();
         select.GridAddCustom(buttonSelectTable,0,0,20,20,5 ,5,1);
         buttonSelectTable.setPreferredSize(new Dimension(150, 35));
-
         bot.add(select,BorderLayout.EAST);
         return bot;
     }
@@ -241,18 +240,12 @@ public class ViewTable extends JPanel {
         GridTool select = new GridTool();
         select.GridAddCustom(labelStatus,0,0,20,20,5 ,5,1);
         select.GridAddCustom(selecStatusTable,0,1,20,20,5 ,5,1);
-//        select.GridAddCustom2(buttonChangeStatus,1,0,20,20,5 ,5,1,2);
-
         selecStatusTable.setPreferredSize(new Dimension(150, 25));
-
         buttonChangeStatus.setPreferredSize(new Dimension(150, 35));
         GridTool select2 = new GridTool();
         select2.GridAddCustom2(buttonChangeStatus,2,0,20,20,5 ,5,1,2);
-
-
         bot.add(select,BorderLayout.CENTER);
         bot.add(select2,BorderLayout.EAST);
-
         return bot;
     }
 

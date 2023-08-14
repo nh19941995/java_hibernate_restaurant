@@ -145,22 +145,12 @@ public class ViewPerson extends JPanel {
 
     public ViewPerson() {
         setLayout(new BorderLayout());
-        // thêm controller
-//        new ControllerPerson(this);
-
     }
 
     public ViewPerson ViewPersonSelect(){
         add(blockTable(),BorderLayout.CENTER);
         add(blockAddPerson(),BorderLayout.SOUTH);
         add(blockSearch(),BorderLayout.NORTH);
-
-
-//        if (ControllerBooking.getViewPerson() == null) {
-//            System.out.println("Gọi từ Person : đm null rồi");
-//        } else {
-//            System.out.println("Gọi từ Person: lol ko null nhé");
-//        }
         return this;
     }
 
@@ -229,11 +219,7 @@ public class ViewPerson extends JPanel {
         // cột 4
         grid.GridAdd(labelPhone,3,0,10,10,5);
         grid.GridAddCustom(inputPhone,3,1,10,10,5,5,1);
-        // cột 4
-//        grid.GridAddCustom(labelfilterByPhone,3,0,10,10,5,5,2);
-//        grid.GridAddCustom(inputfilterByPhone,3,1,10,10,10,10,1);
-        // cột 3-5
-//        grid.GridAddCustom(buttonSearchPerson,4,1,10,10,5,5,1);
+
         grid.GridAddCustom(labelAdress,2,2,10,10,5,5,2);
         grid.GridAddCustom(inputAdress,2,3,10,10,5,15,2);
         // cột 5
@@ -298,11 +284,7 @@ public class ViewPerson extends JPanel {
         // cột 4
         grid.GridAdd(labelPhone,3,0,10,10,5);
         grid.GridAddCustom(inputPhone,3,1,10,10,5,5,1);
-        // cột 4
-//        grid.GridAddCustom(labelfilterByPhone,3,0,10,10,5,5,2);
-//        grid.GridAddCustom(inputfilterByPhone,3,1,10,10,10,10,1);
-        // cột 3-5
-//        grid.GridAddCustom(buttonSearchPerson,4,1,10,10,5,5,1);
+
         grid.GridAddCustom(labelAdress,2,2,10,10,5,5,2);
         grid.GridAddCustom(inputAdress,2,3,10,10,5,15,2);
         // cột 5
@@ -315,13 +297,9 @@ public class ViewPerson extends JPanel {
                 .map(s -> s.getPermissionName())
                 .toArray(String[]::new);
         SelecType.setModel(new DefaultComboBoxModel<>(selectList));
-        // nút select
-//        GridTool gridAddPerson = new GridTool();
-//        gridAddPerson.GridAddCustom(buttonSelectPerson,0,1,10,20,5,5,2);
 
         // thêm toàn bộ các phần tử vào layout chính
         jPanel.add(grid,BorderLayout.CENTER);
-//        jPanel.add(gridAddPerson,BorderLayout.EAST);
         return jPanel;
     }
 

@@ -25,47 +25,32 @@ public class ControllerBooking {
     private static int idMenu;
     private static int idInTempBooking;
     private static Double deposit;
-
-
-
-
-
     // get + set--------------------------------------------------------------------------------------------------------
-
-
     public static Double getDeposit() {
         return deposit;
     }
-
     public static void setDeposit(Double deposit) {
         ControllerBooking.deposit = deposit;
     }
-
     public static int getIdPerson() {
         return idPerson;
     }
-
     public static void setIdPerson(int idPerson) {
         ControllerBooking.idPerson = idPerson;
     }
-
     public static ArrayList<Booking> getBookings() {
         return bookings;
     }
-
     public static void setBookings(ArrayList<Booking> bookings) {
         ControllerBooking.bookings = bookings;
     }
-
     public ControllerBooking(ViewBooking viewBooking) {
         System.out.println("ControllerBooking dc gọi");
-
         selectList();
         selectPerson();
         selectMenu();
         submitNewBooking();
     }
-
     public static void selectList(){
         ViewBooking viewBooking = MainProgram.getViewBooking();
         ViewTable viewTable = MainProgram.getViewTableInBooking();
@@ -137,17 +122,11 @@ public class ControllerBooking {
         buttonSubmid.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-//                System.out.println(personIdSelect);
                 BookingsInfo newInfo = new BookingsInfo();
-//                String startTimeString = InfoBookingView.getInputStartTime().getText();
                 String startTimeString = viewBooking.getInputStartTime().getText();
-//                String dateString = InfoBookingView.getInputDate().getText();
                 String dateString = viewBooking.getInputDate().getText();
-//                String endTimeString = InfoBookingView.getInputEndTime().getText();
                 String endTimeString = viewBooking.getInputEndTime().getText();
-//                String depositString = InfoBookingView.getInputDeposit().getText();
                 String depositString = viewBooking.getInputDeposit().getText();
-//                String commentString = InfoBookingView.getInputComment().getText();
                 String commentString = viewBooking.getInputComment().getText();
 
                 int check = 1;
@@ -241,7 +220,6 @@ public class ControllerBooking {
                             bookingsInfo.setFlag(1);
                             BookingsInfoDAO.getInstance().insert(bookingsInfo);
                             System.out.println("khởi tạo id info: "+bookingsInfo.getId());
-//                        check
                             getBookings().forEach(s->{
                                 s.setInfo(bookingsInfo);
                                 s.setFlag(1);
@@ -263,13 +241,9 @@ public class ControllerBooking {
                             System.out.println("id khách hàng là: "+idPerson);
                             System.out.println("id info là: "+bookingsInfo.getId());
                             System.out.println("khách hàng còn nợ: "+ receivable);
-                        }else {
-
+                            MainProgram.getViewTransaction().loadData();
                         }
-
-
                     }
-
                 }
             }
         });
@@ -341,7 +315,6 @@ public class ControllerBooking {
                         JOptionPane.WARNING_MESSAGE);
                 return false;
             }
-
         }
         return true;
     }

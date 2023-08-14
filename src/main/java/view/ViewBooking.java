@@ -44,19 +44,15 @@ public class ViewBooking extends JPanel {
     public JTextField getInputStartTime() {
         return inputStartTime;
     }
-
     public JTextField getInputDeposit() {
         return inputDeposit;
     }
-
     public JTextField getInputEndTime() {
         return inputEndTime;
     }
-
     public JTextField getInputComment() {
         return inputComment;
     }
-
     public JTextField getInputDate() {
         return inputDate;
     }
@@ -100,10 +96,7 @@ public class ViewBooking extends JPanel {
         ViewPerson viewPerson = MainProgram.getViewPersonInBooking();
         if (viewPerson!=null){
             centerViewBooking.add(viewPerson,BorderLayout.CENTER);
-
         }
-
-
         add(leftViewBooking,BorderLayout.WEST);
         add(centerViewBooking,BorderLayout.CENTER);
     }
@@ -144,10 +137,7 @@ public class ViewBooking extends JPanel {
         JPanel jPanel = new JPanel();
         jPanel.setLayout(new BorderLayout());
         GridTool grid = new GridTool();
-//        JPanel table = new BookingListView();
-//        grid.GridAddCustom(table,0,0,0,0,20,20,2);
-        // đặt kích thước
-//        table.setPreferredSize(new Dimension(400, 200));
+
         grid.GridAddCustom(buttonSelectMenuFromList,0,1,20,20,10,10,1);
         grid.GridAddCustom(buttonAddNewMenu,1,1,20,20,10,10,1);
         grid.GridAddCustom(buttonSelectTableFromList,0,2,20,20,10,10,1);
@@ -167,10 +157,6 @@ public class ViewBooking extends JPanel {
         jPanel.setLayout(new BorderLayout());
 
         GridTool grid = new GridTool();
-//        JPanel info = new InfoBookingView();
-//        grid.GridAddCustom(info,0,0,0,0,20,20,2);
-        // đặt kích thước
-//        table.setPreferredSize(new Dimension(450, 200));
 
         grid.GridAddCustom(buttonSelectPersonFromList,0,1,20,20,20,20,1);
         grid.GridAddCustom(buttonShowAllBooking,1,1,20,20,20,20,1);
