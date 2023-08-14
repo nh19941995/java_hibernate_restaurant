@@ -1,5 +1,6 @@
 package view;
 
+import controller.ControllerNewMenu;
 import controller.RegexMatcher;
 import dao.DishDAO;
 import model.Dish;
@@ -23,15 +24,11 @@ public class ViewNewMenu extends JPanel {
     // button-----------------------------------------------------------------------------------------------------------
     private JButton buttonCreatNewMenu = new JButton("Creat new menu");
     private JButton buttonRemoveDish = new JButton("Remove");
-//    private JButton buttonAddDishToMenu =  MainProgram.getViewDishInNewMenu().getButtonSlectDish();
-
     // input------------------------------------------------------------------------------------------------------------
     private JTextField inputNameNewMenu = new JTextField();
     // label------------------------------------------------------------------------------------------------------------
     private JLabel labelNameNewMenu = new JLabel("Menu name:");
     // get + set--------------------------------------------------------------------------------------------------------
-
-
 
     public int getIdSelect() {
         return idSelect;
@@ -52,7 +49,6 @@ public class ViewNewMenu extends JPanel {
         this.table = table;
     }
 
-
     public JButton getButtonCreatNewMenu() {
         return buttonCreatNewMenu;
     }
@@ -72,11 +68,11 @@ public class ViewNewMenu extends JPanel {
         MainProgram.getNewMenus().add(menu);
     }
 
-
     public ViewNewMenu() {
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         add(blockMenu());
         add(blockDish());
+//        new ControllerNewMenu(this);
     }
 
     private boolean checkPriceAndNumber(ViewDish viewDish){
@@ -215,42 +211,12 @@ public class ViewNewMenu extends JPanel {
         return boderTool;
     }
 
-//    public void loadData(){
-//        // Lấy model của bảng
-//        tableModel.setRowCount(0);
-//        //        for (Menu s:MainProgram.getNewMenus())
-//        //        {
-//        //            System.out.println("View new menu: "+s.getDish().getDishName());
-//        //        }
-//        Object[][] data = MainProgram.getNewMenus().stream().map(
-//                s -> {
-//                    Object[] row = new Object[5];
-//                    row[0] = "";
-//                    row[1] = s.getDish().getDishName();
-//                    row[2] = s.getQuantity();
-//                    row[3] = s.getUnitPrice();
-//                    row[4] = s.getDish().getType().getName();
-//                    return row;
-//                }
-//        ).toArray(Object[][]::new);
-//        int count = 1;
-//        for (Object[] row : data) {
-//            row[0] = count++;
-//        }
-//        setData(data);
-//        // Thêm dữ liệu mới vào bảng
-//        for (Object[] rowData : data) {
-//            tableModel.addRow(rowData);
-//        }
-//        // Thông báo cho bảng biết rằng dữ liệu đã thay đổi để nó vẽ lại giao diện
-//        tableModel.fireTableDataChanged();
-//    }
 
     public void loadData(){
         // Lấy model của bảng
-        DefaultTableModel model = MainProgram.getViewNewMenu().getTableModel();
+//        DefaultTableModel model = MainProgram.getViewNewMenu().getTableModel();
         // Xóa hết dữ liệu hiện có trong bảng
-        model.setRowCount(0);
+        tableModel.setRowCount(0);
         ArrayList<Menu> menus = MainProgram.getNewMenus();
         Object[][] data = menus.stream().map(
                 s -> {
@@ -263,13 +229,13 @@ public class ViewNewMenu extends JPanel {
                     return row;
                 }
         ).toArray(Object[][]::new);
-        MainProgram.getViewNewMenu().setData(data);
+        setData(data);
         // Thêm dữ liệu mới vào bảng
         for (Object[] rowData : data) {
-            model.addRow(rowData);
+            tableModel.addRow(rowData);
         }
         // Thông báo cho bảng biết rằng dữ liệu đã thay đổi để nó vẽ lại giao diện
-        model.fireTableDataChanged();
+        tableModel.fireTableDataChanged();
     }
 
 

@@ -93,9 +93,14 @@ public class ViewMenu extends JPanel{
 
     public ViewMenu() {
         setLayout(new BorderLayout());
+        // Khởi tạo tableModel
+        tableModel = new DefaultTableModel(
+                new Object[][]{},
+                new String[]{"ID", "Tên menu", "Ngày tạo", "Ngày cập nhật", "Giá", "Trạng thái"}
+        );
 
     }
-    public JPanel ViewCreatNewMenu(){
+    public ViewMenu ViewCreatNewMenu(){
         ViewDish viewDish = new ViewDish();
         add(viewDish,BorderLayout.WEST);
         return this;
@@ -147,6 +152,7 @@ public class ViewMenu extends JPanel{
         };
         // Khởi tạo mô hình dữ liệu cho bảng
         table.setModel(model);
+        setTableModel(model);
         // lấy dữ liệu từ sever
         List<MenuName> menuList = MenuNameDAO.getInstance().getAll();
         Object[][] data = menuList.stream()

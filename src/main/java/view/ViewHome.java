@@ -6,11 +6,6 @@ import java.awt.*;
 
 
 public class ViewHome extends JFrame {
-
-
-
-
-
     public ViewHome(){
 
 
@@ -54,7 +49,7 @@ public class ViewHome extends JFrame {
         tab2.add(MainProgram.getViewTransaction(),BorderLayout.CENTER);
         tab3.add(MainProgram.getViewBooking(),BorderLayout.CENTER);
         tab4.add(MainProgram.getViewDishMain(),BorderLayout.CENTER);
-        tab5.add(MainProgram.getViewMenu().ViewChoseMenu(),BorderLayout.CENTER);
+        tab5.add(MainProgram.getViewMenuMain(),BorderLayout.CENTER);
 //        tab6.add(viewNewMenu,BorderLayout.CENTER);
 
 

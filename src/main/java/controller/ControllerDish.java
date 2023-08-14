@@ -7,10 +7,7 @@ import dao.MenuNameDAO;
 import model.Dish;
 import model.DishType;
 import model.Menu;
-import view.ViewDish;
-import view.ViewHome;
-import view.ViewMenu;
-import view.ViewNewMenu;
+import view.*;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -77,37 +74,59 @@ public class ControllerDish {
 
         });
 
-        // sự kiện chọn
-//        JButton buttonSelect = viewDish.getButtonSlectDish();
-//        buttonSelect.addMouseListener(new MouseAdapter() {
-//            @Override
-//            public void mouseClicked(MouseEvent e) {
-//                int id = viewDish.getTempId();
-//                if (id==0) { // Kiểm tra nếu chỉ là một lần click chuột (clickCount = 1)
-//                    JOptionPane.showMessageDialog(null, "Please choose a dish", "Notice", JOptionPane.WARNING_MESSAGE);
-//                }else {
-//                    Dish dish = DishDAO.getInstance().getById(id);
-//                    Menu menu = new Menu();
-//                    menu.setDish(dish);
-//
-////                    if (checkPriceAndNumber(viewDish)){
-////                        String price = viewDish.getInputEnterPrice().getText();
-////                        String number = viewDish.getInputEnterNumber().getText();
-////                        menu.setQuantity(Integer.parseInt(number));
-////                        menu.setUnitPrice(Double.parseDouble(price));
-////
-//////                        ViewNewMenu newMenu = ControllerBooking.getViewNewMenu();
-////                        newMenu.add(menu);
-////                        newMenu.loadData();
-////
-////                    }
-//
-//                }
-//            }
-//        });
+        //         sự kiện chọn
+
+        JButton buttonSelect = viewDish.getButtonSlectDish();
+        buttonSelect.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int id = viewDish.getTempId();
+                if (id==0) { // Kiểm tra nếu chỉ là một lần click chuột (clickCount = 1)
+                    JOptionPane.showMessageDialog(null, "Please choose a dish", "Notice", JOptionPane.WARNING_MESSAGE);
+                }else {
+                    Dish dish = DishDAO.getInstance().getById(id);
+                    Menu menu = new Menu();
+                    menu.setDish(dish);
+                    if (checkPriceAndNumber(viewDish)){
+                        String price = viewDish.getInputEnterPrice().getText();
+                        String number = viewDish.getInputEnterNumber().getText();
+                        menu.setQuantity(Integer.parseInt(number));
+                        menu.setUnitPrice(Double.parseDouble(price));
+                        MainProgram.getNewMenus().add(menu);
+                        MainProgram.getViewNewMenuMain().loadData();
+                        MainProgram.getViewNewMenuInBooking().loadData();
+                        for (Menu s:MainProgram.getNewMenus()
+                             ) {
+                            System.out.println("Controller new menu: "+s.getDish().getDishName());
+                        }
+                        MainProgram.getViewNewMenuMain().loadData();
+                    }
+                }
+                System.out.println("in ra ");
+            }
+        });
 
 
 
+    }
+
+    private boolean checkPriceAndNumber(ViewDish viewDish){
+        String price = viewDish.getInputEnterPrice().getText();
+        String number = viewDish.getInputEnterNumber().getText();
+        int check = 1;
+        if (price.isEmpty()||number.isEmpty()){
+            if (check==1){
+                JOptionPane.showMessageDialog(null, "You must fill in all the required information before proceeding to create a new dish !", "Notice", JOptionPane.WARNING_MESSAGE);
+            }
+            check =0;
+        }
+        if (!RegexMatcher.numberCheck(price,"").equals("")||!RegexMatcher.numberCheck(number,"").equals("")){
+            if (check ==1){
+                JOptionPane.showMessageDialog(null, RegexMatcher.numberCheck(price,"Price: ")+RegexMatcher.numberCheck(number,"Quantity: "), "Notice", JOptionPane.WARNING_MESSAGE);
+            }
+            check = 0;
+        }
+        return (check==1) ? true : false;
     }
 
 

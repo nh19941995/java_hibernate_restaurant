@@ -15,7 +15,10 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class ControllerNewMenu {
-    private ViewMenu viewMenu = MainProgram.getViewMenu();
+    private ViewMenu viewMenuMain = MainProgram.getViewMenuMain();
+    private ViewMenu viewMenuCreatInBooking = MainProgram.getViewMenuCreatInBooking();
+
+
 
     public ControllerNewMenu(ViewNewMenu viewNewMenu) {
 
@@ -55,7 +58,9 @@ public class ControllerNewMenu {
                 System.out.println("check controller creat new menu");
                 if (check(viewNewMenu)){
                     creatNewMenu(viewNewMenu);
-                    viewMenu.reload();
+                    viewMenuCreatInBooking.reload();
+                    viewMenuMain.reload();
+                    viewMenuCreatInBooking.reload();
                     ArrayList<Menu> newMenus = MainProgram.getNewMenus();
                     newMenus.clear();
                     MainProgram.setNewMenus(newMenus);
@@ -64,59 +69,8 @@ public class ControllerNewMenu {
 
             }
         });
-
-        ////         sự kiện chọn
-        ViewDish viewDish = MainProgram.getViewDishInNewMenu();
-        JButton buttonSelect = viewDish.getButtonSlectDish();
-        buttonSelect.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                int id = MainProgram.getViewDishInNewMenu().getTempId();
-                if (id==0) { // Kiểm tra nếu chỉ là một lần click chuột (clickCount = 1)
-                    JOptionPane.showMessageDialog(null, "Please choose a dish", "Notice", JOptionPane.WARNING_MESSAGE);
-                }else {
-                    Dish dish = DishDAO.getInstance().getById(id);
-                    Menu menu = new Menu();
-                    menu.setDish(dish);
-
-                    if (checkPriceAndNumber(viewDish)){
-                        String price = viewDish.getInputEnterPrice().getText();
-                        String number = viewDish.getInputEnterNumber().getText();
-                        menu.setQuantity(Integer.parseInt(number));
-                        menu.setUnitPrice(Double.parseDouble(price));
-                        MainProgram.getNewMenus().add(menu);
-
-                        for (Menu s:MainProgram.getNewMenus()
-                             ) {
-                            System.out.println("Controller new menu: "+s.getDish().getDishName());
-                        }
-
-                        MainProgram.getViewNewMenu().loadData();
-                    }
-                }
-                System.out.println("in ra ");
-            }
-        });
-
     }
-    private boolean checkPriceAndNumber(ViewDish viewDish){
-        String price = viewDish.getInputEnterPrice().getText();
-        String number = viewDish.getInputEnterNumber().getText();
-        int check = 1;
-        if (price.isEmpty()||number.isEmpty()){
-            if (check==1){
-                JOptionPane.showMessageDialog(null, "You must fill in all the required information before proceeding to create a new dish !", "Notice", JOptionPane.WARNING_MESSAGE);
-            }
-            check =0;
-        }
-        if (!RegexMatcher.numberCheck(price,"").equals("")||!RegexMatcher.numberCheck(number,"").equals("")){
-            if (check ==1){
-                JOptionPane.showMessageDialog(null, RegexMatcher.numberCheck(price,"Price: ")+RegexMatcher.numberCheck(number,"Quantity: "), "Notice", JOptionPane.WARNING_MESSAGE);
-            }
-            check = 0;
-        }
-        return (check==1) ? true : false;
-    }
+
 
     private void removeDishFromANewMenu(ViewNewMenu viewNewMenu,int id){
         ArrayList<Menu> newMenus = MainProgram.getNewMenus();
@@ -148,12 +102,14 @@ public class ControllerNewMenu {
         int check = 1;
         if (name.isEmpty()){
             if (check==1){
-                JOptionPane.showMessageDialog(null, "You must fill in all the required information before proceeding to create a new dish !", "Notice", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "You must fill name menu before proceeding to create a new meu !", "Notice", JOptionPane.WARNING_MESSAGE);
             }
             check =0;
         }
         if (newMenus.size()==0){
-            JOptionPane.showMessageDialog(null, "The menu doesn't have any dishes yet, please select dishes for the menu. !", "Notice", JOptionPane.WARNING_MESSAGE);
+            if (check==1) {
+                JOptionPane.showMessageDialog(null, "The menu doesn't have any dishes yet, please select dishes for the menu. !", "Notice", JOptionPane.WARNING_MESSAGE);
+            }
             check =0;
         }
         return (check==1) ? true : false;

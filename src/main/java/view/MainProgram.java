@@ -2,6 +2,7 @@ package view;
 
 import com.formdev.flatlaf.FlatLightLaf;
 import controller.ControllerDish;
+import controller.ControllerMenu;
 import controller.ControllerNewMenu;
 import controller.ControllerPerson;
 import model.Menu;
@@ -16,10 +17,16 @@ public class MainProgram {
 
 
     // view chính-------------------------------------------------------------------------------------------------------
-    private static ViewMenu viewMenu ;
+    private static ViewMenu viewMenuMain ;
+    private static ViewMenu viewMenuCreatInBooking ;
+    private static ViewMenu viewMenuSelectInBooking ;
+
+
+
     private static ViewDish viewDishMain;
     private static ViewDish viewDishInNewMenu;
-    private static ViewNewMenu viewNewMenu ;
+    private static ViewNewMenu viewNewMenuMain ;
+    private static ViewNewMenu viewNewMenuInBooking ;
     private static ViewTable viewTable ;
     private static ViewPerson viewPersonMain;
     private static ViewPerson viewPersonInBooking;
@@ -27,17 +34,37 @@ public class MainProgram {
     private static ViewTransaction viewTransaction;
     private static ViewHome viewHome ;
     // get + set -------------------------------------------------------------------------------------------------------
+
+    public static ViewNewMenu getViewNewMenuInBooking() {
+        return viewNewMenuInBooking;
+    }
+    public static void setViewNewMenuInBooking(ViewNewMenu viewNewMenuInBooking) {
+        MainProgram.viewNewMenuInBooking = viewNewMenuInBooking;
+    }
+    public static ViewMenu getViewMenuCreatInBooking() {
+        return viewMenuCreatInBooking;
+    }
+    public static void setViewMenuCreatInBooking(ViewMenu viewMenuCreatInBooking) {
+        MainProgram.viewMenuCreatInBooking = viewMenuCreatInBooking;
+    }
+    public static ViewMenu getViewMenuSelectInBooking() {
+        return viewMenuSelectInBooking;
+    }
+    public static void setViewMenuSelectInBooking(ViewMenu viewMenuSelectInBooking) {
+        MainProgram.viewMenuSelectInBooking = viewMenuSelectInBooking;
+    }
+
     public static ViewDish getViewDishInNewMenu() {
         return viewDishInNewMenu;
     }
     public static void setViewDishInNewMenu(ViewDish viewDishInNewMenu) {
         MainProgram.viewDishInNewMenu = viewDishInNewMenu;
     }
-    public static ViewMenu getViewMenu() {
-        return viewMenu;
+    public static ViewMenu getViewMenuMain() {
+        return viewMenuMain;
     }
-    public static void setViewMenu(ViewMenu viewMenu) {
-        MainProgram.viewMenu = viewMenu;
+    public static void setViewMenuMain(ViewMenu viewMenuMain) {
+        MainProgram.viewMenuMain = viewMenuMain;
     }
     public static ViewDish getViewDishMain() {
         return viewDishMain;
@@ -45,11 +72,11 @@ public class MainProgram {
     public static void setViewDishMain(ViewDish viewDishMain) {
         MainProgram.viewDishMain = viewDishMain;
     }
-    public static ViewNewMenu getViewNewMenu() {
-        return viewNewMenu;
+    public static ViewNewMenu getViewNewMenuMain() {
+        return viewNewMenuMain;
     }
-    public static void setViewNewMenu(ViewNewMenu viewNewMenu) {
-        MainProgram.viewNewMenu = viewNewMenu;
+    public static void setViewNewMenuMain(ViewNewMenu viewNewMenuMain) {
+        MainProgram.viewNewMenuMain = viewNewMenuMain;
     }
     public static ViewTable getViewTable() {
         return viewTable;
@@ -99,27 +126,44 @@ public class MainProgram {
             // chuyển giao diện sang giống ios
             UIManager.setLookAndFeel(new FlatLightLaf());
             // Khởi tạo các thành phần tĩnh và áp dụng giao diện
-            viewMenu = new ViewMenu();
+            // Menu
+            viewMenuMain = new ViewMenu().ViewCreatNewMenu();
+            viewMenuSelectInBooking = new ViewMenu().ViewChoseMenu();
+            viewMenuCreatInBooking = new ViewMenu().ViewCreatNewMenu();
             // Dish
             viewDishMain = new ViewDish().ViewMainDish();
             viewDishInNewMenu = new ViewDish().ViewSelectDish();
-
-            viewNewMenu = new ViewNewMenu();
+            // new menu
+            viewNewMenuMain = new ViewNewMenu();
+            viewNewMenuInBooking = new ViewNewMenu();
+            // table
             viewTable = new ViewTable();
+            // person
             viewPersonMain = new ViewPerson().ViewPersonMain();
             viewPersonInBooking = new ViewPerson().ViewPersonSelect();
+            // booing
             viewBooking = new ViewBooking();
+            // transaction
             viewTransaction = new ViewTransaction();
             viewHome = new ViewHome();
         } catch (Exception e){
             e.printStackTrace();
         }
         // set controller cho các view
+        // person
         ControllerPerson controllerPersonMain = new ControllerPerson(viewPersonMain);
         ControllerPerson controllerPersonInBooking = new ControllerPerson(viewPersonInBooking);
+        // Dish
         ControllerDish controllerDishMain = new ControllerDish(viewDishMain);
         ControllerDish controllerDishInNewMenu = new ControllerDish(viewDishInNewMenu);
-        ControllerNewMenu controllerNewMenu = new ControllerNewMenu(viewNewMenu);
+        // new menu
+        ControllerNewMenu controllerNewMenu = new ControllerNewMenu(viewNewMenuMain);
+        ControllerNewMenu controllerNewMenuInBooking = new ControllerNewMenu(viewNewMenuInBooking);
+        // menu
+        ControllerMenu controllerMenuMain = new ControllerMenu(viewMenuMain);
+        ControllerMenu controllerMenuCreatInBooking = new ControllerMenu(viewMenuCreatInBooking);
+        ControllerMenu controllerMenuSelectInBooking = new ControllerMenu(viewMenuSelectInBooking);
+
 
     }
 

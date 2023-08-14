@@ -13,10 +13,11 @@ import java.util.ArrayList;
 public class ControllerBooking {
     private static ArrayList<Booking> bookings = new ArrayList<>();
     public static ViewTable viewTable = new ViewTable().viewTableSelectTable();
-    public static ViewMenu viewMenu = new ViewMenu().ViewChoseMenu();
-    public static ViewBooking viewBooking  = new ViewBooking();
-    public static ViewNewMenu viewNewMenu = new ViewNewMenu();
-    public static ViewPerson viewPerson = new ViewPerson().ViewPersonSelect();
+    public static ViewMenu viewMenuSelect = MainProgram.getViewMenuSelectInBooking();
+    public static ViewMenu viewMenuCreat = MainProgram.getViewMenuCreatInBooking();
+//    public static ViewBooking viewBooking  = new ViewBooking();
+    public static ViewNewMenu viewNewMenu = MainProgram.getViewNewMenuInBooking();
+    public static ViewPerson viewPerson = MainProgram.getViewPersonInBooking();
     public static int idPerson;
 
     public static int getIdPerson() {
@@ -25,29 +26,12 @@ public class ControllerBooking {
 
     // get + set--------------------------------------------------------------------------------------------------------
 
-
-    public static ViewBooking getViewBooking() {
-        return viewBooking;
-    }
-
-    public static void setViewBooking(ViewBooking viewBooking) {
-        ControllerBooking.viewBooking = viewBooking;
-    }
-
     public static ViewTable getViewTable() {
         return viewTable;
     }
 
     public static void setViewTable(ViewTable viewTable) {
         ControllerBooking.viewTable = viewTable;
-    }
-
-    public static JPanel getViewMenu() {
-        return viewMenu;
-    }
-
-    public static void setViewMenu(ViewMenu viewMenu) {
-        ControllerBooking.viewMenu = viewMenu;
     }
 
     public static JPanel getViewNewMenu() {
@@ -107,7 +91,7 @@ public class ControllerBooking {
                 // Xóa tất cả các thành phần con khỏi JPanel
                 viewBooking.getCenterViewBooking().removeAll();
                 // Gọi hàm searchTableList() để thực hiện tìm kiếm và cập nhật dữ liệu
-                viewBooking.getCenterViewBooking().add(viewMenu, BorderLayout.CENTER);
+                viewBooking.getCenterViewBooking().add(viewMenuSelect, BorderLayout.CENTER);
                 viewBooking.revalidate();
                 viewBooking.repaint();
             }
