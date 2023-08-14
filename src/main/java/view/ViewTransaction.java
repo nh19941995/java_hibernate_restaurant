@@ -55,10 +55,88 @@ public class ViewTransaction extends JPanel{
     // get + set--------------------------------------------------------------------------------------------------------
 
 
+    public JTable getTable() {
+        return table;
+    }
+
+    public void setTable(JTable table) {
+        this.table = table;
+    }
+
+    public JLabel getFirstName() {
+        return FirstName;
+    }
+
+    public void setFirstName(JLabel firstName) {
+        FirstName = firstName;
+    }
+
+    public JLabel getLastName() {
+        return LastName;
+    }
+
+    public void setLastName(JLabel lastName) {
+        LastName = lastName;
+    }
+
+    public JLabel getPhone() {
+        return Phone;
+    }
+
+    public void setPhone(JLabel phone) {
+        Phone = phone;
+    }
+
+    public JComboBox<String> getSelecFilterType() {
+        return SelecFilterType;
+    }
+
+    public JComboBox<String> getSelecType() {
+        return SelecType;
+    }
+
+    public JTextField getInputValue() {
+        return inputValue;
+    }
+
+    public JTextField getInputTime() {
+        return inputTime;
+    }
+
+    public JTextField getInputDate() {
+        return inputDate;
+    }
+
+    public JTextField getInputFilterPhone() {
+        return inputFilterPhone;
+    }
+
+    public JTextField getInputFilterDate() {
+        return inputFilterDate;
+    }
+
+    public JTextField getInputComment() {
+        return inputComment;
+    }
+
+    public JButton getButtonCreatTransaction() {
+        return buttonCreatTransaction;
+    }
+    public JButton getButtonAllTransaction() {
+        return buttonAllTransaction;
+    }
+    public JButton getButtonSelect() {
+        return buttonSelect;
+    }
+    public JButton getButtonDelete() {
+        return buttonDelete;
+    }
+    public JButton getButtonExportToExcel() {
+        return buttonExportToExcel;
+    }
     public Object[][] getData() {
         return data;
     }
-
     public void setData(Object[][] data) {
         this.data = data;
     }
@@ -326,5 +404,6 @@ public class ViewTransaction extends JPanel{
         jPanel.add(grid,BorderLayout.CENTER);
         return jPanel;
     }
+
 
 }
