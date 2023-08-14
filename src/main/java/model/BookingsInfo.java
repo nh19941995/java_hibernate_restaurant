@@ -3,6 +3,8 @@ package model;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "bookings_info")
@@ -33,6 +35,9 @@ public class BookingsInfo {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "person_id", nullable = false)
     private Person person;
+
+    @OneToMany(mappedBy = "info")
+    private Set<Booking> bookings = new LinkedHashSet<>();
 
     public Integer getId() {
         return id;
@@ -96,6 +101,14 @@ public class BookingsInfo {
 
     public void setPerson(Person person) {
         this.person = person;
+    }
+
+    public Set<Booking> getBookings() {
+        return bookings;
+    }
+
+    public void setBookings(Set<Booking> bookings) {
+        this.bookings = bookings;
     }
 
 }

@@ -21,6 +21,12 @@ public class ViewTempMenu extends JPanel{
     public void setData(Object[][] data) {
         this.data = data;
     }
+    public JTable getTable() {
+        return table;
+    }
+    public void setTable(JTable table) {
+        this.table = table;
+    }
     public ViewTempMenu() {
         setLayout(new BorderLayout());
         add(blockTable(),BorderLayout.CENTER);

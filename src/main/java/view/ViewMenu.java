@@ -4,9 +4,7 @@ package view;
 import controller.ControllerTime;
 import dao.MenuDAO;
 import dao.MenuNameDAO;
-import dao.PersonDAO;
 import model.MenuName;
-import model.Person;
 import view.tool.BoderTool;
 import view.tool.GridTool;
 

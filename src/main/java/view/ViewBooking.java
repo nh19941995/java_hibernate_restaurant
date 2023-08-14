@@ -41,46 +41,34 @@ public class ViewBooking extends JPanel {
 
     // get + set -------------------------------------------------------------------------------------------------------
 
+    public JTextField getInputStartTime() {
+        return inputStartTime;
+    }
 
-    public JLabel getLabelFirstName() {
-        return labelFirstName;
+    public JTextField getInputDeposit() {
+        return inputDeposit;
+    }
+
+    public JTextField getInputEndTime() {
+        return inputEndTime;
+    }
+
+    public JTextField getInputComment() {
+        return inputComment;
+    }
+
+    public JTextField getInputDate() {
+        return inputDate;
     }
 
     public JLabel getLabelFirstNameValue() {
         return labelFirstNameValue;
     }
 
-    public JLabel getLabelLastName() {
-        return labelLastName;
-    }
-
     public JLabel getLabelLastNameValue() {
         return labelLastNameValue;
     }
 
-    public JLabel getLabelDeposit() {
-        return labelDeposit;
-    }
-
-    public JLabel getLabelDate() {
-        return labelDate;
-    }
-
-    public JLabel getLabelStartTime() {
-        return labelStartTime;
-    }
-
-    public JLabel getLabelEndTime() {
-        return labelEndTime;
-    }
-
-    public JLabel getLabelComment() {
-        return labelComment;
-    }
-
-    public BoderTool getLeftViewBooking() {
-        return leftViewBooking;
-    }
     public BoderTool getCenterViewBooking() {
         return centerViewBooking;
     }
