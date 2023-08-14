@@ -1,10 +1,7 @@
 package view;
 
 import com.formdev.flatlaf.FlatLightLaf;
-import controller.ControllerDish;
-import controller.ControllerMenu;
-import controller.ControllerNewMenu;
-import controller.ControllerPerson;
+import controller.*;
 import model.Menu;
 
 import javax.swing.*;
@@ -17,23 +14,35 @@ public class MainProgram {
 
 
     // view chính-------------------------------------------------------------------------------------------------------
+    // menu
     private static ViewMenu viewMenuMain ;
     private static ViewMenu viewMenuCreatInBooking ;
     private static ViewMenu viewMenuSelectInBooking ;
-
-
-
-    private static ViewDish viewDishMain;
-    private static ViewDish viewDishInNewMenu;
+    // dish
+    private static ViewDish viewDishMain;  // tab chính của dish
+    private static ViewDish viewDishInNewMenuInBooking;  // bảng dish trong bảng newMenu trong tab booking
+    private static ViewDish viewDishInNewMenuMain;  // bảng dish trong tab newMenu
+    // new menu
     private static ViewNewMenu viewNewMenuMain ;
     private static ViewNewMenu viewNewMenuInBooking ;
+    // table
     private static ViewTable viewTable ;
+    // person
     private static ViewPerson viewPersonMain;
     private static ViewPerson viewPersonInBooking;
+    // booking
     private static ViewBooking viewBooking;
     private static ViewTransaction viewTransaction;
     private static ViewHome viewHome ;
     // get + set -------------------------------------------------------------------------------------------------------
+
+    public static ViewDish getViewDishInNewMenuMain() {
+        return viewDishInNewMenuMain;
+    }
+
+    public static void setViewDishInNewMenuMain(ViewDish viewDishInNewMenuMain) {
+        MainProgram.viewDishInNewMenuMain = viewDishInNewMenuMain;
+    }
 
     public static ViewNewMenu getViewNewMenuInBooking() {
         return viewNewMenuInBooking;
@@ -54,12 +63,14 @@ public class MainProgram {
         MainProgram.viewMenuSelectInBooking = viewMenuSelectInBooking;
     }
 
-    public static ViewDish getViewDishInNewMenu() {
-        return viewDishInNewMenu;
+    public static ViewDish getViewDishInNewMenuInBooking() {
+        return viewDishInNewMenuInBooking;
     }
-    public static void setViewDishInNewMenu(ViewDish viewDishInNewMenu) {
-        MainProgram.viewDishInNewMenu = viewDishInNewMenu;
+
+    public static void setViewDishInNewMenuInBooking(ViewDish viewDishInNewMenuInBooking) {
+        MainProgram.viewDishInNewMenuInBooking = viewDishInNewMenuInBooking;
     }
+
     public static ViewMenu getViewMenuMain() {
         return viewMenuMain;
     }
@@ -127,15 +138,16 @@ public class MainProgram {
             UIManager.setLookAndFeel(new FlatLightLaf());
             // Khởi tạo các thành phần tĩnh và áp dụng giao diện
             // Menu
-            viewMenuMain = new ViewMenu().ViewCreatNewMenu();
+            viewMenuMain = new ViewMenu().ViewChoseMenu();
             viewMenuSelectInBooking = new ViewMenu().ViewChoseMenu();
             viewMenuCreatInBooking = new ViewMenu().ViewCreatNewMenu();
             // Dish
             viewDishMain = new ViewDish().ViewMainDish();
-            viewDishInNewMenu = new ViewDish().ViewSelectDish();
+            viewDishInNewMenuInBooking = new ViewDish().ViewSelectDish();
+            viewDishInNewMenuMain = new ViewDish().ViewSelectDish();
             // new menu
-            viewNewMenuMain = new ViewNewMenu();
-            viewNewMenuInBooking = new ViewNewMenu();
+            viewNewMenuMain = new ViewNewMenu().ViewNewMenuMain();
+            viewNewMenuInBooking = new ViewNewMenu().ViewNewMenuInBooing();
             // table
             viewTable = new ViewTable();
             // person
@@ -143,11 +155,18 @@ public class MainProgram {
             viewPersonInBooking = new ViewPerson().ViewPersonSelect();
             // booing
             viewBooking = new ViewBooking();
+            setViewBooking(viewBooking);
             // transaction
             viewTransaction = new ViewTransaction();
             viewHome = new ViewHome();
+
         } catch (Exception e){
             e.printStackTrace();
+        }
+        if (viewBooking!= null){
+            System.out.println("main không null nhé");
+        }else {
+            System.out.println("null rồi bà con ơi");
         }
         // set controller cho các view
         // person
@@ -155,7 +174,8 @@ public class MainProgram {
         ControllerPerson controllerPersonInBooking = new ControllerPerson(viewPersonInBooking);
         // Dish
         ControllerDish controllerDishMain = new ControllerDish(viewDishMain);
-        ControllerDish controllerDishInNewMenu = new ControllerDish(viewDishInNewMenu);
+        ControllerDish controllerDishInNewMenuInBooking = new ControllerDish(viewDishInNewMenuInBooking);
+        ControllerDish controllerDishInNewMenuMain = new ControllerDish(viewDishInNewMenuMain);
         // new menu
         ControllerNewMenu controllerNewMenu = new ControllerNewMenu(viewNewMenuMain);
         ControllerNewMenu controllerNewMenuInBooking = new ControllerNewMenu(viewNewMenuInBooking);
@@ -163,6 +183,11 @@ public class MainProgram {
         ControllerMenu controllerMenuMain = new ControllerMenu(viewMenuMain);
         ControllerMenu controllerMenuCreatInBooking = new ControllerMenu(viewMenuCreatInBooking);
         ControllerMenu controllerMenuSelectInBooking = new ControllerMenu(viewMenuSelectInBooking);
+        // booking
+
+        ControllerBooking controllerBooking = new ControllerBooking(viewBooking);
+
+
 
 
     }

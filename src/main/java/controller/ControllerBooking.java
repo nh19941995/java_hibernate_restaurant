@@ -6,6 +6,8 @@ import model.Person;
 import view.*;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -18,14 +20,20 @@ public class ControllerBooking {
 //    public static ViewBooking viewBooking  = new ViewBooking();
     public static ViewNewMenu viewNewMenu = MainProgram.getViewNewMenuInBooking();
     public static ViewPerson viewPerson = MainProgram.getViewPersonInBooking();
+    public static ViewBooking viewBooking;
     public static int idPerson;
+    // get + set--------------------------------------------------------------------------------------------------------
 
     public static int getIdPerson() {
         return idPerson;
     }
 
-    // get + set--------------------------------------------------------------------------------------------------------
-
+    public static ViewBooking getViewBooking() {
+        return viewBooking;
+    }
+    public static void setViewBooking(ViewBooking viewBooking) {
+        ControllerBooking.viewBooking = viewBooking;
+    }
     public static ViewTable getViewTable() {
         return viewTable;
     }
@@ -62,6 +70,7 @@ public class ControllerBooking {
         ControllerBooking.bookings = bookings;
     }
 
+
     public ControllerBooking(ViewBooking viewBooking) {
 
 
@@ -83,7 +92,7 @@ public class ControllerBooking {
             }
         });
 
-        // sự kiện chọn menu
+        // sự kiện mở bảng chọn menu
         JButton buttonSelectMenuFromList = viewBooking.getButtonSelectMenuFromList();
         buttonSelectMenuFromList.addMouseListener(new MouseAdapter() {
             @Override
@@ -97,7 +106,7 @@ public class ControllerBooking {
             }
         });
 
-        // sự kiện tạo mới menu
+        // sự kiện mở bảng tạo mới menu
         JButton buttonAddNewMenu = viewBooking.getButtonAddNewMenu();
         buttonAddNewMenu.addMouseListener(new MouseAdapter() {
             @Override
@@ -129,18 +138,9 @@ public class ControllerBooking {
 
 
 
+        selectPerson();
 
-        // sự kiện chọn người từ bảng person
-//
-//        JButton buttonSelectPerson = ControllerBooking.getViewPerson().ViewPersonSelect().getButtonSelectPerson();
-////        JButton buttonSelectPerson = viewPerson.getButtonSelectPerson();
-//        buttonSelectPerson.addMouseListener(new MouseAdapter() {
-//            @Override
-//            public void mouseClicked(MouseEvent e) {
-//                System.out.println("haha");
-//
-//            }
-//        });
+
 
 
 
@@ -149,12 +149,33 @@ public class ControllerBooking {
 
 
     }
-//    public static void reloadBlockInfoPerson(ViewBooking viewBooking){
-//        int id = ControllerBooking.getIdPerson();
-//        Person person = PersonDAO.getInstance().getById(id);
-//        viewBooking.getLabelFirstName().setText(person.getName()); // Đặt giá trị cho JLabel
-//        viewBooking.getLabelLastName().setText(person.getLastName()); // Đặt giá trị cho JLabel
-//        viewBooking.getLabelFirstName().repaint(); // Thông báo cho nhãn vẽ lại để hiển thị nội dung mới
-//        viewBooking.getLabelLastName().repaint(); // Thông báo cho nhãn vẽ lại để hiển thị nội dung mới
-//    }
+    public static void selectPerson(){
+        ViewPerson viewPerson = MainProgram.getViewPersonInBooking();
+        JButton buttonSelectPerson = viewPerson.getButtonSelectPerson();
+        buttonSelectPerson.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ViewBooking viewBooking = MainProgram.getViewBooking();
+                ControllerBooking.setViewBooking(viewBooking);
+                System.out.println("check");
+                idPerson = viewPerson.getIdSelect();
+                if (viewBooking!= null){
+                    reloadBlockInfoPerson(viewBooking);
+                }else {
+                    System.out.println("null rồi bà con ơi");
+                }
+//                TransactionListView.reloadJpanel();
+            }
+        });
+    }
+
+    // chọn người
+    public static void reloadBlockInfoPerson(ViewBooking viewBooking){
+        int id = ControllerBooking.getIdPerson();
+        Person person = PersonDAO.getInstance().getById(id);
+        viewBooking.getLabelFirstNameValue().setText(person.getName()); // Đặt giá trị cho JLabel
+        viewBooking.getLabelLastNameValue().setText(person.getLastName()); // Đặt giá trị cho JLabel
+        viewBooking.getLabelFirstNameValue().repaint(); // Thông báo cho nhãn vẽ lại để hiển thị nội dung mới
+        viewBooking.getLabelLastNameValue().repaint(); // Thông báo cho nhãn vẽ lại để hiển thị nội dung mới
+    }
 }

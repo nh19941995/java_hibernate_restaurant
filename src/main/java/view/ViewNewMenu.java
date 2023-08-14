@@ -70,11 +70,35 @@ public class ViewNewMenu extends JPanel {
     }
 
     public ViewNewMenu() {
+
+    }
+
+    public ViewNewMenu ViewNewMenuMain() {
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         add(blockMenu());
-        add(blockDish());
-//        new ControllerNewMenu(this);
+        add(blockDishInNewMenuMain());
+        return  this;
     }
+    public ViewNewMenu ViewNewMenuInBooing() {
+        setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+        add(blockMenu());
+        add(blockDishInNewMenuInBooking());
+        return  this;
+    }
+
+
+
+    private JPanel blockDishInNewMenuMain(){
+        BoderTool boderTool = new BoderTool();
+        boderTool.add(MainProgram.getViewDishInNewMenuMain(),BorderLayout.CENTER);
+        return boderTool;
+    }
+    private JPanel blockDishInNewMenuInBooking (){
+        BoderTool boderTool = new BoderTool();
+        boderTool.add(MainProgram.getViewDishInNewMenuInBooking(),BorderLayout.CENTER);
+        return boderTool;
+    }
+
 
     private boolean checkPriceAndNumber(ViewDish viewDish){
         String price = viewDish.getInputEnterPrice().getText();
@@ -103,11 +127,7 @@ public class ViewNewMenu extends JPanel {
         return boderTool;
     }
 
-    private JPanel blockDish(){
-        BoderTool boderTool = new BoderTool();
-        boderTool.add(MainProgram.getViewDishInNewMenu(),BorderLayout.CENTER);
-        return boderTool;
-    }
+
 
 
     private JPanel blockTop(){
