@@ -25,6 +25,8 @@ public class MainProgram {
     // new menu
     private static ViewNewMenu viewNewMenuMain ;
     private static ViewNewMenu viewNewMenuInBooking ;
+    // temp Menu
+    private static ViewTempMenu viewTempMenu ;
     // table
     private static ViewTable viewTableMain ;
     private static ViewTable viewTableInBooking ;
@@ -37,6 +39,13 @@ public class MainProgram {
     private static ViewTransaction viewTransaction;
     private static ViewHome viewHome ;
     // get + set -------------------------------------------------------------------------------------------------------
+
+    public static ViewTempMenu getViewTempMenu() {
+        return viewTempMenu;
+    }
+    public static void setViewTempMenu(ViewTempMenu viewTempMenu) {
+        MainProgram.viewTempMenu = viewTempMenu;
+    }
     public static ViewTable getViewTableInBooking() {
         return viewTableInBooking;
     }
@@ -98,15 +107,12 @@ public class MainProgram {
     public static void setViewNewMenuMain(ViewNewMenu viewNewMenuMain) {
         MainProgram.viewNewMenuMain = viewNewMenuMain;
     }
-
     public static ViewTable getViewTableMain() {
         return viewTableMain;
     }
-
     public static void setViewTableMain(ViewTable viewTableMain) {
         MainProgram.viewTableMain = viewTableMain;
     }
-
     public static ViewPerson getViewPersonMain() {
         return viewPersonMain;
     }
@@ -164,6 +170,8 @@ public class MainProgram {
             // new menu
             viewNewMenuMain = new ViewNewMenu().ViewNewMenuMain();
             viewNewMenuInBooking = new ViewNewMenu().ViewNewMenuInBooing();
+            // temp menu
+            viewTempMenu = new ViewTempMenu();
             // table
             viewTableMain = new ViewTable();
             viewTableInBooking = new ViewTable().viewTableSelectTable();
@@ -204,8 +212,10 @@ public class MainProgram {
         ControllerMenu controllerMenuCreatInBooking = new ControllerMenu(viewMenuCreatInBooking);
         ControllerMenu controllerMenuSelectInBooking = new ControllerMenu(viewMenuSelectInBooking);
         // booking
-        ControllerBooking controllerBooking = new ControllerBooking(viewBooking);
-        controllerBooking.selectTable();
+        if (viewBooking!=null){
+            ControllerBooking controllerBooking = new ControllerBooking(viewBooking);
+            controllerBooking.selectTable();
+        }
         // table
         ControllerTable controllerTableMain = new ControllerTable(viewTableMain);
         ControllerTable controllerTableInBooking = new ControllerTable(viewTableInBooking);

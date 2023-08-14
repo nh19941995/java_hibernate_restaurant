@@ -26,85 +26,58 @@ public class ControllerBooking {
     private static int idMenu;
     private static int idInTempBooking;
 
-    // view ------------------------------------------------------------------------------------------------------------
-    private static ViewTable viewTable = MainProgram.getViewTableInBooking();
-    private static ViewMenu viewMenuSelect = MainProgram.getViewMenuSelectInBooking();
-    private static ViewMenu viewMenuCreat = MainProgram.getViewMenuCreatInBooking();
-    private static ViewNewMenu viewNewMenu = MainProgram.getViewNewMenuInBooking();
-    private static ViewPerson viewPerson = MainProgram.getViewPersonInBooking();
-    private static ViewBooking viewBooking;
+
+
 
     // get + set--------------------------------------------------------------------------------------------------------
-    public static int getIdMenu() {
-        return idMenu;
-    }
-    public static void setIdMenu(int idMenu) {
-        ControllerBooking.idMenu = idMenu;
-    }
+
+
     public static int getIdPerson() {
         return idPerson;
     }
-    public static ViewBooking getViewBooking() {
-        return viewBooking;
-    }
-    public static void setViewBooking(ViewBooking viewBooking) {
-        ControllerBooking.viewBooking = viewBooking;
-    }
-    public static ViewTable getViewTable() {
-        return viewTable;
-    }
-    public static void setViewTable(ViewTable viewTable) {
-        ControllerBooking.viewTable = viewTable;
-    }
-    public static JPanel getViewNewMenu() {
-        return viewNewMenu;
-    }
-    public static void setViewNewMenu(ViewNewMenu viewNewMenu) {
-        ControllerBooking.viewNewMenu = viewNewMenu;
-    }
-    public static ViewPerson getViewPerson() {
-        return viewPerson;
-    }
-    public static void setViewPerson(ViewPerson viewPerson) {
-        ControllerBooking.viewPerson = viewPerson;
-    }
+
     public static void setIdPerson(int idPerson) {
         ControllerBooking.idPerson = idPerson;
     }
+
     public static ArrayList<Booking> getBookings() {
         return bookings;
     }
+
     public static void setBookings(ArrayList<Booking> bookings) {
         ControllerBooking.bookings = bookings;
     }
 
-
     public ControllerBooking(ViewBooking viewBooking) {
-        System.out.println("ControllerBooking dc gọi a");
+        System.out.println("ControllerBooking dc gọi");
 
-        // sự kiện mở bảng chọn menu
-        JButton buttonSelectMenuFromList = viewBooking.getButtonSelectMenuFromList();
-        buttonSelectMenuFromList.addMouseListener(new MouseAdapter() {
+        selectList();
+        selectPerson();
+        selectMenu();
+
+        // bảng table---------------------------------------------------------------------------------------------------
+
+
+
+
+    }
+
+    public static void selectList(){
+        ViewBooking viewBooking = MainProgram.getViewBooking();
+        ViewTable viewTable = MainProgram.getViewTableInBooking();
+        ViewNewMenu viewNewMenu = MainProgram.getViewNewMenuInBooking();
+        ViewMenu viewMenu = MainProgram.getViewMenuSelectInBooking();
+
+
+        // chuyển sang tab chọn bàn
+        JButton buttonTableFromList = viewBooking.getButtonSelectTableFromList();
+        buttonTableFromList.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 // Xóa tất cả các thành phần con khỏi JPanel
                 viewBooking.getCenterViewBooking().removeAll();
                 // Gọi hàm searchTableList() để thực hiện tìm kiếm và cập nhật dữ liệu
-                viewBooking.getCenterViewBooking().add(viewMenuSelect, BorderLayout.CENTER);
-                viewBooking.revalidate();
-                viewBooking.repaint();
-            }
-        });
-
-        // sự kiện mở bảng tạo mới menu
-        JButton buttonAddNewMenu = viewBooking.getButtonAddNewMenu();
-        buttonAddNewMenu.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                // Xóa tất cả các thành phần con khỏi JPanel
-                viewBooking.getCenterViewBooking().removeAll();
-                // Gọi hàm searchTableList() để thực hiện tìm kiếm và cập nhật dữ liệu
-                viewBooking.getCenterViewBooking().add(viewNewMenu, BorderLayout.CENTER);
+                viewBooking.getCenterViewBooking().add(viewTable, BorderLayout.CENTER);
                 viewBooking.revalidate();
                 viewBooking.repaint();
             }
@@ -124,48 +97,60 @@ public class ControllerBooking {
             }
         });
 
-        // chuyển sang tab chọn bàn
-        JButton buttonTableFromList = viewBooking.getButtonSelectTableFromList();
-        buttonTableFromList.addMouseListener(new MouseAdapter() {
+        // sự kiện mở bảng tạo mới menu
+        JButton buttonAddNewMenu = viewBooking.getButtonAddNewMenu();
+        buttonAddNewMenu.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 // Xóa tất cả các thành phần con khỏi JPanel
                 viewBooking.getCenterViewBooking().removeAll();
                 // Gọi hàm searchTableList() để thực hiện tìm kiếm và cập nhật dữ liệu
-                viewBooking.getCenterViewBooking().add(viewTable, BorderLayout.CENTER);
+                viewBooking.getCenterViewBooking().add(viewNewMenu, BorderLayout.CENTER);
                 viewBooking.revalidate();
                 viewBooking.repaint();
             }
         });
 
-
-
-
-
-
-        selectPerson();
-        selectMenu();
-
-        // bảng table---------------------------------------------------------------------------------------------------
-
-        // sự kiện click vào bảng
-        JTable tables = viewTable.getTable();
-        tables.addMouseListener(new MouseAdapter() {
+        // sự kiện mở bảng chọn menu
+        JButton buttonSelectMenuFromList = viewBooking.getButtonSelectMenuFromList();
+        buttonSelectMenuFromList.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (e.getClickCount() == 1) { // Kiểm tra nếu chỉ là một lần click chuột (clickCount = 1)
-                    int row = tables.getSelectedRow(); // Lấy chỉ số dòng đã được chọn
-                    if (row != -1) { // Kiểm tra xem có dòng nào được chọn không (-1 nghĩa là không có dòng nào được chọn)
-                        String id = tables.getValueAt(row, 0).toString(); // Lấy giá trị từ ô ở cột đầu tiên (cột ID) của dòng đã chọn
-                        idInTempBooking = (Integer.parseInt(id));
-                        System.out.println("Bảng BookingListView đang chọn hàng có id là: "+ id);
-                    }
-                }
+                // Xóa tất cả các thành phần con khỏi JPanel
+                viewBooking.getCenterViewBooking().removeAll();
+                // Gọi hàm searchTableList() để thực hiện tìm kiếm và cập nhật dữ liệu
+                viewBooking.getCenterViewBooking().add(viewMenu, BorderLayout.CENTER);
+                viewBooking.revalidate();
+                viewBooking.repaint();
             }
         });
-
-
     }
+
+
+
+
+
+
+
+
+    public static void clickOnTempBooking(){
+        // sự kiện click vào bảng
+//        JTable tables = viewTable.getTable();
+//        tables.addMouseListener(new MouseAdapter() {
+//            @Override
+//            public void mouseClicked(MouseEvent e) {
+//                if (e.getClickCount() == 1) { // Kiểm tra nếu chỉ là một lần click chuột (clickCount = 1)
+//                    int row = tables.getSelectedRow(); // Lấy chỉ số dòng đã được chọn
+//                    if (row != -1) { // Kiểm tra xem có dòng nào được chọn không (-1 nghĩa là không có dòng nào được chọn)
+//                        String id = tables.getValueAt(row, 0).toString(); // Lấy giá trị từ ô ở cột đầu tiên (cột ID) của dòng đã chọn
+//                        idInTempBooking = (Integer.parseInt(id));
+//                        System.out.println("Bảng BookingListView đang chọn hàng có id là: "+ id);
+//                    }
+//                }
+//            }
+//        });
+    }
+
     public static void selectPerson(){
         ViewPerson viewPerson = MainProgram.getViewPersonInBooking();
         JButton buttonSelectPerson = viewPerson.getButtonSelectPerson();
@@ -173,7 +158,7 @@ public class ControllerBooking {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ViewBooking viewBooking = MainProgram.getViewBooking();
-                ControllerBooking.setViewBooking(viewBooking);
+//                ControllerBooking.setViewBooking(viewBooking);
                 System.out.println("check");
                 idPerson = viewPerson.getIdSelect();
                 if (viewBooking!= null){
@@ -234,10 +219,13 @@ public class ControllerBooking {
 
 
     public static void selectTable(){  // chọn bàn
+        ViewTable viewTable = MainProgram.getViewTableInBooking();
         JButton buttonSelectTable = viewTable.getButtonSelectTable();
         buttonSelectTable.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                System.out.println("selectTable");
+                bookings.stream().forEach(s-> System.out.println(s.getTable().getId()));
                 int tableIdSelect = viewTable.getIdSelect();
                 System.out.println("nhận :" + tableIdSelect);
                 // lấy về đối tương table theo id bàn đã chọn từ bảng
@@ -271,7 +259,7 @@ public class ControllerBooking {
                         }
                     }
                 }
-                MainProgram.getViewListBooking().loadData();
+                MainProgram.getViewTempMenu().loadData();
             }
         });
     }

@@ -109,8 +109,11 @@ public class ViewBooking extends JPanel {
     public ViewBooking() {
         setLayout(new BorderLayout());
         leftViewBooking.add(blockLeft());
-        ViewPerson viewPerson = ControllerBooking.getViewPerson();
-        centerViewBooking.add(viewPerson,BorderLayout.CENTER);
+        ViewPerson viewPerson = MainProgram.getViewPersonInBooking();
+        if (viewPerson!=null){
+            centerViewBooking.add(viewPerson,BorderLayout.CENTER);
+
+        }
 
 
         add(leftViewBooking,BorderLayout.WEST);
@@ -134,7 +137,7 @@ public class ViewBooking extends JPanel {
 
         labelTittle.setFont(new Font("Arial", Font.BOLD, 16));
 
-        ViewTempMenu viewTempMenu = new ViewTempMenu();
+        ViewTempMenu viewTempMenu = MainProgram.getViewTempMenu();
         JPanel left = new JPanel();
         JPanel right = new JPanel();
         left.setPreferredSize(new Dimension(20, 20));
