@@ -7,7 +7,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
-public class ViewListBooking extends JPanel{
+public class ViewTempBooking extends JPanel{
     // data ------------------------------------------------------------------------------------------------------------
     private Object lockObject = new Object();
     private JTable table = new JTable();
@@ -26,7 +26,7 @@ public class ViewListBooking extends JPanel{
     public void setData(Object[][] data) {
         this.data = data;
     }
-    public ViewListBooking() {
+    public ViewTempBooking() {
         setLayout(new BorderLayout());
         this.add(blockTable(), BorderLayout.CENTER);
     }

@@ -35,7 +35,7 @@ public class MainProgram {
     private static ViewPerson viewPersonInTransaction;
     // booking
     private static ViewBooking viewBooking;
-    private static ViewListBooking viewListBooking;
+    private static ViewTempBooking viewTempBooking;
     private static ViewTransaction viewTransaction;
     private static ViewHome viewHome ;
     // get + set -------------------------------------------------------------------------------------------------------
@@ -57,12 +57,15 @@ public class MainProgram {
     public static void setViewTableInBooking(ViewTable viewTableInBooking) {
         MainProgram.viewTableInBooking = viewTableInBooking;
     }
-    public static ViewListBooking getViewListBooking() {
-        return viewListBooking;
+
+    public static ViewTempBooking getViewTempBooking() {
+        return viewTempBooking;
     }
-    public static void setViewListBooking(ViewListBooking viewListBooking) {
-        MainProgram.viewListBooking = viewListBooking;
+
+    public static void setViewTempBooking(ViewTempBooking viewTempBooking) {
+        MainProgram.viewTempBooking = viewTempBooking;
     }
+
     public static ViewDish getViewDishInNewMenuMain() {
         return viewDishInNewMenuMain;
     }
@@ -186,7 +189,7 @@ public class MainProgram {
             // booing
             viewBooking = new ViewBooking();
             // list booking
-            viewListBooking = new ViewListBooking();
+            viewTempBooking = new ViewTempBooking();
             setViewBooking(viewBooking);
             // transaction
             viewTransaction = new ViewTransaction();
@@ -220,6 +223,8 @@ public class MainProgram {
         // table
         ControllerTable controllerTableMain = new ControllerTable(viewTableMain);
         ControllerTable controllerTableInBooking = new ControllerTable(viewTableInBooking);
+        // transaction
+        ControllerTransaction controllerTransaction = new ControllerTransaction(viewTransaction);
     }
 
 

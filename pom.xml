@@ -69,6 +69,19 @@
             <artifactId>flatlaf</artifactId>
             <version>0.22</version>
         </dependency>
+        <!-- Apache POI - Core -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>5.0.0</version>
+        </dependency>
+
+        <!-- Apache POI - OOXML (XSSF) -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>5.0.0</version>
+        </dependency>
     </dependencies>
 
     <build>

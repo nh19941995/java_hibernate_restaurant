@@ -254,7 +254,7 @@ public class ViewDish extends JPanel{
         grid.GridAddCustom(labelFilerByPrice, 1,0,10,10,10,0,1);
         grid.GridAdd(inputFilerByPrice, 1,1,10,10,10);
         GridTool grid2 = new GridTool();
-        grid2.GridAddCustom(buttonSeach,0,0,10,10,10,10,1);
+        grid2.GridAddCustom(buttonSeach,0,0,20,20,20,20,1);
         jPanel.add(grid,BorderLayout.CENTER);
         jPanel.add(grid2,BorderLayout.EAST);
         return jPanel;

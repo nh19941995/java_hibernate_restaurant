@@ -83,6 +83,7 @@ public class ControllerBooking {
                 viewBooking.getCenterViewBooking().add(MainProgram.getViewPersonInBooking(), BorderLayout.CENTER);
                 viewBooking.revalidate();
                 viewBooking.repaint();
+
             }
         });
 
@@ -350,6 +351,7 @@ public class ControllerBooking {
                 System.out.println("check");
                 idPerson = viewPerson.getIdSelect();
                 reloadBlockInfoPerson(viewBooking);
+
             }
         });
     }

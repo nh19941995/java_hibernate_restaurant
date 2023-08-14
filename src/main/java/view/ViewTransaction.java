@@ -525,5 +525,20 @@ public class ViewTransaction extends JPanel{
         return jPanel;
     }
 
+    public static void setPersonForLabel(){
+        System.out.println("đm");
+        ViewTransaction viewTransaction = MainProgram.getViewTransaction();
+        ViewPerson viewPersonInTransaction = MainProgram.getViewPersonInTransaction();
+        int id = viewPersonInTransaction.getIdSelect();
+        Person person = PersonDAO.getInstance().getById(id);
+        viewTransaction.getPhone().setText(person.getPhone());
+        viewTransaction.getLastName().setText(person.getLastName());
+        viewTransaction.getFirstName().setText(person.getName());
+
+        viewTransaction.getPhone().repaint();
+        viewTransaction.getLastName().repaint();
+        viewTransaction.getFirstName().repaint();
+    }
+
 
 }

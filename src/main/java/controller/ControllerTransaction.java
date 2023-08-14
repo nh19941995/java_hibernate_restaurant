@@ -6,6 +6,7 @@ import dao.TransactionsTypeDAO;
 import model.Person;
 import model.Transaction;
 import view.MainProgram;
+import view.ViewPerson;
 import view.ViewTransaction;
 
 import javax.swing.*;
@@ -13,14 +14,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class ControllerTransaction {
     private static JButton delete = MainProgram.getViewTransaction().getButtonDelete();
     private static JTable table = MainProgram.getViewTransaction().getTable();
+    private static String[] columnName =  new String [] {"ID", "Content","Type","Value","Time", "Date","Person Name", "Phone number", "Status"};
 
-    public ControllerTransaction() {
+
+    public ControllerTransaction(ViewTransaction viewTransaction) {
         creatTransaction();
     }
     public static void creatTransaction(){
@@ -44,7 +49,6 @@ public class ControllerTransaction {
                                 TransactionDAO.getInstance().update(transaction);
                             }else {
                                 JOptionPane.showMessageDialog(null, "Please select the row you want to delete !", "Notice", JOptionPane.WARNING_MESSAGE);
-
                             }
                         }
                     }
@@ -54,6 +58,46 @@ public class ControllerTransaction {
                 viewTransaction.loadData();
             }
         });
+
+
+
+
+
+
+        // sự kiện chọn person
+        JButton buttonSelectPerson = MainProgram.getViewPersonInTransaction().getButtonSelectPerson();
+        buttonSelectPerson.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                System.out.println("lồn");
+                MainProgram.getViewTransaction().setPersonForLabel();
+            }
+        });
+
+
+        JButton buttonExportToExcel = MainProgram.getViewTransaction().getButtonExportToExcel();
+        buttonExportToExcel.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Lấy thời gian hiện tại
+                LocalDateTime currentTime = LocalDateTime.now();
+
+                // Định dạng theo "yyyy-MM-dd_HH-mm"
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm");
+                String file = ".xlsx";
+                String formattedDateTime = currentTime.format(formatter)+file;
+
+                try {
+                    ExcelExporter.exportToExcel(table,columnName,formattedDateTime);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+                System.out.println("Xuất ra file excel !");
+            }
+        });
+
+
+
 
         buttonNewTransaction.addActionListener(new ActionListener() {
             @Override
@@ -128,4 +172,10 @@ public class ControllerTransaction {
         viewTransaction.getInputFilterPhone().setText("");
         viewTransaction.getInputComment().setText("");
     }
+
+
+
+
+
+
 }
