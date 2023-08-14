@@ -6,14 +6,13 @@ import model.Dish;
 import model.Menu;
 import view.tool.BoderTool;
 import view.tool.GridTool;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.List;
+
 
 public class ViewNewMenu extends JPanel {
     // data-------------------------------------------------------------------------------------------------------------
@@ -32,34 +31,26 @@ public class ViewNewMenu extends JPanel {
     private JLabel labelNameNewMenu = new JLabel("Menu name:");
     // get + set--------------------------------------------------------------------------------------------------------
 
-//    public JButton getButtonAddDishToMenu() {
-//        return buttonAddDishToMenu;
-//    }
+
 
     public int getIdSelect() {
         return idSelect;
     }
-
     public void setIdSelect(int idSelect) {
         this.idSelect = idSelect;
     }
-
     public DefaultTableModel getTableModel() {
         return tableModel;
     }
-
     public void setTableModel(DefaultTableModel tableModel) {
         this.tableModel = tableModel;
     }
-
     public JTable getTable() {
         return table;
     }
-
     public void setTable(JTable table) {
         this.table = table;
     }
-
 
 
     public JButton getButtonCreatNewMenu() {
@@ -71,25 +62,21 @@ public class ViewNewMenu extends JPanel {
     public JTextField getInputNameNewMenu() {
         return inputNameNewMenu;
     }
-
     public Object[][] getData() {
         return data;
     }
     public void setData(Object[][] data) {
         this.data = data;
     }
-
     public void add(Menu menu) {
         MainProgram.getNewMenus().add(menu);
     }
+
+
     public ViewNewMenu() {
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         add(blockMenu());
         add(blockDish());
-
-
-
-
     }
 
     private boolean checkPriceAndNumber(ViewDish viewDish){
@@ -187,7 +174,6 @@ public class ViewNewMenu extends JPanel {
         // Khởi tạo mô hình dữ liệu cho bảng
         table.setModel(model);
         this.tableModel = model;
-        // Biến count là final, vì vậy nó sẽ không gây ra lỗi.
         Object[][] data = MainProgram.getNewMenus().stream().map(
                 s -> {
                     Object[] row = new Object[5];
@@ -229,20 +215,47 @@ public class ViewNewMenu extends JPanel {
         return boderTool;
     }
 
+//    public void loadData(){
+//        // Lấy model của bảng
+//        tableModel.setRowCount(0);
+//        //        for (Menu s:MainProgram.getNewMenus())
+//        //        {
+//        //            System.out.println("View new menu: "+s.getDish().getDishName());
+//        //        }
+//        Object[][] data = MainProgram.getNewMenus().stream().map(
+//                s -> {
+//                    Object[] row = new Object[5];
+//                    row[0] = "";
+//                    row[1] = s.getDish().getDishName();
+//                    row[2] = s.getQuantity();
+//                    row[3] = s.getUnitPrice();
+//                    row[4] = s.getDish().getType().getName();
+//                    return row;
+//                }
+//        ).toArray(Object[][]::new);
+//        int count = 1;
+//        for (Object[] row : data) {
+//            row[0] = count++;
+//        }
+//        setData(data);
+//        // Thêm dữ liệu mới vào bảng
+//        for (Object[] rowData : data) {
+//            tableModel.addRow(rowData);
+//        }
+//        // Thông báo cho bảng biết rằng dữ liệu đã thay đổi để nó vẽ lại giao diện
+//        tableModel.fireTableDataChanged();
+//    }
+
     public void loadData(){
         // Lấy model của bảng
-        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        DefaultTableModel model = MainProgram.getViewNewMenu().getTableModel();
         // Xóa hết dữ liệu hiện có trong bảng
         model.setRowCount(0);
-        // Biến count là final, vì vậy nó sẽ không gây ra lỗi.
-//        for (Menu s:MainProgram.getNewMenus())
-//        {
-//            System.out.println(s.getDish().getDishName());
-//        }
-        Object[][] data = MainProgram.getNewMenus().stream().map(
+        ArrayList<Menu> menus = MainProgram.getNewMenus();
+        Object[][] data = menus.stream().map(
                 s -> {
                     Object[] row = new Object[5];
-                    row[0] = "";
+                    row[0] = 1;
                     row[1] = s.getDish().getDishName();
                     row[2] = s.getQuantity();
                     row[3] = s.getUnitPrice();
@@ -250,11 +263,7 @@ public class ViewNewMenu extends JPanel {
                     return row;
                 }
         ).toArray(Object[][]::new);
-        int count = 1;
-        for (Object[] row : data) {
-            row[0] = count++;
-        }
-        setData(data);
+        MainProgram.getViewNewMenu().setData(data);
         // Thêm dữ liệu mới vào bảng
         for (Object[] rowData : data) {
             model.addRow(rowData);
@@ -262,5 +271,8 @@ public class ViewNewMenu extends JPanel {
         // Thông báo cho bảng biết rằng dữ liệu đã thay đổi để nó vẽ lại giao diện
         model.fireTableDataChanged();
     }
+
+
+
 
 }

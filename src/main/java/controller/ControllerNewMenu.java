@@ -88,7 +88,7 @@ public class ControllerNewMenu {
 
                         for (Menu s:MainProgram.getNewMenus()
                              ) {
-                            System.out.println(s.getDish().getDishName());
+                            System.out.println("Controller new menu: "+s.getDish().getDishName());
                         }
 
                         MainProgram.getViewNewMenu().loadData();
