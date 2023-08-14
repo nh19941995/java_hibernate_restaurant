@@ -67,6 +67,9 @@ public class ControllerTable {
 
     }
 
+
+
+
     private boolean checkInput(ViewTable viewTable){
         String seatingCapacityString = viewTable.getInputFilterBySeatingCapacity().getText();
         String dateString = viewTable.getInputFilterByDate().getText();

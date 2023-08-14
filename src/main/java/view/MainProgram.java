@@ -205,6 +205,7 @@ public class MainProgram {
         ControllerMenu controllerMenuSelectInBooking = new ControllerMenu(viewMenuSelectInBooking);
         // booking
         ControllerBooking controllerBooking = new ControllerBooking(viewBooking);
+        controllerBooking.selectTable();
         // table
         ControllerTable controllerTableMain = new ControllerTable(viewTableMain);
         ControllerTable controllerTableInBooking = new ControllerTable(viewTableInBooking);

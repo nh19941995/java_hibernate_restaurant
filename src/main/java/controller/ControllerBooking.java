@@ -142,7 +142,7 @@ public class ControllerBooking {
 
 
 
-        selectTable();
+
         selectPerson();
         selectMenu();
 
@@ -232,7 +232,7 @@ public class ControllerBooking {
     }
 
 
-    // đang lỗi kich hoạt hai lần
+
     public static void selectTable(){  // chọn bàn
         JButton buttonSelectTable = viewTable.getButtonSelectTable();
         buttonSelectTable.addMouseListener(new MouseAdapter() {
