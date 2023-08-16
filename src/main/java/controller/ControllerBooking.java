@@ -208,6 +208,7 @@ public class ControllerBooking {
                 MainProgram.getViewListBooking().reload();
                 setNullBlockInfoPerson(viewBooking);
                 bookings.clear();
+                setTableId.clear();
                 MainProgram.getViewNewMenuMain().loadData();
                 MainProgram.getViewTempMenu().loadData();
             }
@@ -442,7 +443,7 @@ public class ControllerBooking {
 
     public static boolean checkInfoTableAndMenu(){
         System.out.println("ControllerBooking - checkInfoTableAndMenu()");
-        ArrayList<Booking> bookings = getBookings();
+//        ArrayList<Booking> bookings = getBookings();
         for (Booking element : bookings) {
             if (element.getTable() == null) {
                 JOptionPane.showMessageDialog(null,
