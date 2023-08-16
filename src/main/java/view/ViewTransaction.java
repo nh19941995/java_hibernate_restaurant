@@ -65,6 +65,9 @@ public class ViewTransaction extends JPanel{
     // get + set--------------------------------------------------------------------------------------------------------
 
 
+    public JButton getButtonFilter() {
+        return buttonFilter;
+    }
     public int getIdPerson() {
         return idPerson;
     }
@@ -193,8 +196,6 @@ public class ViewTransaction extends JPanel{
                 repaint();
             }
         });
-
-
     }
 
     private JPanel blockInforPerson(){

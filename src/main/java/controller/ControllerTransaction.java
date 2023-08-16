@@ -10,6 +10,7 @@ import view.ViewPerson;
 import view.ViewTransaction;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -18,8 +19,11 @@ import java.io.IOException;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.stream.Stream;
 
 public class ControllerTransaction {
+    private static final Object lockObject = new Object();
     private static JButton delete = MainProgram.getViewTransaction().getButtonDelete();
     private static JTable table = MainProgram.getViewTransaction().getTable();
     private static String[] columnName =  new String [] {"ID", "Content","Type","Value","Time", "Date","Person Name", "Phone number", "Status"};
@@ -59,7 +63,15 @@ public class ControllerTransaction {
             }
         });
 
-
+        // sự kiện chọn search
+        JButton search = MainProgram.getViewTransaction().getButtonFilter();
+        search.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                System.out.println("search transaction ");
+                search();
+            }
+        });
 
 
 
@@ -175,6 +187,54 @@ public class ControllerTransaction {
         viewTransaction.getInputDate().setText("");
         viewTransaction.getInputFilterPhone().setText("");
         viewTransaction.getInputComment().setText("");
+    }
+    public static void search() {
+        ViewTransaction viewTransaction = MainProgram.getViewTransaction();
+
+        String dateInput = viewTransaction.getInputFilterDate().getText();
+        String phoneInput = viewTransaction.getInputFilterPhone().getText();
+        String filterTypeInput = (String) viewTransaction.getSelecFilterType().getSelectedItem();
+
+
+        System.out.println("------------- input - search - transaction -------------------");
+        System.out.println("dateInput :"+dateInput);
+        System.out.println("phoneInput :"+phoneInput);
+        System.out.println("filterTypeInput :"+filterTypeInput);
+        System.out.println("------------- input - search - transaction -------------------");
+
+
+        Object[][] data = viewTransaction.getData();
+        Object[][] arr = viewTransaction.getData();
+
+        synchronized (lockObject) {
+            Stream<Object[]> dataStream = Arrays.stream(data);
+
+            // Áp dụng tất cả các điều kiện lọc trong một Stream duy nhất
+            if (!filterTypeInput.equals("")) {
+                dataStream = dataStream.filter(row -> row[2].equals(filterTypeInput));
+            }
+            if (!phoneInput.equals("")) {
+                dataStream = dataStream.filter(row -> row[7].toString().equals(phoneInput));
+            }
+            if (!dateInput.equals("")) {
+                dataStream = dataStream.filter(row -> row[5].toString().contains(dateInput));
+            }
+
+            // Gán kết quả vào mảng arr
+            arr = dataStream.toArray(Object[][]::new);
+        }
+//        setData(arr);
+        // Lấy model của bảng
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        // Xóa dữ liệu hiện có trong bảng
+        model.setRowCount(0);
+
+        // Thêm từng hàng dữ liệu vào bảng
+        for (Object[] row : arr) {
+            model.addRow(row);
+        }
+        // Cập nhật bảng để hiển thị dữ liệu mới
+        model.fireTableDataChanged();
     }
 
 
