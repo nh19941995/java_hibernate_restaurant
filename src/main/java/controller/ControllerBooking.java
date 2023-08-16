@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -68,6 +69,7 @@ public class ControllerBooking {
                 viewBooking.getCenterViewBooking().removeAll();
                 // Gọi hàm searchTableList() để thực hiện tìm kiếm và cập nhật dữ liệu
                 viewBooking.getCenterViewBooking().add(viewTable, BorderLayout.CENTER);
+                MainProgram.getViewTableInBooking().reload();
                 viewBooking.revalidate();
                 viewBooking.repaint();
             }
@@ -97,6 +99,7 @@ public class ControllerBooking {
                 viewBooking.getCenterViewBooking().removeAll();
                 // Gọi hàm searchTableList() để thực hiện tìm kiếm và cập nhật dữ liệu
                 viewBooking.getCenterViewBooking().add(viewNewMenu, BorderLayout.CENTER);
+
                 viewBooking.revalidate();
                 viewBooking.repaint();
             }
@@ -111,6 +114,7 @@ public class ControllerBooking {
                 viewBooking.getCenterViewBooking().removeAll();
                 // Gọi hàm searchTableList() để thực hiện tìm kiếm và cập nhật dữ liệu
                 viewBooking.getCenterViewBooking().add(viewMenu, BorderLayout.CENTER);
+                MainProgram.getViewMenuSelectInBooking().reload();
                 viewBooking.revalidate();
                 viewBooking.repaint();
             }
@@ -356,19 +360,12 @@ public class ControllerBooking {
             int tableId = (int) data[0];
             String tableType = (String) data[1];
             int seatingCapacity = (int) data[2];
-            LocalDateTime startTime = (LocalDateTime) data[3];
-            LocalDateTime endTime = (LocalDateTime) data[4];
-            LocalDateTime date = (LocalDateTime) data[5];
-            String tableStatus = (String) data[6];
-            System.out.println("------------------------------------------------------------");
+
+            System.out.println("---------------------------- bookingListData --------------------------------");
             System.out.println("Table ID: " + tableId);
             System.out.println("Table Type: " + tableType);
             System.out.println("Seating Capacity: " + seatingCapacity);
-            System.out.println("Start Time: " + startTime);
-            System.out.println("End Time: " + endTime);
-            System.out.println("Date: " + date);
-            System.out.println("Table Status: " + tableStatus);
-            System.out.println("------------------------------------------------------------");
+            System.out.println("---------------------------- bookingListData --------------------------------");
         }
 
 
@@ -378,17 +375,36 @@ public class ControllerBooking {
 
 
 
-        List<Object[]> tempBookingListData = bookingList.stream().map(
+        List<Object[]> tempBookingListData = ControllerBooking.getBookings().stream().map(
                 s -> new Object[]{
                         s.getTable().getId(),             // id bàn
                         s.getTable().getType().getName(), // loại bàn
                         s.getTable().getSeatingCapacity(),// số ghế
-                        s.getInfo().getStart(),           // giờ bắt đầu
-                        s.getInfo().getEnd(),             // giờ kết thúc
-                        s.getInfo().getStart(),           // ngày
-                        s.getTable().getStatus().getName()     // trạng thái của bàn
+//                        s.getInfo().getStart(),           // giờ bắt đầu
+////                        s.getInfo().getEnd(),             // giờ kết thúc
+//                        s.getInfo().getStart(),           // ngày
+//                        s.getTable().getStatus().getName()     // trạng thái của bàn
                 }
         ).collect(Collectors.toList());
+
+        for (Object[] data : tempBookingListData) {
+            int tableId = (int) data[0];
+            String tableType = (String) data[1];
+            int seatingCapacity = (int) data[2];
+//            LocalDateTime startTime = (LocalDateTime) data[3];
+//            LocalDateTime endTime = (LocalDateTime) data[4];
+//            LocalDateTime date = (LocalDateTime) data[5];
+//            String tableStatus = (String) data[6];
+            System.out.println("----------------- tempBookingListData ---------------------");
+            System.out.println("Table ID: " + tableId);
+            System.out.println("Table Type: " + tableType);
+            System.out.println("Seating Capacity: " + seatingCapacity);
+//            System.out.println("Start Time: " + startTime);
+//            System.out.println("End Time: " + endTime);
+//            System.out.println("Date: " + date);
+//            System.out.println("Table Status: " + tableStatus);
+            System.out.println("----------------- tempBookingListData ---------------------");
+        }
 
         // Kiểm tra phần tử trong tempBookingListData có ID nằm trong invalidTableIds hay không
         for (Object[] data : tempBookingListData) {
@@ -570,16 +586,15 @@ public class ControllerBooking {
     }
 
     public static void main(String[] args) {
-        LocalDateTime start = ControllerTime.parseDateTime("06:00","2023-09-09");
-        LocalDateTime end = ControllerTime.parseDateTime("06:00","2023-09-09");
-
-
+        LocalDateTime start = ControllerTime.parseDateTime("04:00","2023-09-09");
+        LocalDateTime end = ControllerTime.parseDateTime("11:00","2023-09-09");
 
         Set<Integer> invalidTableIdsInTempBooking = checkHourTable(start,end);
 
         StringBuilder stringBuilder = new StringBuilder();
         for (Integer tableId : invalidTableIdsInTempBooking) {
             stringBuilder.append(tableId).append(", ");
+            System.out.println("đm");
         }
 
         if (stringBuilder.length() > 0) {
