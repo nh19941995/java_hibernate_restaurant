@@ -2,31 +2,21 @@ package controller;
 
 import dao.DishDAO;
 import dao.DishTypeDAO;
-import dao.MenuDAO;
-import dao.MenuNameDAO;
 import model.Dish;
 import model.DishType;
 import model.Menu;
 import view.*;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.stream.Stream;
 
 public class ControllerDish {
-
-
-
-
     public ControllerDish(ViewDish viewDish) {
-        System.out.println("ControllerDish dc gọi a");
+        System.out.println("call ControllerDish");
 
         JButton buttonCreatNewDish = viewDish.getButtonCreatNewDish();
         // sự kiện click tạo món
@@ -49,10 +39,6 @@ public class ControllerDish {
                 if (e.getClickCount() == 1) { // Kiểm tra nếu chỉ là một lần click chuột (clickCount = 1)
                    search(viewDish);
                 }
-
-
-
-
             }
         });
 
@@ -78,7 +64,6 @@ public class ControllerDish {
         });
 
         //         sự kiện chọn
-
         JButton buttonSelect = viewDish.getButtonSlectDish();
         buttonSelect.addMouseListener(new MouseAdapter() {
             @Override
@@ -100,20 +85,17 @@ public class ControllerDish {
                         MainProgram.getViewNewMenuInBooking().loadData();
                         for (Menu s:MainProgram.getNewMenus()
                              ) {
-                            System.out.println("Controller new menu: "+s.getDish().getDishName());
+                            System.out.println("DishName: "+s.getDish().getDishName());
                         }
                         MainProgram.getViewNewMenuMain().loadData();
                     }
                 }
-                System.out.println("in ra ");
             }
         });
-
-
-
     }
 
     private boolean checkPriceAndNumber(ViewDish viewDish){
+        System.out.println("ControllerDish - checkPriceAndNumber(ViewDish viewDish)");
         String price = viewDish.getInputEnterPrice().getText();
         String number = viewDish.getInputEnterNumber().getText();
         int check = 1;
@@ -135,9 +117,17 @@ public class ControllerDish {
 
 
     private boolean checkInput(ViewDish viewDish){
+        System.out.println("ControllerDish - checkInput(ViewDish viewDish)");
         String name = viewDish.getInputNewDishName().getText();
         String referencePriceString = viewDish.getInputReferencePrice().getText();
-        System.out.println("Check input dish !");
+        String comment = viewDish.getInputComment().getText();
+        String type = (String) viewDish.getSelectTypeForNewDish().getSelectedItem();
+        System.out.println("------------- input - check - dish -------------------");
+        System.out.println("name :"+name);
+        System.out.println("referencePriceString :"+referencePriceString);
+        System.out.println("comment :"+comment);
+        System.out.println("type :"+type);
+        System.out.println("------------- input - check - dish -------------------");
         int check = 1;
         if (name.isEmpty()||referencePriceString.isEmpty()){
             if (check==1){
@@ -155,11 +145,11 @@ public class ControllerDish {
     }
 
     private void creatNewDish(ViewDish viewDish){
+        System.out.println("ControllerDish - creatNewDish(ViewDish viewDish)");
         String name = viewDish.getInputNewDishName().getText();
         String referencePriceString = viewDish.getInputReferencePrice().getText();
         String comment = viewDish.getInputComment().getText();
         String type = (String) viewDish.getSelectTypeForNewDish().getSelectedItem();
-        System.out.println("Check input dish !");
         DishType dishType = DishTypeDAO.getInstance().getByString(type);
         Dish dish = new Dish();
         dish.setDishName(name);
@@ -173,46 +163,52 @@ public class ControllerDish {
     }
 
     private void search(ViewDish viewDish){
+        System.out.println("ControllerDish - search(ViewDish viewDish)");
         Object lockObject = new Object();
         String priceString = viewDish.getInputFilerByPrice().getText();
         String type = (String) viewDish.getSelectType().getSelectedItem();
         JTable table = viewDish.getTable();
-        System.out.println("Search dish !");
+        System.out.println("------------- search - check - dish -------------------");
+        System.out.println("priceString :"+priceString);
+        System.out.println("type :"+type);
+        System.out.println("------------- search - check - dish -------------------");
         if (!priceString.isEmpty()){
             if (!RegexMatcher.numberCheck(priceString,"").equals("")){
                 JOptionPane.showMessageDialog(null, RegexMatcher.numberCheck(priceString, "Price: "), "Notice", JOptionPane.WARNING_MESSAGE);
             }
-        }
-        Object[][] arr = viewDish.getData();
-        Object[][] originData = viewDish.getData();
+        }else {
+            Object[][] arr = viewDish.getData();
+            Object[][] originData = viewDish.getData();
 
-        synchronized (lockObject) {
-            Stream<Object[]> dataStream = Arrays.stream(originData);
+            synchronized (lockObject) {
+                Stream<Object[]> dataStream = Arrays.stream(originData);
 
-            // Áp dụng tất cả các điều kiện lọc trong một Stream duy nhất
-            if (!type.equals("")) {
-                dataStream = dataStream.filter(row -> row[3].equals(type));
+                // Áp dụng tất cả các điều kiện lọc trong một Stream duy nhất
+                if (!type.equals("")) {
+                    dataStream = dataStream.filter(row -> row[3].equals(type));
+                }
+                if (!priceString.equals("")) {
+                    Double targetPrice = Double.parseDouble(priceString); // Chuyển đổi price sang kiểu Double
+                    dataStream = dataStream.filter(row -> {
+                        Double currentPrice = Double.parseDouble(row[2].toString()); // Chuyển đổi dữ liệu của hàng hiện tại sang kiểu Double
+                        return currentPrice <= targetPrice; // So sánh giá trị hiện tại với giá trị target
+                    });
+                }
+                // Gán kết quả vào mảng arr
+                arr = dataStream.toArray(Object[][]::new);
             }
-            if (!priceString.equals("")) {
-                Double targetPrice = Double.parseDouble(priceString); // Chuyển đổi price sang kiểu Double
-                dataStream = dataStream.filter(row -> {
-                    Double currentPrice = Double.parseDouble(row[2].toString()); // Chuyển đổi dữ liệu của hàng hiện tại sang kiểu Double
-                    return currentPrice <= targetPrice; // So sánh giá trị hiện tại với giá trị target
-                });
-            }
-            // Gán kết quả vào mảng arr
-            arr = dataStream.toArray(Object[][]::new);
-        }
-        // Lấy model của bảng
-        DefaultTableModel model = (DefaultTableModel) table.getModel();
-        // Xóa dữ liệu hiện có trong bảng
-        model.setRowCount(0);
+            // Lấy model của bảng
+            DefaultTableModel model = (DefaultTableModel) table.getModel();
+            // Xóa dữ liệu hiện có trong bảng
+            model.setRowCount(0);
 
-        // Thêm từng hàng dữ liệu vào bảng
-        for (Object[] row : arr) {
-            model.addRow(row);
+            // Thêm từng hàng dữ liệu vào bảng
+            for (Object[] row : arr) {
+                model.addRow(row);
+            }
+            // Cập nhật bảng để hiển thị dữ liệu mới
+            model.fireTableDataChanged();
         }
-        // Cập nhật bảng để hiển thị dữ liệu mới
-        model.fireTableDataChanged();
+
     }
 }

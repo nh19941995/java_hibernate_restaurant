@@ -342,15 +342,9 @@ public class ViewTransaction extends JPanel{
         right.setPreferredSize(new Dimension(20, 20));
         jPanel.add(left,BorderLayout.EAST);
         jPanel.add(right,BorderLayout.WEST);
-
-
-
         jPanel.add(scrollPane, BorderLayout.CENTER);
         return jPanel;
     }
-
-
-
 
     public void loadData(){
         // Lấy model của bảng
@@ -450,7 +444,7 @@ public class ViewTransaction extends JPanel{
     }
 
     public static void setPersonForLabel(){
-        System.out.println("đm");
+        System.out.println("setPersonForLabel()");
         ViewTransaction viewTransaction = MainProgram.getViewTransaction();
         ViewPerson viewPersonInTransaction = MainProgram.getViewPersonInTransaction();
         int id = viewPersonInTransaction.getIdSelect();

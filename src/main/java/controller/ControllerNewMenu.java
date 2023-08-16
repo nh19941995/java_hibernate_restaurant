@@ -19,6 +19,7 @@ public class ControllerNewMenu {
 
 
     public ControllerNewMenu(ViewNewMenu viewNewMenu) {
+        System.out.println("call ControllerNewMenu");
 
         // lấy id từ bảng
         JTable table = viewNewMenu.getTable();
@@ -42,7 +43,6 @@ public class ControllerNewMenu {
         buttonUpdate.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                System.out.println("hahahaha");
                 removeDishFromANewMenu(viewNewMenu,viewNewMenu.getIdSelect());
                 viewNewMenu.loadData();
             }
@@ -53,7 +53,6 @@ public class ControllerNewMenu {
         buttonCreat.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                System.out.println("check controller creat new menu");
                 if (check(viewNewMenu)){
                     creatNewMenu(viewNewMenu);
                     viewMenuCreatInBooking.reload();
@@ -71,6 +70,7 @@ public class ControllerNewMenu {
 
 
     private void removeDishFromANewMenu(ViewNewMenu viewNewMenu,int id){
+        System.out.println("ControllerNewMenu - removeDishFromANewMenu(ViewNewMenu viewNewMenu,int id)");
         ArrayList<Menu> newMenus = MainProgram.getNewMenus();
         newMenus.remove(id);
         MainProgram.setNewMenus(newMenus);
@@ -78,6 +78,7 @@ public class ControllerNewMenu {
     }
 
     private void creatNewMenu(ViewNewMenu viewNewMenu){
+        System.out.println("ControllerNewMenu - creatNewMenu(ViewNewMenu viewNewMenu)");
         ArrayList<Menu> newMenus = MainProgram.getNewMenus();
         String name = viewNewMenu.getInputNameNewMenu().getText();
         MenuName menuName = new MenuName();
@@ -94,6 +95,7 @@ public class ControllerNewMenu {
     }
 
     private boolean check(ViewNewMenu viewNewMenu){
+        System.out.println("ControllerNewMenu - check(ViewNewMenu viewNewMenu)");
         String name = viewNewMenu.getInputNameNewMenu().getText();
         ArrayList<Menu> newMenus = MainProgram.getNewMenus();
 

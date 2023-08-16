@@ -45,13 +45,14 @@ public class ControllerBooking {
         ControllerBooking.bookings = bookings;
     }
     public ControllerBooking(ViewBooking viewBooking) {
-        System.out.println("ControllerBooking dc gọi");
+        System.out.println("call ControllerBooking");
         selectList();
         selectPerson();
         selectMenu();
         submitNewBooking();
     }
     public static void selectList(){
+        System.out.println("ControllerBooking - selectList()");
         ViewBooking viewBooking = MainProgram.getViewBooking();
         ViewTable viewTable = MainProgram.getViewTableInBooking();
         ViewNewMenu viewNewMenu = MainProgram.getViewNewMenuInBooking();
@@ -118,131 +119,140 @@ public class ControllerBooking {
     }
 
     public static void submitNewBooking(){
+        System.out.println("ControllerBooking - submitNewBooking()");
         ViewBooking viewBooking = MainProgram.getViewBooking();
         JButton buttonSubmid = viewBooking.getButtonSubmitBooking();
         buttonSubmid.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                BookingsInfo newInfo = new BookingsInfo();
+//                BookingsInfo newInfo = new BookingsInfo();
                 String startTimeString = viewBooking.getInputStartTime().getText();
                 String dateString = viewBooking.getInputDate().getText();
-                String endTimeString = viewBooking.getInputEndTime().getText();
+//                String endTimeString = viewBooking.getInputEndTime().getText();
                 String depositString = viewBooking.getInputDeposit().getText();
                 String commentString = viewBooking.getInputComment().getText();
 
-                int check = 1;
-                if (startTimeString.isEmpty()||endTimeString.isEmpty()||commentString.isEmpty()||idPerson==0||dateString.isEmpty()){
-                    if (check==1){
-                        JOptionPane.showMessageDialog(null, "You must fill in all the required information before proceeding to make a reservation !", "Notice", JOptionPane.WARNING_MESSAGE);
-                    }
-                    check =0;
-                }
-                if (!RegexMatcher.hourCheck(
-                        startTimeString,"").equals("")
-                        ||!RegexMatcher.hourCheck(endTimeString, "").equals("")
-                        ||!RegexMatcher.dayCheck(dateString,"").equals("")
-                ){
-                    if (check ==1){
-                        JOptionPane.showMessageDialog(null,
-                                RegexMatcher.hourCheck(startTimeString, "Star time: ")+
-                                        RegexMatcher.hourCheck(endTimeString, "End time: ")+
-                                        RegexMatcher.dayCheck(dateString,"Date of event: "),
-                                "Notice", JOptionPane.WARNING_MESSAGE);
-                    }
-                    check = 0;
-                }
-                if (!depositString.equals("")){
-                    if (!RegexMatcher.numberCheck(depositString,"").equals("")){
-                        if (check ==1){
-                            JOptionPane.showMessageDialog(null, RegexMatcher.numberCheck(depositString, "Deposit: "), "Notice", JOptionPane.WARNING_MESSAGE);
-                        }
-                        check = 0;
-                    }
-                }
+//                int check = 1;
+//                if (startTimeString.isEmpty()||endTimeString.isEmpty()||commentString.isEmpty()||idPerson==0||dateString.isEmpty()){
+//                    if (check==1){
+//                        JOptionPane.showMessageDialog(null, "You must fill in all the required information before proceeding to make a reservation !", "Notice", JOptionPane.WARNING_MESSAGE);
+//                    }
+//                    check =0;
+//                }
+//                if (!RegexMatcher.hourCheck(
+//                        startTimeString,"").equals("")
+//                        ||!RegexMatcher.hourCheck(endTimeString, "").equals("")
+//                        ||!RegexMatcher.dayCheck(dateString,"").equals("")
+//                ){
+//                    if (check ==1){
+//                        JOptionPane.showMessageDialog(null,
+//                                RegexMatcher.hourCheck(startTimeString, "Star time: ")+
+//                                        RegexMatcher.hourCheck(endTimeString, "End time: ")+
+//                                        RegexMatcher.dayCheck(dateString,"Date of event: "),
+//                                "Notice", JOptionPane.WARNING_MESSAGE);
+//                    }
+//                    check = 0;
+//                }
+//                if (!depositString.equals("")){
+//                    if (!RegexMatcher.numberCheck(depositString,"").equals("")){
+//                        if (check ==1){
+//                            JOptionPane.showMessageDialog(null, RegexMatcher.numberCheck(depositString, "Deposit: "), "Notice", JOptionPane.WARNING_MESSAGE);
+//                        }
+//                        check = 0;
+//                    }
+//                }
+
+
+
                 BookingsInfo bookingsInfo = new BookingsInfo();
-                if (check==1){
-                    LocalDateTime instantStartTime = ControllerTime.parseDateTime(startTimeString,dateString);
-                    LocalDateTime instantEndTime = ControllerTime.parseDateTime(startTimeString,dateString);
-
-                    System.out.println("instantEndTime: "+instantEndTime);
-                    System.out.println("startTimeString: " + startTimeString);
-                    System.out.println("endTimeString: " + endTimeString);
-                    System.out.println("dateString: " + dateString);
-                    System.out.println("instantStartTime: "+instantStartTime);
-
-                    LocalDateTime instantNow = LocalDateTime.now();
+                if (checkBookingInfo(viewBooking)){
+                    LocalDateTime startTime = ControllerTime.parseDateTime(startTimeString,dateString);
+                    LocalDateTime endTime = ControllerTime.parseDateTime(startTimeString,dateString);
+//                    System.out.println("instantEndTime: "+instantEndTime);
+//                    System.out.println("startTimeString: " + startTimeString);
+//                    System.out.println("endTimeString: " + endTimeString);
+//                    System.out.println("dateString: " + dateString);
+//                    System.out.println("instantStartTime: "+instantStartTime);
+                    LocalDateTime timeNow = LocalDateTime.now();
 
 
                     if (!depositString.isEmpty()){
-                        Double doubleDeposit = Double.parseDouble(depositString);
-                        setDeposit(doubleDeposit);
-                        bookingsInfo.setDeposit(doubleDeposit);
-                        // tạo giao dịch cọc tiền
-                        Transaction tranDeposit = new Transaction();
-                        tranDeposit.setDateCreat(LocalDateTime.now());
-                        tranDeposit.setQuantity(doubleDeposit);
-                        tranDeposit.setType(TransactionsTypeDAO.getInstance().getByName("Thu - Khách hàng đặt cọc"));
-                        tranDeposit.setComment("Deposit: "+ commentString);
-                        tranDeposit.setFlag(1);
-                        tranDeposit.setPerson(PersonDAO.getInstance().getById(idPerson));
-                        TransactionDAO.getInstance().insert(tranDeposit);
-                        System.out.println("Khách hàng đã đặt cọc: " + doubleDeposit);
+//                        Double doubleDeposit = Double.parseDouble(depositString);
+//                        setDeposit(doubleDeposit);
+//                        bookingsInfo.setDeposit(doubleDeposit);
+//                        // tạo giao dịch cọc tiền
+//                        Transaction tranDeposit = new Transaction();
+//                        tranDeposit.setDateCreat(LocalDateTime.now());
+//                        tranDeposit.setQuantity(doubleDeposit);
+//                        tranDeposit.setType(TransactionsTypeDAO.getInstance().getByName("Thu - Khách hàng đặt cọc"));
+//                        tranDeposit.setComment("Deposit: "+ commentString);
+//                        tranDeposit.setFlag(1);
+//                        tranDeposit.setPerson(PersonDAO.getInstance().getById(idPerson));
+//                        TransactionDAO.getInstance().insert(tranDeposit);
+//                        System.out.println("Khách hàng đã đặt cọc: " + doubleDeposit);
+                        creatDepositTransaction(viewBooking,bookingsInfo);
                     }
-                    System.out.println(instantNow);
+                    System.out.println(timeNow);
 
-                    if (instantStartTime.isBefore(instantNow)) {
-                        if (check == 1) {
-                            JOptionPane.showMessageDialog(null,
-                                    "Incorrect start date for the event. The start date must be after the current date. Please try again",
-                                    "Notice",
-                                    JOptionPane.WARNING_MESSAGE);
-                            check = 0;
-                        }
-                    }
-                    if (instantEndTime.isAfter(instantStartTime)) {
-                        if (check == 1) {
-                            JOptionPane.showMessageDialog(null,
-                                    "The end date of the event must be after the start date. Please try again.",
-                                    "Notice",
-                                    JOptionPane.WARNING_MESSAGE);
-                            check = 0;
-                        }
-                    }
+//                    if (startTime.isBefore(timeNow)) {
+//                        if (check == 1) {
+//                            JOptionPane.showMessageDialog(null,
+//                                    "Incorrect start date for the event. The start date must be after the current date. Please try again",
+//                                    "Notice",
+//                                    JOptionPane.WARNING_MESSAGE);
+//                            check = 0;
+//                        }
+//                    }
+//                    if (endTime.isAfter(startTime)) {
+//                        if (check == 1) {
+//                            JOptionPane.showMessageDialog(null,
+//                                    "The end date of the event must be after the start date. Please try again.",
+//                                    "Notice",
+//                                    JOptionPane.WARNING_MESSAGE);
+//                            check = 0;
+//                        }
+//                    }
+                    checkTimeBooking(viewBooking);
 
                     if(checkInfoTableAndMenu()){
-                        ArrayList<Integer> table = checkHourTable(instantStartTime,instantEndTime);
+                        ArrayList<Integer> table = checkHourTable(startTime,endTime);
                         if (table.isEmpty()){
                             Person person = PersonDAO.getInstance().getById(idPerson);
-                            bookingsInfo.setEnd(instantEndTime);
-                            bookingsInfo.setStart(instantStartTime);
-                            bookingsInfo.setDateCreat(instantNow);
-                            bookingsInfo.setPerson(person);
-                            bookingsInfo.setInfo(commentString);
-                            bookingsInfo.setFlag(1);
-                            BookingsInfoDAO.getInstance().insert(bookingsInfo);
-                            System.out.println("khởi tạo id info: "+bookingsInfo.getId());
+
+//                            bookingsInfo.setEnd(endTime);
+//                            bookingsInfo.setStart(startTime);
+//                            bookingsInfo.setDateCreat(timeNow);
+//                            bookingsInfo.setPerson(person);
+//                            bookingsInfo.setInfo(commentString);
+//                            bookingsInfo.setFlag(1);
+//                            BookingsInfoDAO.getInstance().insert(bookingsInfo);
+                            submidBookingInfo(viewBooking,bookingsInfo,person);
+
+
                             getBookings().forEach(s->{
                                 s.setInfo(bookingsInfo);
                                 s.setFlag(1);
                                 BookingDAO.getInstance().insert(s);
                             });
                             // tạo giao dịch nợ (chỉ tạo được sau khi tạo xong booking )
-                            Transaction tranReceivable = new Transaction();
-                            tranReceivable.setType(TransactionsTypeDAO.getInstance().getByName("Nợ - Khách hàng còn thiếu"));
-                            tranReceivable.setDateCreat(LocalDateTime.now());
-                            tranReceivable.setComment("Debt: "+commentString);
-                            // tổng tiền phải thanh toán
-                            Double bill = BookingsInfoDAO.getInstance().getTotalPriceByInfoBookingID(bookingsInfo.getId());
-                            System.out.println("Khởi tạo bill: " + bill);
-                            Double receivable = bill - getDeposit() ;
-                            tranReceivable.setQuantity(receivable);
-                            tranReceivable.setFlag(1);
-                            tranReceivable.setPerson(PersonDAO.getInstance().getById(idPerson));
-                            TransactionDAO.getInstance().insert(tranReceivable);
-                            System.out.println("id khách hàng là: "+idPerson);
-                            System.out.println("id info là: "+bookingsInfo.getId());
-                            System.out.println("khách hàng còn nợ: "+ receivable);
-                            MainProgram.getViewTransaction().loadData();
+
+//                            Transaction tranReceivable = new Transaction();
+//                            tranReceivable.setType(TransactionsTypeDAO.getInstance().getByName("Nợ - Khách hàng còn thiếu"));
+//                            tranReceivable.setDateCreat(LocalDateTime.now());
+//                            tranReceivable.setComment("Debt: "+commentString);
+//                            // tổng tiền phải thanh toán
+//                            Double bill = BookingsInfoDAO.getInstance().getTotalPriceByInfoBookingID(bookingsInfo.getId());
+//                            System.out.println("Khởi tạo bill: " + bill);
+//                            Double receivable = bill - getDeposit() ;
+//                            tranReceivable.setQuantity(receivable);
+//                            tranReceivable.setFlag(1);
+//                            tranReceivable.setPerson(PersonDAO.getInstance().getById(idPerson));
+//                            TransactionDAO.getInstance().insert(tranReceivable);
+//                            System.out.println("id khách hàng là: "+idPerson);
+//                            System.out.println("id info là: "+bookingsInfo.getId());
+//                            System.out.println("khách hàng còn nợ: "+ receivable);
+//                            MainProgram.getViewTransaction().loadData();
+                            creatReceivableTransaction(viewBooking,bookingsInfo);
                         }
                     }
                 }
@@ -250,7 +260,140 @@ public class ControllerBooking {
         });
     }
 
+    public static void creatReceivableTransaction(ViewBooking viewBooking,BookingsInfo bookingsInfo){
+        System.out.println("ControllerBooking - creatReceivableTransaction(ViewBooking viewBooking,BookingsInfo bookingsInfo)");
+        String commentString = viewBooking.getInputComment().getText();
+        Transaction tranReceivable = new Transaction();
+        tranReceivable.setType(TransactionsTypeDAO.getInstance().getByName("Nợ - Khách hàng còn thiếu"));
+        tranReceivable.setDateCreat(LocalDateTime.now());
+        tranReceivable.setComment("Debt: "+commentString);
+        // tổng tiền phải thanh toán
+        Double bill = BookingsInfoDAO.getInstance().getTotalPriceByInfoBookingID(bookingsInfo.getId());
+        System.out.println("Khởi tạo bill: " + bill);
+        Double receivable = bill - getDeposit() ;
+        tranReceivable.setQuantity(receivable);
+        tranReceivable.setFlag(1);
+        tranReceivable.setPerson(PersonDAO.getInstance().getById(idPerson));
+        TransactionDAO.getInstance().insert(tranReceivable);
+//        System.out.println("id khách hàng là: "+idPerson);
+//        System.out.println("id info là: "+bookingsInfo.getId());
+//        System.out.println("khách hàng còn nợ: "+ receivable);
+        MainProgram.getViewTransaction().loadData();
+    }
+    public static void submidBookingInfo(ViewBooking viewBooking ,BookingsInfo bookingsInfo,Person person){
+        System.out.println("ControllerBooking - submidBookingInfo(ViewBooking viewBooking ,BookingsInfo bookingsInfo,Person person)");
+        String startTimeString = viewBooking.getInputStartTime().getText();
+        String endTimeString = viewBooking.getInputEndTime().getText();
+        String dateString = viewBooking.getInputDate().getText();
+        String commentString = viewBooking.getInputComment().getText();
+
+
+        LocalDateTime startTime = ControllerTime.parseDateTime(startTimeString,dateString);
+        LocalDateTime endTime = ControllerTime.parseDateTime(endTimeString,dateString);
+        LocalDateTime timeNow = LocalDateTime.now();
+
+        bookingsInfo.setEnd(endTime);
+        bookingsInfo.setStart(startTime);
+        bookingsInfo.setDateCreat(timeNow);
+        bookingsInfo.setPerson(person);
+        bookingsInfo.setInfo(commentString);
+        bookingsInfo.setFlag(1);
+        BookingsInfoDAO.getInstance().insert(bookingsInfo);
+    }
+
+    public static void creatDepositTransaction(ViewBooking viewBooking,BookingsInfo bookingsInfo){
+        System.out.println("ControllerBooking - creatDepositTransaction(ViewBooking viewBooking,BookingsInfo bookingsInfo)");
+        String depositString = viewBooking.getInputDeposit().getText();
+        String commentString = viewBooking.getInputComment().getText();
+
+        Double doubleDeposit = Double.parseDouble(depositString);
+        setDeposit(doubleDeposit);
+        bookingsInfo.setDeposit(doubleDeposit);
+        // tạo giao dịch cọc tiền
+        Transaction tranDeposit = new Transaction();
+        tranDeposit.setDateCreat(LocalDateTime.now());
+        tranDeposit.setQuantity(doubleDeposit);
+        tranDeposit.setType(TransactionsTypeDAO.getInstance().getByName("Thu - Khách hàng đặt cọc"));
+        tranDeposit.setComment("Deposit: "+ commentString);
+        tranDeposit.setFlag(1);
+        tranDeposit.setPerson(PersonDAO.getInstance().getById(idPerson));
+        TransactionDAO.getInstance().insert(tranDeposit);
+        System.out.println("Deposit creat: " + doubleDeposit);
+    }
+
+    public static boolean checkTimeBooking(ViewBooking viewBooking){
+        System.out.println("ControllerBooking - checkTimeBooking(ViewBooking viewBooking)");
+        String startTimeString = viewBooking.getInputStartTime().getText();
+        String endTimeString = viewBooking.getInputEndTime().getText();
+        String dateString = viewBooking.getInputDate().getText();
+
+        LocalDateTime startTime = ControllerTime.parseDateTime(startTimeString,dateString);
+        LocalDateTime endTime = ControllerTime.parseDateTime(endTimeString,dateString);
+        LocalDateTime timeNow = LocalDateTime.now();
+        int check = 1;
+
+        if (startTime.isBefore(timeNow)) {
+            if (check == 1) {
+                JOptionPane.showMessageDialog(null,
+                        "Incorrect start date for the event. The start date must be after the current date. Please try again",
+                        "Notice",
+                        JOptionPane.WARNING_MESSAGE);
+                check = 0;
+            }
+        }
+        if (endTime.isAfter(startTime)) {
+            if (check == 1) {
+                JOptionPane.showMessageDialog(null,
+                        "The end date of the event must be after the start date. Please try again.",
+                        "Notice",
+                        JOptionPane.WARNING_MESSAGE);
+                check = 0;
+            }
+        }
+        return (check==1) ? true : false;
+    }
+
+    public static boolean checkBookingInfo(ViewBooking viewBooking){
+        System.out.println("ControllerBooking - checkBookingInfo(ViewBooking viewBooking)");
+        String startTimeString = viewBooking.getInputStartTime().getText();
+        String dateString = viewBooking.getInputDate().getText();
+        String endTimeString = viewBooking.getInputEndTime().getText();
+        String depositString = viewBooking.getInputDeposit().getText();
+        String commentString = viewBooking.getInputComment().getText();
+        int check = 1;
+        if (startTimeString.isEmpty()||endTimeString.isEmpty()||commentString.isEmpty()||idPerson==0||dateString.isEmpty()){
+            if (check==1){
+                JOptionPane.showMessageDialog(null, "You must fill in all the required information before proceeding to make a reservation !", "Notice", JOptionPane.WARNING_MESSAGE);
+            }
+            check =0;
+        }
+        if (!RegexMatcher.hourCheck(
+                startTimeString,"").equals("")
+                ||!RegexMatcher.hourCheck(endTimeString, "").equals("")
+                ||!RegexMatcher.dayCheck(dateString,"").equals("")
+        ){
+            if (check ==1){
+                JOptionPane.showMessageDialog(null,
+                        RegexMatcher.hourCheck(startTimeString, "Star time: ")+
+                                RegexMatcher.hourCheck(endTimeString, "End time: ")+
+                                RegexMatcher.dayCheck(dateString,"Date of event: "),
+                        "Notice", JOptionPane.WARNING_MESSAGE);
+            }
+            check = 0;
+        }
+        if (!depositString.equals("")){
+            if (!RegexMatcher.numberCheck(depositString,"").equals("")){
+                if (check ==1){
+                    JOptionPane.showMessageDialog(null, RegexMatcher.numberCheck(depositString, "Deposit: "), "Notice", JOptionPane.WARNING_MESSAGE);
+                }
+                check = 0;
+            }
+        }
+        return (check==1) ? true : false;
+    }
+
     public static ArrayList<Integer> checkHourTable(LocalDateTime start,LocalDateTime end ){
+        System.out.println("ControllerBooking - checkHourTable(LocalDateTime start,LocalDateTime end)");
         java.util.List<Booking> bookingList = BookingDAO.getInstance().getAll();
 
         List<Object[]> bookingListData = bookingList.stream().map(
@@ -300,6 +443,7 @@ public class ControllerBooking {
     }
 
     public static boolean checkInfoTableAndMenu(){
+        System.out.println("ControllerBooking - checkInfoTableAndMenu()");
         ArrayList<Booking> bookings = getBookings();
         for (Booking element : bookings) {
             if (element.getTable() == null) {
@@ -323,6 +467,7 @@ public class ControllerBooking {
 
 
     public static void clickOnTempBooking(){
+        System.out.println("ControllerBooking - clickOnTempBooking()");
 //         sự kiện click vào bảng
         ViewTempMenu viewTempMenu = MainProgram.getViewTempMenu();
         JTable tables =viewTempMenu.getTable();
@@ -342,13 +487,13 @@ public class ControllerBooking {
     }
 
     public static void selectPerson(){  // lấy ra dc id của khách và lưu và lớp
+        System.out.println("ControllerBooking - selectPerson()");
         ViewPerson viewPerson = MainProgram.getViewPersonInBooking();
         JButton buttonSelectPerson = viewPerson.getButtonSelectPerson();
         buttonSelectPerson.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ViewBooking viewBooking = MainProgram.getViewBooking();
-                System.out.println("check");
                 idPerson = viewPerson.getIdSelect();
                 reloadBlockInfoPerson(viewBooking);
 
@@ -358,6 +503,7 @@ public class ControllerBooking {
 
     // chọn người
     public static void reloadBlockInfoPerson(ViewBooking viewBooking){
+        System.out.println("ControllerBooking - reloadBlockInfoPerson(ViewBooking viewBooking)");
         int id = ControllerBooking.getIdPerson();
         Person person = PersonDAO.getInstance().getById(id);
         viewBooking.getLabelFirstNameValue().setText(person.getName()); // Đặt giá trị cho JLabel
@@ -367,6 +513,7 @@ public class ControllerBooking {
     }
 
     public static void selectMenu(){
+        System.out.println("ControllerBooking - selectMenu()");
         ViewMenu viewMenu = MainProgram.getViewMenuSelectInBooking();
         JButton selectMenu = viewMenu.getButtonSelectMenu();
         selectMenu.addActionListener(new ActionListener() {
@@ -404,6 +551,7 @@ public class ControllerBooking {
 
 
     public static void selectTable(){  // chọn bàn
+        System.out.println("ControllerBooking - selectTable()");
         ViewTable viewTable = MainProgram.getViewTableInBooking();
         JButton buttonSelectTable = viewTable.getButtonSelectTable();
         buttonSelectTable.addMouseListener(new MouseAdapter() {

@@ -1,12 +1,10 @@
 package controller;
-
 import dao.PersonDAO;
 import dao.TransactionDAO;
 import dao.TransactionsTypeDAO;
 import model.Person;
 import model.Transaction;
 import view.MainProgram;
-import view.ViewPerson;
 import view.ViewTransaction;
 
 import javax.swing.*;
@@ -16,7 +14,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
@@ -35,7 +32,7 @@ public class ControllerTransaction {
     public static void creatTransaction(){
         ViewTransaction viewTransaction = MainProgram.getViewTransaction();
         JButton buttonNewTransaction = viewTransaction.getButtonCreatTransaction();
-
+        System.out.println("Call ControllerTransaction");
         delete.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -56,8 +53,6 @@ public class ControllerTransaction {
                             }
                         }
                     }
-
-
                 });
                 viewTransaction.loadData();
             }
@@ -69,7 +64,7 @@ public class ControllerTransaction {
             @Override
             public void mouseClicked(MouseEvent e) {
                 System.out.println("search transaction ");
-                if (check()){
+                if (checkSearch()){
                     search();
                 }
             }
@@ -80,10 +75,9 @@ public class ControllerTransaction {
         buttonSelectPerson.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                MainProgram.getViewTransaction().setPersonForLabel();
+                viewTransaction.setPersonForLabel();
             }
         });
-
 
         JButton buttonExportToExcel = MainProgram.getViewTransaction().getButtonExportToExcel();
         buttonExportToExcel.addActionListener(new ActionListener() {
@@ -106,53 +100,18 @@ public class ControllerTransaction {
             }
         });
 
-
-
-
         buttonNewTransaction.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Transaction newTransaction = new Transaction();
                 int id = MainProgram.getViewPersonInTransaction().getIdSelect();
-                ViewTransaction viewTransaction = MainProgram.getViewTransaction();
                 String Stringvalue = viewTransaction.getInputValue().getText();
                 String type = (String) viewTransaction.getSelecType().getSelectedItem();
                 String comment = viewTransaction.getInputComment().getText();
                 String day = viewTransaction.getInputDate().getText();
                 String hour = viewTransaction.getInputTime().getText();
 
-                int check = 1;
-                System.out.println("hour :" + hour);
-                System.out.println("Stringvalue :" + Stringvalue);
-                System.out.println("comment :" + comment);
-                System.out.println("id :" + id);
-                System.out.println("day :" + day);
-                if (hour.isEmpty()||Stringvalue.isEmpty()||comment.isEmpty()||id==0||day.isEmpty()){
-
-                    if (check==1){
-                        JOptionPane.showMessageDialog(null, "You must fill in all the required information before proceeding to make a reservation !", "Notice", JOptionPane.WARNING_MESSAGE);
-                    }
-                    check =0;
-                }
-                if (!RegexMatcher.hourCheck(hour, "").equals("") ||!RegexMatcher.dayCheck(day,"").equals(""))
-                {
-                    if (check ==1){
-                        JOptionPane.showMessageDialog(null,
-                                RegexMatcher.hourCheck(hour, "End time: ")+
-                                        RegexMatcher.dayCheck(day,"Date of event: "),
-                                "Notice", JOptionPane.WARNING_MESSAGE);
-                    }
-                    check = 0;
-                }
-                if (!Stringvalue.equals("")){
-                    if (!RegexMatcher.numberCheck(Stringvalue,"").equals("")){
-                        if (check ==1){
-                            JOptionPane.showMessageDialog(null, RegexMatcher.numberCheck(Stringvalue, "Deposit: "), "Notice", JOptionPane.WARNING_MESSAGE);
-                        }
-                        check = 0;
-                    }
-                }
-                if (check==1 ){
+                if (checkCreat()){
                     Person person = PersonDAO.getInstance().getById(id);
                     Double value = Double.parseDouble(Stringvalue);
                     LocalDateTime instant = ControllerTime.parseDateTime(hour,day);
@@ -189,18 +148,9 @@ public class ControllerTransaction {
     }
     public static void search() {
         ViewTransaction viewTransaction = MainProgram.getViewTransaction();
-
         String dateInput = viewTransaction.getInputFilterDate().getText();
         String phoneInput = viewTransaction.getInputFilterPhone().getText();
         String filterTypeInput = (String) viewTransaction.getSelecFilterType().getSelectedItem();
-
-
-        System.out.println("------------- input - search - transaction -------------------");
-        System.out.println("dateInput :"+dateInput);
-        System.out.println("phoneInput :"+phoneInput);
-        System.out.println("filterTypeInput :"+filterTypeInput);
-        System.out.println("------------- input - search - transaction -------------------");
-
 
         Object[][] data = viewTransaction.getData();
         Object[][] arr = viewTransaction.getData();
@@ -218,11 +168,10 @@ public class ControllerTransaction {
             if (!dateInput.equals("")) {
                 dataStream = dataStream.filter(row -> row[5].toString().contains(dateInput));
             }
-
             // Gán kết quả vào mảng arr
             arr = dataStream.toArray(Object[][]::new);
         }
-//        setData(arr);
+
         // Lấy model của bảng
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         // Xóa dữ liệu hiện có trong bảng
@@ -236,10 +185,18 @@ public class ControllerTransaction {
         model.fireTableDataChanged();
     }
 
-    public static boolean check(){
+    public static boolean checkSearch(){
         ViewTransaction viewTransaction = MainProgram.getViewTransaction();
         String dateInput = viewTransaction.getInputFilterDate().getText();
         String phoneInput = viewTransaction.getInputFilterPhone().getText();
+        String filterTypeInput = (String) viewTransaction.getSelecFilterType().getSelectedItem();
+
+        System.out.println("------------- search - check - transaction -------------------");
+        System.out.println("dateInput :"+dateInput);
+        System.out.println("phoneInput :"+phoneInput);
+        System.out.println("filterTypeInput :"+filterTypeInput);
+        System.out.println("------------- search - check - transaction -------------------");
+
         int check = 1;
         if (!dateInput.isEmpty()){
             if (check ==1){
@@ -248,7 +205,6 @@ public class ControllerTransaction {
                             "Date : "),"Notice", JOptionPane.WARNING_MESSAGE);
                     check = 0;
                 }
-
             }
         }
         if (!phoneInput.isEmpty()){
@@ -263,9 +219,51 @@ public class ControllerTransaction {
         return (check==1) ? true : false;
     }
 
+    public static boolean checkCreat(){
+        int id = MainProgram.getViewPersonInTransaction().getIdSelect();
+        ViewTransaction viewTransaction = MainProgram.getViewTransaction();
+        String Stringvalue = viewTransaction.getInputValue().getText();
+        String type = (String) viewTransaction.getSelecType().getSelectedItem();
+        String comment = viewTransaction.getInputComment().getText();
+        String day = viewTransaction.getInputDate().getText();
+        String hour = viewTransaction.getInputTime().getText();
 
 
+        System.out.println("------------- creat - check - transaction -------------------");
+        System.out.println("hour :" + hour);
+        System.out.println("Stringvalue :" + Stringvalue);
+        System.out.println("comment :" + comment);
+        System.out.println("id :" + id);
+        System.out.println("day :" + day);
+        System.out.println("type :" + type);
+        System.out.println("------------- creat - check - transaction -------------------");
 
+        int check = 1;
+        if (hour.isEmpty()||Stringvalue.isEmpty()||comment.isEmpty()||id==0||day.isEmpty()){
 
-
+            if (check==1){
+                JOptionPane.showMessageDialog(null, "You must fill in all the required information before proceeding to make a reservation !", "Notice", JOptionPane.WARNING_MESSAGE);
+            }
+            check =0;
+        }
+        if (!RegexMatcher.hourCheck(hour, "").equals("") ||!RegexMatcher.dayCheck(day,"").equals(""))
+        {
+            if (check ==1){
+                JOptionPane.showMessageDialog(null,
+                        RegexMatcher.hourCheck(hour, "End time: ")+
+                                RegexMatcher.dayCheck(day,"Date of event: "),
+                        "Notice", JOptionPane.WARNING_MESSAGE);
+            }
+            check = 0;
+        }
+        if (!Stringvalue.equals("")){
+            if (!RegexMatcher.numberCheck(Stringvalue,"").equals("")){
+                if (check ==1){
+                    JOptionPane.showMessageDialog(null, RegexMatcher.numberCheck(Stringvalue, "Deposit: "), "Notice", JOptionPane.WARNING_MESSAGE);
+                }
+                check = 0;
+            }
+        }
+        return (check==1) ? true : false;
+    }
 }
