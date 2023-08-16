@@ -23,6 +23,9 @@ public class ControllerTime {
         } else if (choice == 2) {
             DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             return dateTime.format(dateFormatter);
+        } else if (choice == 3) {
+            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+            return dateTime.format(dateFormatter);
         } else {
             throw new IllegalArgumentException("Invalid choice");
         }
@@ -32,4 +35,9 @@ public class ControllerTime {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         return LocalDate.parse(dateString, formatter);
     }
+
+
+
+
+
 }

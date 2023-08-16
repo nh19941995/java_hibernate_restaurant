@@ -231,9 +231,9 @@ public class ViewDish extends JPanel{
         grid1.GridAddCustom2(buttonCreatNewDish,0,0,20,20,5,5,1,1);
         buttonCreatNewDish.setPreferredSize(new Dimension(150, 35));
         // Đặt màu cho nền của JButton
-        buttonCreatNewDish.setBackground(Color.RED);
+//        buttonCreatNewDish.setBackground(Color.RED);
         // Đặt màu cho văn bản của JButton
-        buttonCreatNewDish.setForeground(Color.WHITE);
+//        buttonCreatNewDish.setForeground(Color.WHITE);
         jPanel.add(grid,BorderLayout.CENTER);
         jPanel.add(grid1,BorderLayout.EAST);
         return  jPanel;

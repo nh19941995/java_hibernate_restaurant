@@ -22,6 +22,9 @@ public class Person {
     @Column(name = "username", length = 150)
     private String username;
 
+    @Column(name = "password", length = 150)
+    private String password;
+
     @Column(name = "email", nullable = false, length = 250)
     private String email;
 
@@ -46,6 +49,14 @@ public class Person {
 
     @Column(name = "flag")
     private Integer flag;
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public Integer getId() {
         return id;

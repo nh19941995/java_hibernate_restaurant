@@ -37,8 +37,16 @@ public class MainProgram {
     private static ViewBooking viewBooking;
     private static ViewTempBooking viewTempBooking;
     private static ViewTransaction viewTransaction;
+    private static ViewListBooking viewListBooking;
     private static ViewHome viewHome ;
     // get + set -------------------------------------------------------------------------------------------------------
+
+    public static ViewListBooking getViewListBooking() {
+        return viewListBooking;
+    }
+    public static void setViewListBooking(ViewListBooking viewListBooking) {
+        MainProgram.viewListBooking = viewListBooking;
+    }
     public static ViewPerson getViewPersonInTransaction() {
         return viewPersonInTransaction;
     }
@@ -190,6 +198,7 @@ public class MainProgram {
             viewBooking = new ViewBooking();
             // list booking
             viewTempBooking = new ViewTempBooking();
+            viewListBooking = new ViewListBooking();
             setViewBooking(viewBooking);
             // transaction
             viewTransaction = new ViewTransaction();

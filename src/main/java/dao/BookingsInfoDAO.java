@@ -1,9 +1,12 @@
 package dao;
 
+import controller.ControllerTime;
 import jakarta.persistence.*;
 import model.BookingsInfo;
+import model.Dish;
 import utils.PersistenceManager;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class BookingsInfoDAO implements DAOInterface<BookingsInfo,Integer>{
@@ -68,9 +71,20 @@ public class BookingsInfoDAO implements DAOInterface<BookingsInfo,Integer>{
         try {
             // Sử dụng JPQL (Java Persistence Query Language) để truy vấn danh sách DishType
             String queryStr = "SELECT d FROM BookingsInfo d";
-            ArrayList<BookingsInfo> a  =  new ArrayList<>(entityManager.createQuery(queryStr, BookingsInfo.class).getResultList());
-//            a.stream().forEach(s-> System.out.println(s.toString()) );
-            return a;
+            ArrayList<BookingsInfo> info  =  new ArrayList<>(entityManager.createQuery(queryStr, BookingsInfo.class).getResultList());
+
+            for (BookingsInfo s : info) {
+                String name = s.getPerson().getName();
+                String lastName = s.getPerson().getLastName();
+                String fname = s.getPerson().getName();
+                String phone = s.getPerson().getPhone();
+                String info1 = s.getInfo();
+                Double deposit = s.getDeposit();
+                LocalDateTime dateCreat = s.getDateCreat();
+                int flag = s.getFlag();
+            }
+
+            return info;
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -78,6 +92,19 @@ public class BookingsInfoDAO implements DAOInterface<BookingsInfo,Integer>{
             entityManager.close();
         }
     }
+
+
+//     s.getId(),
+//             s.getPerson().getName(),
+//                                s.getPerson().getLastName(),
+//                                s.getPerson().getPhone(),
+//                                s.getInfo(),
+//                                        s.getDeposit(),
+//                                        BookingsInfoDAO.getInstance().getTotalPriceByInfoBookingID(s.getId()),
+//            ControllerTime.formatDateTime(3,s.getDateCreat()),
+//            s.getFlag(),
+
+
 
     @Override
     public BookingsInfo getById(int bookingsInfoId) {

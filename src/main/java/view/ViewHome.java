@@ -8,7 +8,7 @@ import java.awt.*;
 public class ViewHome extends JFrame {
     public ViewHome(){
 //        khung ngoài phần mềm------------------------------------------------------------------------------------------
-        setTitle("Register");             //        tiêu đề cho form
+        setTitle("Restaurant management");             //        tiêu đề cho form
         // Tạo panel chính, mainPanel là một JPanel chứa toàn bộ giao diện của ứng dụng
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
@@ -41,7 +41,7 @@ public class ViewHome extends JFrame {
         tab3.add(MainProgram.getViewBooking(),BorderLayout.CENTER);
         tab4.add(MainProgram.getViewDishMain(),BorderLayout.CENTER);
         tab5.add(MainProgram.getViewNewMenuMain(),BorderLayout.CENTER);
-        tab6.add(MainProgram.getViewTempBooking(),BorderLayout.CENTER);
+        tab6.add(MainProgram.getViewListBooking(),BorderLayout.CENTER);
 
         tab1.setBackground(Color.green);
         tab2.setBackground(Color.ORANGE);

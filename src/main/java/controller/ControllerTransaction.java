@@ -69,7 +69,6 @@ public class ControllerTransaction {
         buttonSelectPerson.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                System.out.println("lồn");
                 MainProgram.getViewTransaction().setPersonForLabel();
             }
         });
@@ -103,7 +102,8 @@ public class ControllerTransaction {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Transaction newTransaction = new Transaction();
-                int id = ControllerBooking.getIdPerson();
+                int id = MainProgram.getViewPersonInTransaction().getIdSelect();
+                ViewTransaction viewTransaction = MainProgram.getViewTransaction();
                 String Stringvalue = viewTransaction.getInputValue().getText();
                 String type = (String) viewTransaction.getSelecType().getSelectedItem();
                 String comment = viewTransaction.getInputComment().getText();
@@ -111,7 +111,13 @@ public class ControllerTransaction {
                 String hour = viewTransaction.getInputTime().getText();
 
                 int check = 1;
+                System.out.println("hour :" + hour);
+                System.out.println("Stringvalue :" + Stringvalue);
+                System.out.println("comment :" + comment);
+                System.out.println("id :" + id);
+                System.out.println("day :" + day);
                 if (hour.isEmpty()||Stringvalue.isEmpty()||comment.isEmpty()||id==0||day.isEmpty()){
+
                     if (check==1){
                         JOptionPane.showMessageDialog(null, "You must fill in all the required information before proceeding to make a reservation !", "Notice", JOptionPane.WARNING_MESSAGE);
                     }
@@ -135,7 +141,6 @@ public class ControllerTransaction {
                         check = 0;
                     }
                 }
-
                 if (check==1 ){
                     Person person = PersonDAO.getInstance().getById(id);
                     Double value = Double.parseDouble(Stringvalue);
@@ -150,7 +155,6 @@ public class ControllerTransaction {
                     viewTransaction.loadData();
                     setNullData();
                 }
-
             }
         });
     }

@@ -144,9 +144,9 @@ public class ViewNewMenu extends JPanel {
         buttonRemoveDish.setPreferredSize(new Dimension(150, 35));
         buttonCreatNewMenu.setPreferredSize(new Dimension(150, 35));
         // Đặt màu cho nền của JButton
-        buttonCreatNewMenu.setBackground(Color.RED);
+//        buttonCreatNewMenu.setBackground(Color.RED);
         // Đặt màu cho văn bản của JButton
-        buttonCreatNewMenu.setForeground(Color.WHITE);
+//        buttonCreatNewMenu.setForeground(Color.WHITE);
 
         jPanel.add(grid, BorderLayout.CENTER);
         // Đặt kích thước chiều ngang cho jPanel

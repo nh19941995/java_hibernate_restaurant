@@ -16,7 +16,6 @@ public class ControllerPerson {
 
 
     public ControllerPerson(ViewPerson viewPerson) {
-        System.out.println("ControllerPerson dc gọi a");
         // click get id
         JTable table = viewPerson.getTable();
         table.addMouseListener(new MouseAdapter() {

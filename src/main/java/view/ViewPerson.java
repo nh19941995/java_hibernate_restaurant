@@ -61,83 +61,63 @@ public class ViewPerson extends JPanel {
     public JComboBox<String> getSelecType() {
         return SelecType;
     }
-
     public JTextField getInputFirstName() {
         return inputFirstName;
     }
-
     public JTextField getInputLastName() {
         return inputLastName;
     }
-
     public JTextField getInputEmail() {
         return inputEmail;
     }
-
     public JTextField getInputAdress() {
         return inputAdress;
     }
-
     public JTextField getInputBirthday() {
         return inputBirthday;
     }
-
     public JTextField getInputPhone() {
         return inputPhone;
     }
-
     public DefaultTableModel getTableModel() {
         return tableModel;
     }
-
     public void setTableModel(DefaultTableModel tableModel) {
         this.tableModel = tableModel;
     }
-
     public JTextField getInputSearchByPhone() {
         return inputSearchByPhone;
     }
-
     public int getIdSelect() {
         return idSelect;
     }
-
     public void setIdSelect(int idSelect) {
         this.idSelect = idSelect;
     }
-
     public JTable getTable() {
         return table;
     }
-
     public void setTable(JTable table) {
         this.table = table;
     }
-
     public JButton getButtonAddPerson() {
         return buttonAddPerson;
     }
-
     public JButton getButtonDeletePerson() {
         return buttonDeletePerson;
     }
-
     public JButton getButtonUpdatePerson() {
         return buttonUpdatePerson;
     }
-
     public JButton getButtonSearchPerson() {
         return buttonSearchPerson;
     }
-
     public JButton getButtonSelectPerson() {
         return buttonSelectPerson;
     }
-
     public Object[][] getData() {
         return data;
     }
-
     public void setData(Object[][] data) {
         this.data = data;
     }
@@ -196,9 +176,9 @@ public class ViewPerson extends JPanel {
         buttonUpdatePerson.setPreferredSize(new Dimension(150, 20));
         buttonSelectPerson.setPreferredSize(new Dimension(150, 35));
         // Đặt màu cho nền của JButton
-        buttonSelectPerson.setBackground(Color.RED);
+//        buttonSelectPerson.setBackground(Color.RED);
         // Đặt màu cho văn bản của JButton
-        buttonSelectPerson.setForeground(Color.WHITE);
+//        buttonSelectPerson.setForeground(Color.WHITE);
         // bố trí các phần tử
         GridTool grid = new GridTool();
         // cột 1
