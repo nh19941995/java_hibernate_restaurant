@@ -1,25 +1,41 @@
 package view;
 
 import controller.ControllerBooking;
+import dao.DishDAO;
+import model.Dish;
 import view.tool.BoderTool;
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class ViewTempBooking extends JPanel{
     // data ------------------------------------------------------------------------------------------------------------
     private Object lockObject = new Object();
     private JTable table = new JTable();
+    private int tempId;
+
+    public JTable getTable() {
+        return table;
+    }
+
+    public void setTable(JTable table) {
+        this.table = table;
+    }
+
     private DefaultTableModel tableModel;
     private Object[][] data;
-    private int idSelect;
-    public int getIdSelect() {
-        return idSelect;
+
+    public int getTempId() {
+        return tempId;
     }
-    public void setIdSelect(int idSelect) {
-        this.idSelect = idSelect;
+
+    public void setTempId(int tempId) {
+        this.tempId = tempId;
     }
+
     public Object[][] getData() {
         return data;
     }
@@ -29,6 +45,24 @@ public class ViewTempBooking extends JPanel{
     public ViewTempBooking() {
         setLayout(new BorderLayout());
         this.add(blockTable(), BorderLayout.CENTER);
+
+
+        // click đẩy id vào tempId
+        JTable table = getTable();
+        table.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 1) { // Kiểm tra nếu chỉ là một lần click chuột (clickCount = 1)
+                    int row = table.getSelectedRow(); // Lấy chỉ số dòng đã được chọn
+                    if (row != -1) { // Kiểm tra xem có dòng nào được chọn không (-1 nghĩa là không có dòng nào được chọn)
+                        String id = table.getValueAt(row, 0).toString(); // Lấy giá trị từ ô ở cột đầu tiên (cột ID) của dòng đã chọn
+                        System.out.println("ViewTempBooking tempId : "+ id);
+                        setTempId(Integer.parseInt(id));
+                    }
+                }
+            }
+
+        });
     }
 
     private JPanel blockTable() {
@@ -88,6 +122,7 @@ public class ViewTempBooking extends JPanel{
         boderTool.add(scrollPane,BorderLayout.CENTER);
         return boderTool;
     }
+
 
     public void loadData(){
         // Lấy model của bảng

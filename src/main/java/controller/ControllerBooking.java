@@ -27,6 +27,15 @@ public class ControllerBooking {
     private static int idInTempBooking;
     private static Double deposit;
     // get + set--------------------------------------------------------------------------------------------------------
+
+    public static int getIdInTempBooking() {
+        return idInTempBooking;
+    }
+
+    public static void setIdInTempBooking(int idInTempBooking) {
+        ControllerBooking.idInTempBooking = idInTempBooking;
+    }
+
     public static Double getDeposit() {
         return deposit;
     }
@@ -58,6 +67,20 @@ public class ControllerBooking {
         ViewTable viewTable = MainProgram.getViewTableInBooking();
         ViewNewMenu viewNewMenu = MainProgram.getViewNewMenuInBooking();
         ViewMenu viewMenu = MainProgram.getViewMenuSelectInBooking();
+
+
+        // remove
+        JButton buttonRemoveARowFromTempBooking = viewBooking.getButtonRemoveARowFromTempBooking();
+        buttonRemoveARowFromTempBooking.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ArrayList<Booking> bookings = ControllerBooking.getBookings();
+                bookings.stream().forEach(s-> System.out.println(s.getId()));
+                bookings.remove(idInTempBooking-1);
+                MainProgram.getViewTempMenu().loadData();
+                MainProgram.getViewTempBooking().loadData();
+            }
+        });
 
 
         // chuyển sang tab chọn bàn
