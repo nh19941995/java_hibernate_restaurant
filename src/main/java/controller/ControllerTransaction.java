@@ -69,12 +69,11 @@ public class ControllerTransaction {
             @Override
             public void mouseClicked(MouseEvent e) {
                 System.out.println("search transaction ");
-                search();
+                if (check()){
+                    search();
+                }
             }
         });
-
-
-
 
         // sự kiện chọn person
         JButton buttonSelectPerson = MainProgram.getViewPersonInTransaction().getButtonSelectPerson();
@@ -235,6 +234,33 @@ public class ControllerTransaction {
         }
         // Cập nhật bảng để hiển thị dữ liệu mới
         model.fireTableDataChanged();
+    }
+
+    public static boolean check(){
+        ViewTransaction viewTransaction = MainProgram.getViewTransaction();
+        String dateInput = viewTransaction.getInputFilterDate().getText();
+        String phoneInput = viewTransaction.getInputFilterPhone().getText();
+        int check = 1;
+        if (!dateInput.isEmpty()){
+            if (check ==1){
+                if (!RegexMatcher.dayCheck(dateInput, "").equals("")){
+                    JOptionPane.showMessageDialog(null, RegexMatcher.dayCheck(dateInput,
+                            "Date : "),"Notice", JOptionPane.WARNING_MESSAGE);
+                    check = 0;
+                }
+
+            }
+        }
+        if (!phoneInput.isEmpty()){
+            if (check ==1){
+                if (!RegexMatcher.phoneCheck(phoneInput, "").equals("")) {
+                    JOptionPane.showMessageDialog(null, RegexMatcher.phoneCheck(phoneInput,
+                            "Phone number : "), "Notice", JOptionPane.WARNING_MESSAGE);
+                    check = 0;
+                }
+            }
+        }
+        return (check==1) ? true : false;
     }
 
 
