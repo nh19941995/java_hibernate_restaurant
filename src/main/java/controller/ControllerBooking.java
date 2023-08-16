@@ -178,10 +178,11 @@ public class ControllerBooking {
                     }
                 }
                 MainProgram.getViewTableInBooking().reload();
-                // reload viewTable
                 MainProgram.getViewListBooking().reload();
-                // reload viewListBooking
-
+                setNullBlockInfoPerson(viewBooking);
+                bookings.clear();
+                MainProgram.getViewNewMenuMain().loadData();
+                MainProgram.getViewTempMenu().loadData();
             }
         });
     }
@@ -329,6 +330,8 @@ public class ControllerBooking {
         Set<Integer> invalidTableIdsInTempBooking  = new HashSet<>();
         // lấy ra các bàn không thỏa mãn giờ so với yêu cầu và lưu id vào invalidTableIds
         java.util.List<Booking> bookingList = BookingDAO.getInstance().getAll();
+
+
         List<Object[]> bookingListData = bookingList.stream()
                 .filter(s ->
                         (end.isBefore(s.getInfo().getStart()) && end.isAfter(s.getInfo().getEnd())) ||
@@ -349,12 +352,28 @@ public class ControllerBooking {
                 })
                 .collect(Collectors.toList());
 
-
-
-        System.out.print("Invalid Table IDs: ");
-        for (Integer tableId : invalidTableIds) {
-            System.out.print(tableId + " ");
+        for (Object[] data : bookingListData) {
+            int tableId = (int) data[0];
+            String tableType = (String) data[1];
+            int seatingCapacity = (int) data[2];
+            LocalDateTime startTime = (LocalDateTime) data[3];
+            LocalDateTime endTime = (LocalDateTime) data[4];
+            LocalDateTime date = (LocalDateTime) data[5];
+            String tableStatus = (String) data[6];
+            System.out.println("------------------------------------------------------------");
+            System.out.println("Table ID: " + tableId);
+            System.out.println("Table Type: " + tableType);
+            System.out.println("Seating Capacity: " + seatingCapacity);
+            System.out.println("Start Time: " + startTime);
+            System.out.println("End Time: " + endTime);
+            System.out.println("Date: " + date);
+            System.out.println("Table Status: " + tableStatus);
+            System.out.println("------------------------------------------------------------");
         }
+
+
+
+
 
 
 
@@ -448,6 +467,20 @@ public class ControllerBooking {
         Person person = PersonDAO.getInstance().getById(id);
         viewBooking.getLabelFirstNameValue().setText(person.getName()); // Đặt giá trị cho JLabel
         viewBooking.getLabelLastNameValue().setText(person.getLastName()); // Đặt giá trị cho JLabel
+        viewBooking.getLabelFirstNameValue().repaint(); // Thông báo cho nhãn vẽ lại để hiển thị nội dung mới
+        viewBooking.getLabelLastNameValue().repaint(); // Thông báo cho nhãn vẽ lại để hiển thị nội dung mới
+    }
+
+    public static void setNullBlockInfoPerson(ViewBooking viewBooking){
+        System.out.println("ControllerBooking - reloadBlockInfoPerson(ViewBooking viewBooking)");
+        ControllerBooking.setIdPerson(0);
+        viewBooking.getLabelFirstNameValue().setText(""); // Đặt giá trị cho JLabel
+        viewBooking.getLabelLastNameValue().setText(""); // Đặt giá trị cho JLabel
+        viewBooking.getInputComment().setText("");
+        viewBooking.getInputDate().setText("");
+        viewBooking.getInputDeposit().setText("");
+        viewBooking.getInputEndTime().setText("");
+        viewBooking.getInputStartTime().setText("");
         viewBooking.getLabelFirstNameValue().repaint(); // Thông báo cho nhãn vẽ lại để hiển thị nội dung mới
         viewBooking.getLabelLastNameValue().repaint(); // Thông báo cho nhãn vẽ lại để hiển thị nội dung mới
     }
