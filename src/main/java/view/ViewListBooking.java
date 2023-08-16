@@ -183,19 +183,19 @@ public class ViewListBooking extends JPanel {
         // Clear existing data
         tableModel.setRowCount(0);
         // lấy dữ liệu từ sever
-        List<Person> personList = PersonDAO.getInstance().getAll();
+        java.util.List<BookingsInfo> personList = BookingsInfoDAO.getInstance().getAll();
         Object[][] data = personList.stream()
                 .filter(s->s.getFlag()>0)
                 .map(s -> new Object[]{
                                 s.getId(),
-                                s.getName(),
-                                s.getLastName(),
-                                s.getPhone(),
-                                s.getAddress(),
-                                s.getDateOfBirth().toString(),
-                                s.getEmail(),
-                                ControllerTime.formatDateTime(2,s.getDateCreat()),
-                                s.getPermission().getPermissionName(),
+                                s.getPerson().getName(),
+                                s.getPerson().getLastName(),
+                                s.getPerson().getPhone(),
+                                s.getInfo(),
+                                s.getDeposit(),
+                                BookingsInfoDAO.getInstance().getTotalPriceByInfoBookingID(s.getId()),
+                                ControllerTime.formatDateTime(3,s.getDateCreat()),
+                                s.getFlag(),
                         }
                 ).toArray(Object[][]::new);
         setData(data);

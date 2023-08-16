@@ -121,18 +121,23 @@ public class ControllerBooking {
     public static void submitNewBooking(){
         System.out.println("ControllerBooking - submitNewBooking()");
         ViewBooking viewBooking = MainProgram.getViewBooking();
-        JButton buttonSubmid = viewBooking.getButtonSubmitBooking();
-        buttonSubmid.addActionListener(new ActionListener() {
+        JButton buttonSubmit = viewBooking.getButtonSubmitBooking();
+        buttonSubmit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String startTimeString = viewBooking.getInputStartTime().getText();
+                String endTimeString = viewBooking.getInputEndTime().getText();
+                System.out.println("startTimeString :" +startTimeString);
+                System.out.println("endTimeString :" +endTimeString);
                 String dateString = viewBooking.getInputDate().getText();
                 String depositString = viewBooking.getInputDeposit().getText();
-
                 BookingsInfo bookingsInfo = new BookingsInfo();
+
                 if (checkBookingInfo(viewBooking)){
                     LocalDateTime startTime = ControllerTime.parseDateTime(startTimeString,dateString);
-                    LocalDateTime endTime = ControllerTime.parseDateTime(startTimeString,dateString);
+                    LocalDateTime endTime = ControllerTime.parseDateTime(endTimeString,dateString);
+                    System.out.println("startTime :" +startTime);
+                    System.out.println("endTime :" +endTime);
 
                     if (checkTimeBooking(viewBooking)){
                         if (!depositString.isEmpty()){
@@ -140,8 +145,10 @@ public class ControllerBooking {
                         }
 
                         if(checkInfoTableAndMenu()){
-                            ArrayList<Integer> table = checkHourTable(startTime,endTime);
-                            if (table.isEmpty()){
+                            System.out.println("get in");
+                            Set<Integer> invalidTableIdsInTempBooking = checkHourTable(startTime,endTime);
+                            System.out.println("Invalid Table IDs in Temp Booking: " + invalidTableIdsInTempBooking);
+                            if (invalidTableIdsInTempBooking.isEmpty()){
                                 Person person = PersonDAO.getInstance().getById(idPerson);
                                 submidBookingInfo(viewBooking,bookingsInfo,person);
                                 getBookings().forEach(s->{
@@ -150,10 +157,31 @@ public class ControllerBooking {
                                     BookingDAO.getInstance().insert(s);
                                 });
                                 creatReceivableTransaction(viewBooking,bookingsInfo);
+                            }else {
+                                StringBuilder stringBuilder = new StringBuilder();
+                                for (Integer tableId : invalidTableIdsInTempBooking) {
+                                    stringBuilder.append(tableId).append(", ");
+                                }
+
+                                if (stringBuilder.length() > 0) {
+                                    stringBuilder.delete(stringBuilder.length() - 2, stringBuilder.length()); // Xóa dấu phẩy và khoảng trắng cuối cùng
+                                    System.out.println("Invalid Table IDs in tempBookingListData: " + stringBuilder.toString());
+                                    JOptionPane.showMessageDialog(null,
+                                            "The reservation time is already taken, please choose another table or a different time slot.\n Id table:" + stringBuilder.toString(),
+                                            "Notice",
+                                            JOptionPane.WARNING_MESSAGE);
+                                } else {
+                                    System.out.println("No invalid Table IDs in tempBookingListData.");
+                                }
                             }
                         }
                     }
                 }
+                MainProgram.getViewTableInBooking().reload();
+                // reload viewTable
+                MainProgram.getViewListBooking().reload();
+                // reload viewListBooking
+
             }
         });
     }
@@ -168,14 +196,18 @@ public class ControllerBooking {
         // tổng tiền phải thanh toán
         Double bill = BookingsInfoDAO.getInstance().getTotalPriceByInfoBookingID(bookingsInfo.getId());
         System.out.println("Khởi tạo bill: " + bill);
-        Double receivable = bill - getDeposit() ;
+
+        Double receivable;
+        if (getDeposit()==null){
+            receivable = bill ;
+        }else {
+            receivable = bill - getDeposit() ;
+        }
+
         tranReceivable.setQuantity(receivable);
         tranReceivable.setFlag(1);
         tranReceivable.setPerson(PersonDAO.getInstance().getById(idPerson));
         TransactionDAO.getInstance().insert(tranReceivable);
-//        System.out.println("id khách hàng là: "+idPerson);
-//        System.out.println("id info là: "+bookingsInfo.getId());
-//        System.out.println("khách hàng còn nợ: "+ receivable);
         MainProgram.getViewTransaction().loadData();
     }
     public static void submidBookingInfo(ViewBooking viewBooking ,BookingsInfo bookingsInfo,Person person){
@@ -290,11 +322,44 @@ public class ControllerBooking {
         return (check==1) ? true : false;
     }
 
-    public static ArrayList<Integer> checkHourTable(LocalDateTime start,LocalDateTime end ){
+    public static Set<Integer> checkHourTable(LocalDateTime start,LocalDateTime end ){
         System.out.println("ControllerBooking - checkHourTable(LocalDateTime start,LocalDateTime end)");
+        // Sử dụng HashSet để lưu trữ các phần tử không trùng lặp
+        Set<Integer> invalidTableIds  = new HashSet<>();
+        Set<Integer> invalidTableIdsInTempBooking  = new HashSet<>();
+        // lấy ra các bàn không thỏa mãn giờ so với yêu cầu và lưu id vào invalidTableIds
         java.util.List<Booking> bookingList = BookingDAO.getInstance().getAll();
+        List<Object[]> bookingListData = bookingList.stream()
+                .filter(s ->
+                        (end.isBefore(s.getInfo().getStart()) && end.isAfter(s.getInfo().getEnd())) ||
+                                (start.isBefore(s.getInfo().getStart()) && start.isAfter(s.getInfo().getEnd())) ||
+                                (start.isAfter(s.getInfo().getStart()) && end.isBefore(s.getInfo().getEnd()))
+                )
+                .map(s -> {
+                    invalidTableIds.add(s.getTable().getId()); // Thêm ID bàn không hợp lệ vào tập hợp
+                    return new Object[]{
+                            s.getTable().getId(),             // id bàn
+                            s.getTable().getType().getName(), // loại bàn
+                            s.getTable().getSeatingCapacity(),// số ghế
+                            s.getInfo().getStart(),           // giờ bắt đầu
+                            s.getInfo().getEnd(),             // giờ kết thúc
+                            s.getInfo().getStart(),           // ngày
+                            s.getTable().getStatus().getName()     // trạng thái của bàn
+                    };
+                })
+                .collect(Collectors.toList());
 
-        List<Object[]> bookingListData = bookingList.stream().map(
+
+
+        System.out.print("Invalid Table IDs: ");
+        for (Integer tableId : invalidTableIds) {
+            System.out.print(tableId + " ");
+        }
+
+
+
+
+        List<Object[]> tempBookingListData = bookingList.stream().map(
                 s -> new Object[]{
                         s.getTable().getId(),             // id bàn
                         s.getTable().getType().getName(), // loại bàn
@@ -306,38 +371,15 @@ public class ControllerBooking {
                 }
         ).collect(Collectors.toList());
 
-        ArrayList<Integer> tableId = new ArrayList<>();
-        for (Object[] data : bookingListData) {
-            LocalDateTime startTime = (LocalDateTime) data[3];
-            LocalDateTime endTime = (LocalDateTime) data[4];
-
-
-            boolean check= startTime.isAfter(end)||endTime.isBefore(start);
-            if (!check) {
-                tableId.add((Integer) data[0]);
+        // Kiểm tra phần tử trong tempBookingListData có ID nằm trong invalidTableIds hay không
+        for (Object[] data : tempBookingListData) {
+            int tableId = (int) data[0];
+            if (invalidTableIds.contains(tableId)) {
+                System.out.println("tableId :"+tableId);
+                invalidTableIdsInTempBooking.add(tableId);
             }
         }
-
-
-        if (!tableId.isEmpty()){
-            // Chuyển danh sách thành chuỗi bằng cách sử dụng StringBuilder
-            StringBuilder stringBuilder = new StringBuilder();
-            for (Integer number : tableId) {
-                stringBuilder.append(number).append(", "); // Thêm mỗi số và dấu phẩy vào chuỗi
-            }
-            // Xóa dấu phẩy cuối cùng và khoảng trắng
-            if (stringBuilder.length() > 0) {
-                stringBuilder.delete(stringBuilder.length() - 2, stringBuilder.length());
-            }
-            // Lấy chuỗi kết quả
-            String resultString = stringBuilder.toString();
-            JOptionPane.showMessageDialog(null,
-                    "The reservation time is already taken, please choose another table or a different time slot.\n Id table:"+resultString,
-                    "Notice",
-                    JOptionPane.WARNING_MESSAGE);
-        }
-        tableId.stream().forEach(s-> System.out.println("bàn trùng: "+s));
-        return tableId;
+        return invalidTableIdsInTempBooking;
     }
 
     public static boolean checkInfoTableAndMenu(){
@@ -492,5 +534,30 @@ public class ControllerBooking {
                 MainProgram.getViewTempMenu().loadData();
             }
         });
+    }
+
+    public static void main(String[] args) {
+        LocalDateTime start = ControllerTime.parseDateTime("06:00","2023-09-09");
+        LocalDateTime end = ControllerTime.parseDateTime("06:00","2023-09-09");
+
+
+
+        Set<Integer> invalidTableIdsInTempBooking = checkHourTable(start,end);
+
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Integer tableId : invalidTableIdsInTempBooking) {
+            stringBuilder.append(tableId).append(", ");
+        }
+
+        if (stringBuilder.length() > 0) {
+            stringBuilder.delete(stringBuilder.length() - 2, stringBuilder.length()); // Xóa dấu phẩy và khoảng trắng cuối cùng
+            System.out.println("Invalid Table IDs in tempBookingListData: " + stringBuilder.toString());
+            JOptionPane.showMessageDialog(null,
+                    "The reservation time is already taken, please choose another table or a different time slot.\n Id table:" + stringBuilder.toString(),
+                    "Notice",
+                    JOptionPane.WARNING_MESSAGE);
+        } else {
+            System.out.println("No invalid Table IDs in tempBookingListData.");
+        }
     }
 }

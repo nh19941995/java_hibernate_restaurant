@@ -92,6 +92,7 @@ public class ControllerNewMenu {
             s.setFlag(1);
             MenuDAO.getInstance().insert(s);
         });
+        MainProgram.getViewMenuSelectInBooking().reload();
     }
 
     private boolean check(ViewNewMenu viewNewMenu){
