@@ -91,6 +91,7 @@ public class ViewTempMenu extends JPanel{
     }
 
     public void loadData(){
+        System.out.println("ViewTempMenu - loadData()");
         // Lấy model của bảng
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         // Xóa hết dữ liệu hiện có trong bảng

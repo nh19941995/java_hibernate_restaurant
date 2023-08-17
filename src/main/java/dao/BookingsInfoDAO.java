@@ -94,16 +94,6 @@ public class BookingsInfoDAO implements DAOInterface<BookingsInfo,Integer>{
     }
 
 
-//     s.getId(),
-//             s.getPerson().getName(),
-//                                s.getPerson().getLastName(),
-//                                s.getPerson().getPhone(),
-//                                s.getInfo(),
-//                                        s.getDeposit(),
-//                                        BookingsInfoDAO.getInstance().getTotalPriceByInfoBookingID(s.getId()),
-//            ControllerTime.formatDateTime(3,s.getDateCreat()),
-//            s.getFlag(),
-
 
 
     @Override

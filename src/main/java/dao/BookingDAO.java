@@ -3,6 +3,7 @@ package dao;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.TypedQuery;
 import model.*;
 import utils.PersistenceManager;
 
@@ -88,8 +89,6 @@ public class BookingDAO implements DAOInterface<Booking,Integer>{
                 String status = a.getTable().getStatus().getName();
 
             }
-
-//            a.stream().forEach(s-> System.out.println(s.toString()) );
             return bookings;
         } catch (Exception e) {
             e.printStackTrace();
@@ -112,6 +111,50 @@ public class BookingDAO implements DAOInterface<Booking,Integer>{
             entityManager.close();
         }
     }
+
+    public ArrayList<Booking> getByInfoId(int inforID) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction transaction = entityManager.getTransaction();
+        try {
+            // Sử dụng JPQL (Java Persistence Query Language) để truy vấn danh sách Booking
+            String queryStr = "SELECT t FROM Booking t WHERE t.info.id = :inforID";
+            TypedQuery<Booking> query = entityManager.createQuery(queryStr, Booking.class);
+            query.setParameter("inforID", inforID);
+
+            ArrayList<Booking> bookings = new ArrayList<>(query.getResultList());
+            for (Booking a : bookings) {
+                if (a.getTable() != null) {
+                    int id = a.getTable().getId();
+                    int seatingCapacity = a.getTable().getSeatingCapacity();
+                }
+                if (a.getInfo() != null) {
+                    LocalDateTime end = a.getInfo().getEnd();
+                    LocalDateTime start = a.getInfo().getStart();
+                }
+                if (a.getTable() != null && a.getTable().getStatus() != null) {
+                    String status = a.getTable().getStatus().getName();
+                }
+                if (a.getTable() != null && a.getTable().getType() != null) {
+                    String types = a.getTable().getType().getName();
+                }
+                if (a.getInfo() != null && a.getInfo().getInfo() != null) {
+                    String info = a.getInfo().getInfo();
+                }
+                if (a.getMenuName() != null ) {
+                    String info = a.getMenuName().getName();
+                }
+
+            }
+            return bookings;
+        } catch (Exception e) {
+            System.err.println("Error while fetching bookings: " + e.getMessage());
+            e.printStackTrace();
+            return null;
+        } finally {
+            entityManager.close();
+        }
+    }
+
 
 
 }

@@ -24,6 +24,7 @@ public class ViewListBooking extends JPanel {
     private JLabel labelfilterByPhone = new JLabel("Search by phone number:");
     private JLabel labelfilterByDate= new JLabel("Search by date:");
     private JLabel labelPayment = new JLabel("Enter the payment amount");
+    // input------------------------------------------------------------------------------------------------------------
     private JTextField inputSearchByPhone = new JTextField();
     private JTextField inputSearchByDate = new JTextField();
     private JTextField inputPaymentValue = new JTextField();
@@ -31,6 +32,10 @@ public class ViewListBooking extends JPanel {
     private JButton buttonPayment = new JButton("Payment");
     private JButton buttonGetBill = new JButton("Generate the invoice");
     // get + set -------------------------------------------------------------------------------------------------------
+
+    public JTextField getInputPaymentValue() {
+        return inputPaymentValue;
+    }
 
     public JButton getButtonSearch() {
         return buttonSearch;
@@ -126,6 +131,14 @@ public class ViewListBooking extends JPanel {
         buttonPayment.setPreferredSize(new Dimension(150, 35));
         jPanel.add(gridTool1,BorderLayout.CENTER);
         jPanel.add(gridTool2,BorderLayout.EAST);
+        return jPanel;
+    }
+
+    private JPanel blockLeft(){
+        BoderTool jPanel = new BoderTool();
+        jPanel.setPreferredSize(new Dimension(450, 75));
+
+
         return jPanel;
     }
 

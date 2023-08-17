@@ -126,6 +126,22 @@ public class ControllerBooking {
             }
         });
 
+        // sự kiện mở bảng tạo mới menu
+        JButton buttonShowAllBooking = viewBooking.getButtonShowAllBooking();
+        buttonShowAllBooking.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                // Xóa tất cả các thành phần con khỏi JPanel
+                viewBooking.getCenterViewBooking().removeAll();
+                // Gọi hàm searchTableList() để thực hiện tìm kiếm và cập nhật dữ liệu
+                viewBooking.getCenterViewBooking().add(MainProgram.getViewListBooking(), BorderLayout.CENTER);
+
+                viewBooking.revalidate();
+                viewBooking.repaint();
+            }
+        });
+
+
         // sự kiện mở bảng chọn menu
         JButton buttonSelectMenuFromList = viewBooking.getButtonSelectMenuFromList();
         buttonSelectMenuFromList.addMouseListener(new MouseAdapter() {

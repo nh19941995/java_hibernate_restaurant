@@ -1,5 +1,7 @@
 package controller;
 
+import dao.*;
+import model.*;
 import view.MainProgram;
 import view.ViewListBooking;
 import view.ViewPerson;
@@ -8,6 +10,8 @@ import view.ViewTransaction;
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.Stream;
 
@@ -16,6 +20,7 @@ public class ControllerListBooking {
 
 
     public ControllerListBooking(ViewListBooking viewListBooking) {
+        System.out.println("call ControllerListBooking");
         // click get id
         JTable table = viewListBooking.getTable();
         table.addMouseListener(new MouseAdapter() {
@@ -27,6 +32,7 @@ public class ControllerListBooking {
                         String id = table.getValueAt(row, 0).toString(); // Lấy giá trị từ ô ở cột đầu tiên (cột ID) của dòng đã chọn
                         System.out.println("ViewListBooking: "+ id);
                         viewListBooking.setIdSelect(Integer.parseInt(id));
+                        loadData(Integer.parseInt(id));
 
                     }
                 }
@@ -45,7 +51,90 @@ public class ControllerListBooking {
             }
         });
 
+        // sự kiện payment
+        JButton buttonPayment = viewListBooking.getButtonPayment();
+        buttonPayment.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (viewListBooking.getIdSelect()==0){
+                    JOptionPane.showMessageDialog(null, "You haven't selected a transaction to make a payment, Please choose a transaction", "Notice", JOptionPane.WARNING_MESSAGE);
+                }else {
+                    if (checkPayment(viewListBooking)){
+                        creatPayment(viewListBooking);
+                    }
+
+                }
+            }
+        });
+
     }
+
+    private void loadData(int inforID){
+        System.out.println("ControllerListBooking - loadData(int inforID)");
+        ArrayList<Booking> dataBooking  = BookingDAO.getInstance().getByInfoId(inforID);
+        if (dataBooking != null) {
+            System.out.println("dataBooking is not null.");
+            // Tiếp tục xử lý dữ liệu trong dataBooking nếu cần
+        } else {
+            System.out.println("dataBooking is null.");
+            // Xử lý khi dataBooking là null nếu cần
+        }
+        dataBooking.stream().forEach(s-> System.out.println(s.getTable()) );
+        MainProgram.getControllerBooking().setBookings(dataBooking);
+
+        MainProgram.getViewTempMenu().loadData();
+    }
+
+
+    private void creatPayment(ViewListBooking viewListBooking){
+        String paymentValue = viewListBooking.getInputPaymentValue().getText();
+        BookingsInfo bookingsInfo = BookingsInfoDAO.getInstance().getById(viewListBooking.getIdSelect());
+        Person person = bookingsInfo.getPerson();
+        TransactionsType transactionsType = TransactionsTypeDAO.getInstance().getByName("Thu - Khách hàng thanh toán");
+        Transaction transaction = new Transaction();
+
+        transaction.setType(transactionsType);
+        transaction.setDateCreat(LocalDateTime.now());
+        transaction.setQuantity(Double.parseDouble(paymentValue));
+        transaction.setComment("Payment: "+bookingsInfo.getInfo());
+        transaction.setPerson(person);
+        transaction.setFlag(1);
+        TransactionDAO.getInstance().insert(transaction);
+
+        MainProgram.getViewTransaction().loadData();
+        MainProgram.getViewListBooking().reload();
+//        MainProgram.getViewListBooking().reload();
+//        MainProgram.getViewNewMenuMain().loadData();
+//        MainProgram.getViewTempMenu().loadData();
+    }
+
+    private static double amountPaid(){
+        Double amountPaid = 1d;
+        return  amountPaid;
+    }
+
+    private boolean checkPayment(ViewListBooking viewListBooking){
+        String paymentValue = viewListBooking.getInputPaymentValue().getText();
+        int check = 1;
+        if (paymentValue.isEmpty()){
+            if (check==1){
+                JOptionPane.showMessageDialog(null, "You need to fill in the payment amount !", "Notice", JOptionPane.WARNING_MESSAGE);
+            }
+            check =0;
+        }
+        if (!RegexMatcher.numberCheck(paymentValue,"").equals("")){
+            if (check ==1){
+                JOptionPane.showMessageDialog(null,
+                        RegexMatcher.dayCheck(paymentValue, "Payment amount: ")
+                        , "Notice", JOptionPane.WARNING_MESSAGE);
+            }
+            check = 0;
+        }
+        return (check==1) ? true : false;
+
+    }
+
+
 
     private void search(ViewListBooking viewListBooking){
         System.out.println("ControllerListBooking - search(ViewListBooking viewListBooking)");

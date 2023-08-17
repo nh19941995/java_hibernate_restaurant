@@ -1,9 +1,6 @@
 package view;
 
-import controller.ControllerNewMenu;
 import controller.RegexMatcher;
-import dao.DishDAO;
-import model.Dish;
 import model.Menu;
 import view.tool.BoderTool;
 import view.tool.GridTool;
@@ -12,8 +9,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+
 
 
 public class ViewNewMenu extends JPanel {

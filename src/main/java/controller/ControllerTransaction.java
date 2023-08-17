@@ -21,7 +21,6 @@ import java.util.stream.Stream;
 
 public class ControllerTransaction {
     private static final Object lockObject = new Object();
-    private static JButton delete = MainProgram.getViewTransaction().getButtonDelete();
     private static JTable table = MainProgram.getViewTransaction().getTable();
     private static String[] columnName =  new String [] {"ID", "Content","Type","Value","Time", "Date","Person Name", "Phone number", "Status"};
 
@@ -30,6 +29,7 @@ public class ControllerTransaction {
         creatTransaction();
     }
     public static void creatTransaction(){
+        JButton delete = MainProgram.getViewTransaction().getButtonDelete();
         ViewTransaction viewTransaction = MainProgram.getViewTransaction();
         JButton buttonNewTransaction = viewTransaction.getButtonCreatTransaction();
         System.out.println("Call ControllerTransaction");

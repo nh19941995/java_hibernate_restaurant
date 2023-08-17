@@ -86,7 +86,7 @@ public class TransactionDAO implements DAOInterface<Transaction, Integer>{
                 String name = a.getPerson().getName();
                 String lastName = a.getPerson().getLastName();
                 String phone = a.getPerson().getPhone();
-                int flag = a.getFlag();
+//                int flag = a.getFlag();
             }
             return transactions;
         } catch (Exception e) {

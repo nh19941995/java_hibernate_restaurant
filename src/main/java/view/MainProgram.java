@@ -39,8 +39,19 @@ public class MainProgram {
     private static ViewTransaction viewTransaction;
     private static ViewListBooking viewListBooking;
     private static ViewHome viewHome ;
+    // controller-------------------------------------------------------------------------------------------------------
+    private static ControllerBooking controllerBooking;
+
 
     // get + set -------------------------------------------------------------------------------------------------------
+
+    public static ControllerBooking getControllerBooking() {
+        return controllerBooking;
+    }
+
+    public static void setControllerBooking(ControllerBooking controllerBooking) {
+        MainProgram.controllerBooking = controllerBooking;
+    }
 
     public static ViewListBooking getViewListBooking() {
         return viewListBooking;
@@ -229,6 +240,7 @@ public class MainProgram {
         if (viewBooking!=null){
             ControllerBooking controllerBooking = new ControllerBooking(viewBooking);
             controllerBooking.selectTable();
+            setControllerBooking(controllerBooking);
         }
         // table
         ControllerTable controllerTableMain = new ControllerTable(viewTableMain);
