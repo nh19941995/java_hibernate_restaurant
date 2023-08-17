@@ -2,10 +2,7 @@ package controller;
 
 import dao.*;
 import model.*;
-import view.MainProgram;
-import view.ViewListBooking;
-import view.ViewPerson;
-import view.ViewTransaction;
+import view.*;
 
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
@@ -32,8 +29,8 @@ public class ControllerListBooking {
                         String id = table.getValueAt(row, 0).toString(); // Lấy giá trị từ ô ở cột đầu tiên (cột ID) của dòng đã chọn
                         System.out.println("ViewListBooking: "+ id);
                         viewListBooking.setIdSelect(Integer.parseInt(id));
-                        loadData(Integer.parseInt(id));
-
+                        loadDataBooking(Integer.parseInt(id));
+                        reloadBlockInfoPerson(MainProgram.getViewBooking(),Integer.parseInt(id));
                     }
                 }
             }
@@ -69,7 +66,17 @@ public class ControllerListBooking {
 
     }
 
-    private void loadData(int inforID){
+    public static void reloadBlockInfoPerson(ViewBooking viewBooking, int bookingInforID){
+        System.out.println("ControllerListBooking - reloadBlockInfoPerson(ViewBooking viewBooking)");
+        BookingsInfo bookingsInfo = BookingsInfoDAO.getInstance().getById(bookingInforID);
+        Person person = bookingsInfo.getPerson();
+        viewBooking.getLabelFirstNameValue().setText(person.getName()); // Đặt giá trị cho JLabel
+        viewBooking.getLabelLastNameValue().setText(person.getLastName()); // Đặt giá trị cho JLabel
+        viewBooking.getLabelFirstNameValue().repaint(); // Thông báo cho nhãn vẽ lại để hiển thị nội dung mới
+        viewBooking.getLabelLastNameValue().repaint(); // Thông báo cho nhãn vẽ lại để hiển thị nội dung mới
+    }
+
+    private void loadDataBooking (int inforID){
         System.out.println("ControllerListBooking - loadData(int inforID)");
         ArrayList<Booking> dataBooking  = BookingDAO.getInstance().getByInfoId(inforID);
         if (dataBooking != null) {

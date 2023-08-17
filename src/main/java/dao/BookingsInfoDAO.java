@@ -100,7 +100,15 @@ public class BookingsInfoDAO implements DAOInterface<BookingsInfo,Integer>{
     public BookingsInfo getById(int bookingsInfoId) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         try {
-            return entityManager.find(BookingsInfo.class, bookingsInfoId);
+            BookingsInfo bookingsInfo = entityManager.find(BookingsInfo.class, bookingsInfoId);
+
+            String name = bookingsInfo.getPerson().getName();
+            String lastName = bookingsInfo.getPerson().getLastName();
+            String phone = bookingsInfo.getPerson().getPhone();
+
+
+            return bookingsInfo;
+
         } catch (Exception e) {
             e.printStackTrace();
             return null;
