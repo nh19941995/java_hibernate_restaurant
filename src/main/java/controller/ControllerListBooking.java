@@ -60,17 +60,17 @@ public class ControllerListBooking {
                     if (checkPayment(viewListBooking)){
                         creatPayment(viewListBooking);
                     }
-
                 }
             }
         });
-
     }
 
     public static void reloadBlockInfoPerson(ViewBooking viewBooking, int bookingInforID){
         System.out.println("ControllerListBooking - reloadBlockInfoPerson(ViewBooking viewBooking)");
         BookingsInfo bookingsInfo = BookingsInfoDAO.getInstance().getById(bookingInforID);
         Person person = bookingsInfo.getPerson();
+        MainProgram.getViewPersonInBooking().setIdSelect(person.getId());
+        ControllerBooking.setIdPerson(person.getId());
         viewBooking.getLabelFirstNameValue().setText(person.getName()); // Đặt giá trị cho JLabel
         viewBooking.getLabelLastNameValue().setText(person.getLastName()); // Đặt giá trị cho JLabel
         viewBooking.getLabelFirstNameValue().repaint(); // Thông báo cho nhãn vẽ lại để hiển thị nội dung mới
@@ -80,7 +80,11 @@ public class ControllerListBooking {
     public static void reloadInputBooking(ViewBooking viewBooking, int bookingInforID){
         System.out.println("ControllerListBooking - reloadInputBooking(ViewBooking viewBooking, int bookingInforID)");
         BookingsInfo info = BookingsInfoDAO.getInstance().getById(bookingInforID);
-        viewBooking.getInputDeposit().setText( info.getDeposit().toString());
+        if (info.getDeposit()==null){
+            viewBooking.getInputDeposit().setText( "");
+        }else {
+            viewBooking.getInputDeposit().setText( info.getDeposit().toString());
+        }
         viewBooking.getInputDate().setText( ControllerTime.formatDateTime(2,info.getStart()));
         viewBooking.getInputStartTime().setText( ControllerTime.formatDateTime(1,info.getStart()));
         viewBooking.getInputEndTime().setText( ControllerTime.formatDateTime(1,info.getEnd()));
@@ -91,7 +95,6 @@ public class ControllerListBooking {
         System.out.println("ControllerListBooking - loadData(int inforID)");
         ArrayList<Booking> dataBooking  = BookingDAO.getInstance().getByInfoId(inforID);
         MainProgram.getControllerBooking().setBookings(dataBooking);
-
         MainProgram.getViewTempMenu().loadData();
     }
 
@@ -111,15 +114,22 @@ public class ControllerListBooking {
         transaction.setFlag(1);
         TransactionDAO.getInstance().insert(transaction);
 
+        ClientPaymentInfo clientPaymentInfo = new ClientPaymentInfo();
+        clientPaymentInfo.setTransaction(transaction);
+        clientPaymentInfo.setBookingInfo(bookingsInfo);
+        clientPaymentInfo.setFlag(1);
+        ClientPaymentInfoDAO.getInstance().insert(clientPaymentInfo);
         MainProgram.getViewTransaction().loadData();
         MainProgram.getViewListBooking().reload();
-//        MainProgram.getViewListBooking().reload();
-//        MainProgram.getViewNewMenuMain().loadData();
-//        MainProgram.getViewTempMenu().loadData();
+
     }
 
     private static double amountPaid(){
         Double amountPaid = 1d;
+
+
+
+
         return  amountPaid;
     }
 

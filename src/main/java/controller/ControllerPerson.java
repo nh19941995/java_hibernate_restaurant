@@ -82,7 +82,7 @@ public class ControllerPerson {
 
     }
     private void search(ViewPerson viewPerson){
-        System.out.println("search(ViewPerson viewPerson)");
+        System.out.println("ControllerPerson - search(ViewPerson viewPerson)");
         String phone = viewPerson.getInputSearchByPhone().getText();
 
         if (!phone.isEmpty()) {
@@ -104,7 +104,7 @@ public class ControllerPerson {
         }
     }
     private boolean checkPhone(String phone,ViewPerson viewPerson){
-        System.out.println("checkPhone(String phone,ViewPerson viewPerson)");
+        System.out.println("ControllerPerson - checkPhone(String phone,ViewPerson viewPerson)");
         int check = 1;
         if (!phone.isEmpty()){
             if (! RegexMatcher.phoneCheck(phone, "").isEmpty()){
@@ -117,7 +117,7 @@ public class ControllerPerson {
         return (check==1) ? true : false;
     }
     private void getDataToJtext(int id,ViewPerson viewPerson){
-        System.out.println("getDataToJtext(int id,ViewPerson viewPerson)");
+        System.out.println("ControllerPerson - getDataToJtext(int id,ViewPerson viewPerson)");
         Person person = PersonDAO.getInstance().getById(id);
         viewPerson.getInputAdress().setText(person.getAddress());
         viewPerson.getInputBirthday().setText(person.getDateOfBirth().toString());
@@ -127,7 +127,7 @@ public class ControllerPerson {
         viewPerson.getInputPhone().setText(person.getPhone());
     }
     private void getNullToJtext(ViewPerson viewPerson){
-        System.out.println("getNullToJtext(ViewPerson viewPerson)");
+        System.out.println("ControllerPerson - getNullToJtext(ViewPerson viewPerson)");
         viewPerson.getInputAdress().setText("");
         viewPerson.getInputBirthday().setText("");
         viewPerson.getInputEmail().setText("");
@@ -136,7 +136,7 @@ public class ControllerPerson {
         viewPerson.getInputPhone().setText("");
     }
     private void creatNew(ViewPerson viewPerson){
-        System.out.println("creatNew(ViewPerson viewPerson)");
+        System.out.println("ControllerPerson - creatNew(ViewPerson viewPerson)");
         String permissionString = (String) viewPerson.getSelecType().getSelectedItem();
         Permission permission = PermissionDAO.getInstance().getByString(permissionString);
         Person person = new Person();
@@ -154,14 +154,14 @@ public class ControllerPerson {
         PersonDAO.getInstance().insert(person);
     }
     private void delete(ViewPerson viewPerson,int id){
-        System.out.println("delete(ViewPerson viewPerson,int id)");
+        System.out.println("ControllerPerson - delete(ViewPerson viewPerson,int id)");
         Person person = PersonDAO.getInstance().getById(id);
         person.setFlag(0);
         PersonDAO.getInstance().update(person);
         viewPerson.reload();
     }
     private void update(ViewPerson viewPerson,int id){
-        System.out.println("update(ViewPerson viewPerson,int id)");
+        System.out.println("ControllerPerson - update(ViewPerson viewPerson,int id)");
         Person person = PersonDAO.getInstance().getById(id);
         String permissionString = (String) viewPerson.getSelecType().getSelectedItem();
         Permission permission = PermissionDAO.getInstance().getByString(permissionString);
@@ -180,7 +180,7 @@ public class ControllerPerson {
         viewPerson.reload();
     }
     private boolean check(ViewPerson viewPerson){
-        System.out.println("check(ViewPerson viewPerson)");
+        System.out.println("ControllerPerson - check(ViewPerson viewPerson)");
         String Adress =  viewPerson.getInputAdress().getText();
         String dob = viewPerson.getInputBirthday().getText();
         String email = viewPerson.getInputEmail().getText();

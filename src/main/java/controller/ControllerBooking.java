@@ -24,7 +24,10 @@ public class ControllerBooking {
     private static int idMenu;
     private static int idInTempBooking;
     private static Double deposit;
+
     // get + set--------------------------------------------------------------------------------------------------------
+
+
 
     public static int getIdInTempBooking() {
         return idInTempBooking;
@@ -179,24 +182,28 @@ public class ControllerBooking {
                     LocalDateTime endTime = ControllerTime.parseDateTime(endTimeString,dateString);
                     System.out.println("startTime :" +startTime);
                     System.out.println("endTime :" +endTime);
-
                     if (checkTimeBooking(viewBooking)){
-                        if (!depositString.isEmpty()){
-                            creatDepositTransaction(viewBooking,bookingsInfo);
-                        }
-
+                        // tạo giao dịch cọc tiền
+                        int traransactionDepositID = creatDepositTransaction(viewBooking,bookingsInfo);
                         if(checkInfoTableAndMenu()){
-                            System.out.println("get in");
                             Set<Integer> invalidTableIdsInTempBooking = checkHourTable(startTime,endTime);
                             System.out.println("Invalid Table IDs in Temp Booking: " + invalidTableIdsInTempBooking);
                             if (invalidTableIdsInTempBooking.isEmpty()){
                                 Person person = PersonDAO.getInstance().getById(idPerson);
+                                // thêm dữ liệu cho bookingInfo và đẩy lên sever
                                 submidBookingInfo(viewBooking,bookingsInfo,person);
                                 getBookings().forEach(s->{
                                     s.setInfo(bookingsInfo);
                                     s.setFlag(1);
                                     BookingDAO.getInstance().insert(s);
                                 });
+                                // tạo đối tượng ClientPaymentInfo để lưu thông tin giao dịch cọc tiền
+                                ClientPaymentInfo clientPaymentInfo = new ClientPaymentInfo();
+                                clientPaymentInfo.setBookingInfo(bookingsInfo);
+                                clientPaymentInfo.setTransaction(TransactionDAO.getInstance().getById(traransactionDepositID));
+                                clientPaymentInfo.setFlag(1);
+                                ClientPaymentInfoDAO.getInstance().insert(clientPaymentInfo);
+                                // giao dịch nợ
                                 creatReceivableTransaction(viewBooking,bookingsInfo);
                             }else {
                                 StringBuilder stringBuilder = new StringBuilder();
@@ -225,6 +232,8 @@ public class ControllerBooking {
                 setTableId.clear();
                 MainProgram.getViewNewMenuMain().loadData();
                 MainProgram.getViewTempMenu().loadData();
+                MainProgram.getViewListBooking().reload();
+
             }
         });
     }
@@ -235,7 +244,6 @@ public class ControllerBooking {
         Transaction tranReceivable = new Transaction();
         tranReceivable.setType(TransactionsTypeDAO.getInstance().getByName("Nợ - Khách hàng còn thiếu"));
         tranReceivable.setDateCreat(LocalDateTime.now());
-        tranReceivable.setComment("Debt: "+commentString);
         // tổng tiền phải thanh toán
         Double bill = BookingsInfoDAO.getInstance().getTotalPriceByInfoBookingID(bookingsInfo.getId());
         System.out.println("Khởi tạo bill: " + bill);
@@ -246,11 +254,18 @@ public class ControllerBooking {
         }else {
             receivable = bill - getDeposit() ;
         }
-
-        tranReceivable.setQuantity(receivable);
+        tranReceivable.setQuantity(-receivable);
         tranReceivable.setFlag(1);
         tranReceivable.setPerson(PersonDAO.getInstance().getById(idPerson));
+        tranReceivable.setComment("Receivable :"+commentString);
         TransactionDAO.getInstance().insert(tranReceivable);
+        // tạo đối tượng clientPaymentInfo lưu thông tin giao dịch
+        ClientPaymentInfo clientPaymentInfo = new ClientPaymentInfo();
+        clientPaymentInfo.setBookingInfo(bookingsInfo);
+        clientPaymentInfo.setTransaction(tranReceivable);
+        clientPaymentInfo.setFlag(1);
+        ClientPaymentInfoDAO.getInstance().insert(clientPaymentInfo);
+        // reload form
         MainProgram.getViewTransaction().loadData();
     }
     public static void submidBookingInfo(ViewBooking viewBooking ,BookingsInfo bookingsInfo,Person person){
@@ -274,12 +289,17 @@ public class ControllerBooking {
         BookingsInfoDAO.getInstance().insert(bookingsInfo);
     }
 
-    public static void creatDepositTransaction(ViewBooking viewBooking,BookingsInfo bookingsInfo){
+    public static int creatDepositTransaction(ViewBooking viewBooking,BookingsInfo bookingsInfo){
         System.out.println("ControllerBooking - creatDepositTransaction(ViewBooking viewBooking,BookingsInfo bookingsInfo)");
+
         String depositString = viewBooking.getInputDeposit().getText();
         String commentString = viewBooking.getInputComment().getText();
-
-        Double doubleDeposit = Double.parseDouble(depositString);
+        Double doubleDeposit;
+        if (depositString.isEmpty()){
+            doubleDeposit =0d;
+        }else {
+            doubleDeposit = Double.parseDouble(depositString);
+        }
         setDeposit(doubleDeposit);
         bookingsInfo.setDeposit(doubleDeposit);
         // tạo giao dịch cọc tiền
@@ -287,11 +307,13 @@ public class ControllerBooking {
         tranDeposit.setDateCreat(LocalDateTime.now());
         tranDeposit.setQuantity(doubleDeposit);
         tranDeposit.setType(TransactionsTypeDAO.getInstance().getByName("Thu - Khách hàng đặt cọc"));
-        tranDeposit.setComment("Deposit: "+ commentString);
+        tranDeposit.setComment("Deposit :" + commentString);
         tranDeposit.setFlag(1);
         tranDeposit.setPerson(PersonDAO.getInstance().getById(idPerson));
         TransactionDAO.getInstance().insert(tranDeposit);
         System.out.println("Deposit creat: " + doubleDeposit);
+        return tranDeposit.getId();
+
     }
 
     public static boolean checkTimeBooking(ViewBooking viewBooking){
@@ -333,6 +355,17 @@ public class ControllerBooking {
         String endTimeString = viewBooking.getInputEndTime().getText();
         String depositString = viewBooking.getInputDeposit().getText();
         String commentString = viewBooking.getInputComment().getText();
+        System.out.println("-------------------------- checkBookingInfo - ControllerBooking -------------------------------------");
+        System.out.println("dateString :" + dateString);
+        System.out.println("startTimeString :" + startTimeString);
+        System.out.println("endTimeString :" + endTimeString);
+        System.out.println("depositString :" + depositString);
+        System.out.println("commentString :" + commentString);
+        System.out.println("idPerson :" + idPerson);
+        System.out.println("-------------------------- checkBookingInfo - ControllerBooking -------------------------------------");
+
+
+
         int check = 1;
         if (startTimeString.isEmpty()||endTimeString.isEmpty()||commentString.isEmpty()||idPerson==0||dateString.isEmpty()){
             if (check==1){
