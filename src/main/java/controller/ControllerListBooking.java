@@ -31,6 +31,7 @@ public class ControllerListBooking {
                         viewListBooking.setIdSelect(Integer.parseInt(id));
                         loadDataBooking(Integer.parseInt(id));
                         reloadBlockInfoPerson(MainProgram.getViewBooking(),Integer.parseInt(id));
+                        reloadInputBooking(MainProgram.getViewBooking(),Integer.parseInt(id));
                     }
                 }
             }
@@ -76,17 +77,19 @@ public class ControllerListBooking {
         viewBooking.getLabelLastNameValue().repaint(); // Thông báo cho nhãn vẽ lại để hiển thị nội dung mới
     }
 
+    public static void reloadInputBooking(ViewBooking viewBooking, int bookingInforID){
+        System.out.println("ControllerListBooking - reloadInputBooking(ViewBooking viewBooking, int bookingInforID)");
+        BookingsInfo info = BookingsInfoDAO.getInstance().getById(bookingInforID);
+        viewBooking.getInputDeposit().setText( info.getDeposit().toString());
+        viewBooking.getInputDate().setText( ControllerTime.formatDateTime(2,info.getStart()));
+        viewBooking.getInputStartTime().setText( ControllerTime.formatDateTime(1,info.getStart()));
+        viewBooking.getInputEndTime().setText( ControllerTime.formatDateTime(1,info.getEnd()));
+        viewBooking.getInputComment().setText(info.getInfo());
+    }
+
     private void loadDataBooking (int inforID){
         System.out.println("ControllerListBooking - loadData(int inforID)");
         ArrayList<Booking> dataBooking  = BookingDAO.getInstance().getByInfoId(inforID);
-        if (dataBooking != null) {
-            System.out.println("dataBooking is not null.");
-            // Tiếp tục xử lý dữ liệu trong dataBooking nếu cần
-        } else {
-            System.out.println("dataBooking is null.");
-            // Xử lý khi dataBooking là null nếu cần
-        }
-        dataBooking.stream().forEach(s-> System.out.println(s.getTable()) );
         MainProgram.getControllerBooking().setBookings(dataBooking);
 
         MainProgram.getViewTempMenu().loadData();
