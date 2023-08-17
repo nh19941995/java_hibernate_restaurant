@@ -1,8 +1,6 @@
 package view;
 
 import controller.ControllerBooking;
-import dao.DishDAO;
-import model.Dish;
 import view.tool.BoderTool;
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;

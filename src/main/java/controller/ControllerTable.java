@@ -4,7 +4,6 @@ import dao.TableListDAO;
 import dao.TableStatusDAO;
 import model.TableList;
 import model.TableStatus;
-import model.Transaction;
 import view.ViewTable;
 
 import javax.swing.*;

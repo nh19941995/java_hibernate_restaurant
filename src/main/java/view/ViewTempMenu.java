@@ -2,7 +2,6 @@ package view;
 
 import controller.ControllerBooking;
 import view.tool.BoderTool;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;

@@ -39,6 +39,7 @@ public class MainProgram {
     private static ViewTransaction viewTransaction;
     private static ViewListBooking viewListBooking;
     private static ViewHome viewHome ;
+
     // get + set -------------------------------------------------------------------------------------------------------
 
     public static ViewListBooking getViewListBooking() {
@@ -234,6 +235,7 @@ public class MainProgram {
         ControllerTable controllerTableInBooking = new ControllerTable(viewTableInBooking);
         // transaction
         ControllerTransaction controllerTransaction = new ControllerTransaction(viewTransaction);
+        ControllerListBooking controllerListBooking = new ControllerListBooking(viewListBooking);
     }
 
 

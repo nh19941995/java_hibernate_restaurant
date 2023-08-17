@@ -27,10 +27,29 @@ public class ViewListBooking extends JPanel {
     private JTextField inputSearchByPhone = new JTextField();
     private JTextField inputSearchByDate = new JTextField();
     private JTextField inputPaymentValue = new JTextField();
-    private JButton buttonSearchPerson = new JButton("Search");
+    private JButton buttonSearch = new JButton("Search");
     private JButton buttonPayment = new JButton("Payment");
     private JButton buttonGetBill = new JButton("Generate the invoice");
     // get + set -------------------------------------------------------------------------------------------------------
+
+    public JButton getButtonSearch() {
+        return buttonSearch;
+    }
+
+    public JButton getButtonPayment() {
+        return buttonPayment;
+    }
+
+    public JButton getButtonGetBill() {
+        return buttonGetBill;
+    }
+
+    public JTextField getInputSearchByPhone() {
+        return inputSearchByPhone;
+    }
+    public JTextField getInputSearchByDate() {
+        return inputSearchByDate;
+    }
 
     public Object[][] getData() {
         return data;
@@ -85,8 +104,8 @@ public class ViewListBooking extends JPanel {
         inputSearchByDate.setPreferredSize(new Dimension(150, 25));
 
         GridTool grid2 = new GridTool();
-        grid2.GridAddCustom(buttonSearchPerson,0,0,20,20,5,5,1);
-        buttonSearchPerson.setPreferredSize(new Dimension(150, 35));
+        grid2.GridAddCustom(buttonSearch,0,0,20,20,5,5,1);
+        buttonSearch.setPreferredSize(new Dimension(150, 35));
         jPanel.add(grid,BorderLayout.CENTER);
         jPanel.add(grid2,BorderLayout.EAST);
         return jPanel;
@@ -147,7 +166,7 @@ public class ViewListBooking extends JPanel {
                                 s.getInfo(),
                                 s.getDeposit(),
                                 BookingsInfoDAO.getInstance().getTotalPriceByInfoBookingID(s.getId()),
-                                ControllerTime.formatDateTime(3,s.getDateCreat()),
+                                ControllerTime.formatDateTime(2,s.getDateCreat()),
                                 s.getFlag(),
                         }
                 ).toArray(Object[][]::new);

@@ -9,8 +9,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.time.Instant;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -462,8 +460,6 @@ public class ControllerBooking {
         }
         return true;
     }
-
-
 
     public static void clickOnTempBooking(){
         System.out.println("ControllerBooking - clickOnTempBooking()");
