@@ -2,6 +2,7 @@ package view;
 
 import controller.ControllerTime;
 import dao.BookingsInfoDAO;
+import dao.ClientPaymentInfoDAO;
 import dao.PersonDAO;
 import model.BookingsInfo;
 import model.Person;
@@ -177,7 +178,7 @@ public class ViewListBooking extends JPanel {
                                 s.getPerson().getLastName(),
                                 s.getPerson().getPhone(),
                                 s.getInfo(),
-                                s.getDeposit(),
+                                ClientPaymentInfoDAO.getInstance().getTotalQuantityByBookingInfoID(s.getId()) ,
                                 BookingsInfoDAO.getInstance().getTotalPriceByInfoBookingID(s.getId()),
                                 ControllerTime.formatDateTime(2,s.getDateCreat()),
                                 s.getFlag(),
@@ -224,7 +225,7 @@ public class ViewListBooking extends JPanel {
                                 s.getPerson().getLastName(),
                                 s.getPerson().getPhone(),
                                 s.getInfo(),
-                                s.getDeposit(),
+                                ClientPaymentInfoDAO.getInstance().getTotalQuantityByBookingInfoID(s.getId()) ,
                                 BookingsInfoDAO.getInstance().getTotalPriceByInfoBookingID(s.getId()),
                                 ControllerTime.formatDateTime(3,s.getDateCreat()),
                                 s.getFlag(),

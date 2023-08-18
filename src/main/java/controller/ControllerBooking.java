@@ -248,13 +248,13 @@ public class ControllerBooking {
         Double bill = BookingsInfoDAO.getInstance().getTotalPriceByInfoBookingID(bookingsInfo.getId());
         System.out.println("Khởi tạo bill: " + bill);
 
-        Double receivable;
-        if (getDeposit()==null){
-            receivable = bill ;
-        }else {
-            receivable = bill - getDeposit() ;
-        }
-        tranReceivable.setQuantity(-receivable);
+//        Double receivable;
+//        if (getDeposit()==null){
+//            receivable = bill ;
+//        }else {
+//            receivable = bill - getDeposit() ;
+//        }
+        tranReceivable.setQuantity(-bill);
         tranReceivable.setFlag(1);
         tranReceivable.setPerson(PersonDAO.getInstance().getById(idPerson));
         tranReceivable.setComment("Receivable :"+commentString);

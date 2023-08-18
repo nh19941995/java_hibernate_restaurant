@@ -1,17 +1,16 @@
 package dao;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.*;
 import model.BookingsInfo;
 import model.ClientPaymentInfo;
 import utils.PersistenceManager;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ClientPaymentInfoDAO implements DAOInterface<ClientPaymentInfo,Integer>{
-    private EntityManagerFactory entityManagerFactory;
+    private static EntityManagerFactory entityManagerFactory;
     public static ClientPaymentInfoDAO getInstance(){
         return new ClientPaymentInfoDAO();
     }
@@ -101,4 +100,26 @@ public class ClientPaymentInfoDAO implements DAOInterface<ClientPaymentInfo,Inte
             entityManager.close();
         }
     }
+
+    public static Double getTotalQuantityByBookingInfoID(int bookingInfoID) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        try {
+            String queryStr = "SELECT SUM(t.quantity) FROM Transaction t " +
+                    "JOIN ClientPaymentInfo cpi ON t.id = cpi.transaction.id " +
+                    "WHERE cpi.bookingInfo.id = :bookingInfoID";
+            TypedQuery<Double> query = entityManager.createQuery(queryStr, Double.class);
+            query.setParameter("bookingInfoID", bookingInfoID);
+
+            Double totalQuantity = query.getSingleResult();
+            return totalQuantity != null ? totalQuantity : 0.0; // Trả về 0.0 thay vì 0 nếu không có kết quả
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0.0;
+        } finally {
+            entityManager.close();
+        }
+    }
+
+
+
 }

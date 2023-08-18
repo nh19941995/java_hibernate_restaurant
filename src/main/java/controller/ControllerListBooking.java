@@ -124,14 +124,7 @@ public class ControllerListBooking {
 
     }
 
-    private static double amountPaid(){
-        Double amountPaid = 1d;
 
-
-
-
-        return  amountPaid;
-    }
 
     private boolean checkPayment(ViewListBooking viewListBooking){
         String paymentValue = viewListBooking.getInputPaymentValue().getText();
