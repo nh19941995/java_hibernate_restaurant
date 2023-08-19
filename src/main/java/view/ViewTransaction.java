@@ -438,7 +438,13 @@ public class ViewTransaction extends JPanel{
                 .map(s -> s.getType())
                 .toArray(String[]::new);
         SelecType.setModel(new javax.swing.DefaultComboBoxModel<>(selectList));
-        SelecFilterType.setModel(new javax.swing.DefaultComboBoxModel<>(selectList));
+
+        // thêm một phần tử null vào mảng
+        String[] newArray = new String[selectList.length + 1];
+        System.arraycopy(selectList, 0, newArray, 0, selectList.length);
+        newArray[newArray.length - 1] = null;
+
+        SelecFilterType.setModel(new javax.swing.DefaultComboBoxModel<>(newArray));
         jPanel.add(grid,BorderLayout.CENTER);
         return jPanel;
     }

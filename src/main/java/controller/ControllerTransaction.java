@@ -159,9 +159,12 @@ public class ControllerTransaction {
             Stream<Object[]> dataStream = Arrays.stream(data);
 
             // Áp dụng tất cả các điều kiện lọc trong một Stream duy nhất
-            if (!filterTypeInput.equals("")) {
-                dataStream = dataStream.filter(row -> row[2].equals(filterTypeInput));
+            if (filterTypeInput!=null){
+                if (!filterTypeInput.equals("")) {
+                    dataStream = dataStream.filter(row -> row[2].equals(filterTypeInput));
+                }
             }
+
             if (!phoneInput.equals("")) {
                 dataStream = dataStream.filter(row -> row[7].toString().equals(phoneInput));
             }
