@@ -1,7 +1,11 @@
 package controller;
 
+
 import dao.*;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
 import model.*;
+import utils.PersistenceManager;
 import view.*;
 import javax.swing.*;
 import java.awt.*;
@@ -205,15 +209,35 @@ public class ControllerBooking {
                             Set<Integer> invalidTableIdsInTempBooking = checkHourTable(startTime,endTime);
                             System.out.println("Invalid Table IDs in Temp Booking: " + invalidTableIdsInTempBooking);
                             if (invalidTableIdsInTempBooking.isEmpty()){
+
+                                for (Booking booking : bookings) {
+                                    System.out.println("id table in booking: "+booking.getTable().getId());
+                                }
+
                                 Person person = PersonDAO.getInstance().getById(idPerson);
                                 // thêm dữ liệu cho bookingInfo và đẩy lên sever
                                 submidBookingInfo(viewBooking,bookingsInfo,person);
-                                getBookings().forEach(s->{
-                                    s.setInfo(bookingsInfo);
-                                    s.setFlag(1);
-                                    BookingDAO.getInstance().insert(s);
-                                });
 
+                                EntityManagerFactory entityManagerFactory = PersistenceManager.getEntityManagerFactory();
+                                EntityManager entityManager = entityManagerFactory.createEntityManager();
+
+                                getBookings().forEach(s->{
+                                    boolean isManaged = entityManager.contains(s);
+
+                                    if (isManaged) {
+                                        System.out.println("Đối tượng có trong trạng thái managed (persistent).");
+                                        s.setInfo(bookingsInfo);
+                                        s.setFlag(1);
+                                        BookingDAO.getInstance().insert(s);
+                                    } else {
+                                        System.out.println("Đối tượng không có trong trạng thái managed (persistent).");
+                                        s.setInfo(bookingsInfo);
+                                        s.setFlag(1);
+                                        BookingDAO.getInstance().saveDetachedAsNew(s);
+                                    }
+
+                                });
+                                entityManager.close();
 
                                 // tạo đối tượng ClientPaymentInfo để lưu thông tin giao dịch cọc tiền
                                 ClientPaymentInfo clientPaymentInfo = new ClientPaymentInfo();

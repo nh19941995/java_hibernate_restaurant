@@ -31,13 +31,12 @@ public class BookingDAO implements DAOInterface<Booking,Integer>{
     }
     @Override
     public boolean insert(Booking booking) {
-
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
 
         try {
             transaction.begin();
-            entityManager.persist(booking);
+            entityManager.persist(booking); // Đối tượng detached, chuyển về managed rồi lưu
             transaction.commit();
             return true;
         } catch (Exception e) {
@@ -50,6 +49,7 @@ public class BookingDAO implements DAOInterface<Booking,Integer>{
             entityManager.close();
         }
     }
+
 
     @Override
     public int update(Booking booking) {
@@ -103,7 +103,9 @@ public class BookingDAO implements DAOInterface<Booking,Integer>{
     public Booking getById(int bookingId) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         try {
-            return entityManager.find(Booking.class, bookingId);
+            Booking booking = entityManager.find(Booking.class, bookingId);
+            booking.getTable().getId();
+            return booking;
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -154,6 +156,34 @@ public class BookingDAO implements DAOInterface<Booking,Integer>{
             entityManager.close();
         }
     }
+
+    public boolean saveDetachedAsNew(Booking detachedBooking) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction transaction = entityManager.getTransaction();
+
+        try {
+            Booking newBooking = new Booking();
+            newBooking.setFlag(detachedBooking.getFlag());
+            newBooking.setInfo(detachedBooking.getInfo());
+            newBooking.setTable(detachedBooking.getTable());
+            newBooking.setMenuName(detachedBooking.getMenuName());
+            newBooking.setId(null); // Set ID to null to make it a new object
+
+            transaction.begin();
+            entityManager.persist(newBooking); // Save as a new object
+            transaction.commit();
+            return true;
+        } catch (Exception e) {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+            return false;
+        } finally {
+            entityManager.close();
+        }
+    }
+
 
 
 
