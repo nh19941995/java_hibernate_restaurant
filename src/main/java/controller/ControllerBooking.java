@@ -223,7 +223,6 @@ public class ControllerBooking {
 
                                 getBookings().forEach(s->{
                                     boolean isManaged = entityManager.contains(s);
-
                                     if (isManaged) {
                                         System.out.println("Đối tượng có trong trạng thái managed (persistent).");
                                         s.setInfo(bookingsInfo);
@@ -235,7 +234,6 @@ public class ControllerBooking {
                                         s.setFlag(1);
                                         BookingDAO.getInstance().saveDetachedAsNew(s);
                                     }
-
                                 });
                                 entityManager.close();
 
@@ -453,13 +451,18 @@ public class ControllerBooking {
         java.util.List<Booking> bookingList = BookingDAO.getInstance().getAll();
 
 
+
+
         List<Object[]> bookingListData = bookingList.stream()
-                .filter(s ->
-                        (end.isBefore(s.getInfo().getStart()) && end.isAfter(s.getInfo().getEnd())) ||
-                                (start.isBefore(s.getInfo().getStart()) && start.isAfter(s.getInfo().getEnd())) ||
-                                (start.isAfter(s.getInfo().getStart()) && end.isBefore(s.getInfo().getEnd()))
-                )
-                .map(s -> {
+                .filter(s ->(
+
+                        // thời gian kết thúc đặt ở trong thời gian đặt của bàn khác
+                        (end.isAfter(s.getInfo().getStart()) && end.isBefore(s.getInfo().getEnd())) ||
+                        (start.isAfter(s.getInfo().getStart()) && start.isBefore(s.getInfo().getEnd())) ||
+                        (start.isBefore(s.getInfo().getStart()) && end.isAfter(s.getInfo().getEnd())) ||
+                        (start.isAfter(s.getInfo().getStart()) && end.isBefore(s.getInfo().getEnd())))
+
+                ).map(s -> {
                     invalidTableIds.add(s.getTable().getId()); // Thêm ID bàn không hợp lệ vào tập hợp
                     return new Object[]{
                             s.getTable().getId(),             // id bàn
@@ -478,11 +481,11 @@ public class ControllerBooking {
             String tableType = (String) data[1];
             int seatingCapacity = (int) data[2];
 
-            System.out.println("---------------------------- bookingListData --------------------------------");
+            System.out.println("---------------------------- id không thỏa mãn --------------------------------");
             System.out.println("Table ID: " + tableId);
             System.out.println("Table Type: " + tableType);
             System.out.println("Seating Capacity: " + seatingCapacity);
-            System.out.println("---------------------------- bookingListData --------------------------------");
+            System.out.println("---------------------------- id không thỏa mãn --------------------------------");
         }
 
         List<Object[]> tempBookingListData = ControllerBooking.getBookings().stream().map(
@@ -505,7 +508,7 @@ public class ControllerBooking {
 //            LocalDateTime endTime = (LocalDateTime) data[4];
 //            LocalDateTime date = (LocalDateTime) data[5];
 //            String tableStatus = (String) data[6];
-            System.out.println("----------------- tempBookingListData ---------------------");
+            System.out.println("----------------- id trong booking tạm  ---------------------");
             System.out.println("Table ID: " + tableId);
             System.out.println("Table Type: " + tableType);
             System.out.println("Seating Capacity: " + seatingCapacity);
@@ -513,7 +516,7 @@ public class ControllerBooking {
 //            System.out.println("End Time: " + endTime);
 //            System.out.println("Date: " + date);
 //            System.out.println("Table Status: " + tableStatus);
-            System.out.println("----------------- tempBookingListData ---------------------");
+            System.out.println("----------------- id trong booking tạm ---------------------");
         }
 
         // Kiểm tra phần tử trong tempBookingListData có ID nằm trong invalidTableIds hay không
@@ -526,6 +529,8 @@ public class ControllerBooking {
         }
         return invalidTableIdsInTempBooking;
     }
+
+
 
     public static boolean checkInfoTableAndMenu(){
         System.out.println("ControllerBooking - checkInfoTableAndMenu()");
