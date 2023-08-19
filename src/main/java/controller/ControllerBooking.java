@@ -205,11 +205,17 @@ public class ControllerBooking {
                                 clientPaymentInfo.setTransaction(TransactionDAO.getInstance().getById(traransactionDepositID));
                                 // tổng tiền phải thanh toán
                                 Double bill = BookingsInfoDAO.getInstance().getTotalPriceByInfoBookingID(bookingsInfo.getId());
-                                if (bill-Double.parseDouble(depositString) >=0){
+                                if (depositString.isEmpty()){
                                     clientPaymentInfo.setFlag(0);
                                 }else {
-                                    clientPaymentInfo.setFlag(1);
+                                    if (bill-Double.parseDouble(depositString) >=0){
+
+                                    }else {
+                                        clientPaymentInfo.setFlag(1);
+                                    }
                                 }
+
+
                                 ClientPaymentInfoDAO.getInstance().insert(clientPaymentInfo);
                                 // giao dịch nợ
                                 creatReceivableTransaction(viewBooking,bookingsInfo);
@@ -259,7 +265,8 @@ public class ControllerBooking {
         tranReceivable.setQuantity(-bill);
         tranReceivable.setFlag(1);
         tranReceivable.setPerson(PersonDAO.getInstance().getById(idPerson));
-        tranReceivable.setComment("Receivable :"+commentString);
+        Person person = bookingsInfo.getPerson();
+        tranReceivable.setComment("Receivable: "+person.getPhone() +" - "+ControllerTime.formatDateTime(1,LocalDateTime.now())+" - "+ commentString);
         TransactionDAO.getInstance().insert(tranReceivable);
         // tạo đối tượng clientPaymentInfo lưu thông tin giao dịch
         ClientPaymentInfo clientPaymentInfo = new ClientPaymentInfo();
@@ -286,7 +293,7 @@ public class ControllerBooking {
         bookingsInfo.setStart(startTime);
         bookingsInfo.setDateCreat(timeNow);
         bookingsInfo.setPerson(person);
-        bookingsInfo.setInfo(commentString);
+        bookingsInfo.setInfo(person.getPhone() +" - "+ControllerTime.formatDateTime(1,LocalDateTime.now())+" - "+ commentString);
         bookingsInfo.setFlag(1);
         BookingsInfoDAO.getInstance().insert(bookingsInfo);
     }
@@ -305,13 +312,14 @@ public class ControllerBooking {
         setDeposit(doubleDeposit);
         bookingsInfo.setDeposit(doubleDeposit);
         // tạo giao dịch cọc tiền
+        Person person = PersonDAO.getInstance().getById(idPerson);
         Transaction tranDeposit = new Transaction();
         tranDeposit.setDateCreat(LocalDateTime.now());
         tranDeposit.setQuantity(doubleDeposit);
         tranDeposit.setType(TransactionsTypeDAO.getInstance().getByName("Thu - Khách hàng đặt cọc"));
-        tranDeposit.setComment("Deposit :" + commentString);
+        tranDeposit.setComment("Deposit      : "+person.getPhone() +" - "+ControllerTime.formatDateTime(1,LocalDateTime.now())+" - "+ commentString)  ;
         tranDeposit.setFlag(1);
-        tranDeposit.setPerson(PersonDAO.getInstance().getById(idPerson));
+        tranDeposit.setPerson(person);
         TransactionDAO.getInstance().insert(tranDeposit);
         System.out.println("Deposit creat: " + doubleDeposit);
         return tranDeposit.getId();
@@ -365,8 +373,6 @@ public class ControllerBooking {
         System.out.println("commentString :" + commentString);
         System.out.println("idPerson :" + idPerson);
         System.out.println("-------------------------- checkBookingInfo - ControllerBooking -------------------------------------");
-
-
 
         int check = 1;
         if (startTimeString.isEmpty()||endTimeString.isEmpty()||commentString.isEmpty()||idPerson==0||dateString.isEmpty()){
@@ -440,13 +446,6 @@ public class ControllerBooking {
             System.out.println("Seating Capacity: " + seatingCapacity);
             System.out.println("---------------------------- bookingListData --------------------------------");
         }
-
-
-
-
-
-
-
 
         List<Object[]> tempBookingListData = ControllerBooking.getBookings().stream().map(
                 s -> new Object[]{

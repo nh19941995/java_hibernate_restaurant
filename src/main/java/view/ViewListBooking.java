@@ -196,8 +196,26 @@ public class ViewListBooking extends JPanel {
             table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
         // Thiết lập chiều rộng cho các cột
-        table.getColumnModel().getColumn(0).setMinWidth(30); // Cột ID
-        table.getColumnModel().getColumn(0).setMaxWidth(50); // Cột ID
+        table.getColumnModel().getColumn(0).setMinWidth(30);
+        table.getColumnModel().getColumn(0).setMaxWidth(50);
+
+        table.getColumnModel().getColumn(1).setMinWidth(150);
+        table.getColumnModel().getColumn(1).setMaxWidth(150);
+
+        table.getColumnModel().getColumn(1).setMinWidth(100);
+        table.getColumnModel().getColumn(2).setMaxWidth(100);
+
+        table.getColumnModel().getColumn(3).setMinWidth(100);
+        table.getColumnModel().getColumn(3).setMaxWidth(100);
+        table.getColumnModel().getColumn(5).setMinWidth(100);
+        table.getColumnModel().getColumn(5).setMaxWidth(100);
+        table.getColumnModel().getColumn(6).setMinWidth(100);
+        table.getColumnModel().getColumn(6).setMaxWidth(100);
+        table.getColumnModel().getColumn(7).setMinWidth(100);
+        table.getColumnModel().getColumn(7).setMaxWidth(100);
+        table.getColumnModel().getColumn(8).setMinWidth(80);
+        table.getColumnModel().getColumn(8).setMaxWidth(80);
+
 
         JScrollPane scrollPane = new JScrollPane(table);
         // Đặt layout cho table_Panel là BorderLayout
