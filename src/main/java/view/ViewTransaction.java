@@ -52,9 +52,9 @@ public class ViewTransaction extends JPanel{
     // info block-------------------------------------------------------------------------------------------------------
     private JLabel labelFirstName = new JLabel("First name: ");
     private JLabel FirstName = new JLabel();
-    private JLabel labelLastName = new JLabel("Last name: ");
+    private JLabel labelLastName = new JLabel("Last name : ");
     private JLabel LastName = new JLabel();
-    private JLabel labelPhone = new JLabel("Phone: ");
+    private JLabel labelPhone = new JLabel("Phone        : ");
     private JLabel Phone = new JLabel();
     // button-----------------------------------------------------------------------------------------------------------
     private JButton buttonCreatTransaction = new JButton("Creat transaction");

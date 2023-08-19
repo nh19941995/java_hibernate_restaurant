@@ -26,7 +26,7 @@ public class ViewHome extends JFrame {
         tabbedPane.addTab("Booking", tab3);
         tabbedPane.addTab("Dish", tab4);
         tabbedPane.addTab("Menu", tab5);
-        tabbedPane.addTab("Oder", tab6);
+        tabbedPane.addTab("Payment", tab6);
         tab1.setLayout(new BorderLayout());
         tab2.setLayout(new BorderLayout());
         tab3.setLayout(new BorderLayout());
@@ -41,7 +41,7 @@ public class ViewHome extends JFrame {
         tab3.add(MainProgram.getViewBooking(),BorderLayout.CENTER);
         tab4.add(MainProgram.getViewDishMain(),BorderLayout.CENTER);
         tab5.add(MainProgram.getViewNewMenuMain(),BorderLayout.CENTER);
-//        tab6.add(MainProgram.getViewListBooking(),BorderLayout.CENTER);
+        tab6.add(MainProgram.getViewListBookingMain(),BorderLayout.CENTER);
 
         tab1.setBackground(Color.green);
         tab2.setBackground(Color.ORANGE);
@@ -56,7 +56,7 @@ public class ViewHome extends JFrame {
         tabbedPane.setTabComponentAt(2, new JLabel("Booking"));
         tabbedPane.setTabComponentAt(3, new JLabel("Dish"));
         tabbedPane.setTabComponentAt(4, new JLabel("Menu"));
-        tabbedPane.setTabComponentAt(5, new JLabel("Oder"));
+        tabbedPane.setTabComponentAt(5, new JLabel("Payment"));
         // Tạo mảng chứa kích thước mới cho các tab
         Dimension[] tabSizes = {new Dimension(100, 50),
                 new Dimension(150, 50),

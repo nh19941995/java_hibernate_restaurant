@@ -123,7 +123,8 @@ public class ControllerListBooking {
             }
             ClientPaymentInfoDAO.getInstance().insert(clientPaymentInfo);
             MainProgram.getViewTransaction().loadData();
-            MainProgram.getViewListBooking().reload();
+            MainProgram.getViewListBookingMain().reload();
+            MainProgram.getViewListBookingInBooking().reload();
 
             JOptionPane.showMessageDialog(null,
                     "Payment successful, payment amount: "+paymentValue,
@@ -133,9 +134,6 @@ public class ControllerListBooking {
         }else {
             JOptionPane.showMessageDialog(null, "The order has been fully paid", "Notice", JOptionPane.WARNING_MESSAGE);
         }
-
-
-
 
     }
 

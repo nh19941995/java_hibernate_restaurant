@@ -157,7 +157,7 @@ public class ControllerBooking {
                 // Xóa tất cả các thành phần con khỏi JPanel
                 viewBooking.getCenterViewBooking().removeAll();
                 // Gọi hàm searchTableList() để thực hiện tìm kiếm và cập nhật dữ liệu
-                viewBooking.getCenterViewBooking().add(MainProgram.getViewListBooking(), BorderLayout.CENTER);
+                viewBooking.getCenterViewBooking().add(MainProgram.getViewListBookingInBooking(), BorderLayout.CENTER);
 
                 viewBooking.revalidate();
                 viewBooking.repaint();
@@ -280,10 +280,9 @@ public class ControllerBooking {
                     }
                 }
                 MainProgram.getViewTableInBooking().reload();
-                MainProgram.getViewListBooking().reload();
+                MainProgram.getViewListBookingInBooking().reload();
                 MainProgram.getViewNewMenuMain().loadData();
                 MainProgram.getViewTempMenu().loadData();
-                MainProgram.getViewListBooking().reload();
 
             }
         });

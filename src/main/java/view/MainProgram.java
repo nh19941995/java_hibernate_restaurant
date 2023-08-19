@@ -37,7 +37,8 @@ public class MainProgram {
     private static ViewBooking viewBooking;
     private static ViewTempBooking viewTempBooking;
     private static ViewTransaction viewTransaction;
-    private static ViewListBooking viewListBooking;
+    private static ViewListBooking viewListBookingMain;
+    private static ViewListBooking viewListBookingInBooking;
     private static ViewHome viewHome ;
     // controller-------------------------------------------------------------------------------------------------------
     private static ControllerBooking controllerBooking;
@@ -53,12 +54,22 @@ public class MainProgram {
         MainProgram.controllerBooking = controllerBooking;
     }
 
-    public static ViewListBooking getViewListBooking() {
-        return viewListBooking;
+    public static ViewListBooking getViewListBookingMain() {
+        return viewListBookingMain;
     }
-    public static void setViewListBooking(ViewListBooking viewListBooking) {
-        MainProgram.viewListBooking = viewListBooking;
+
+    public static void setViewListBookingMain(ViewListBooking viewListBookingMain) {
+        MainProgram.viewListBookingMain = viewListBookingMain;
     }
+
+    public static ViewListBooking getViewListBookingInBooking() {
+        return viewListBookingInBooking;
+    }
+
+    public static void setViewListBookingInBooking(ViewListBooking viewListBookingInBooking) {
+        MainProgram.viewListBookingInBooking = viewListBookingInBooking;
+    }
+
     public static ViewPerson getViewPersonInTransaction() {
         return viewPersonInTransaction;
     }
@@ -210,7 +221,8 @@ public class MainProgram {
             viewBooking = new ViewBooking();
             // list booking
             viewTempBooking = new ViewTempBooking();
-            viewListBooking = new ViewListBooking();
+            viewListBookingMain = new ViewListBooking();
+            viewListBookingInBooking = new ViewListBooking();
             setViewBooking(viewBooking);
             // transaction
             viewTransaction = new ViewTransaction();
@@ -247,7 +259,8 @@ public class MainProgram {
         ControllerTable controllerTableInBooking = new ControllerTable(viewTableInBooking);
         // transaction
         ControllerTransaction controllerTransaction = new ControllerTransaction(viewTransaction);
-        ControllerListBooking controllerListBooking = new ControllerListBooking(viewListBooking);
+        ControllerListBooking controllerListBookingMain = new ControllerListBooking(viewListBookingMain);
+        ControllerListBooking controllerListBookingInBooking = new ControllerListBooking(viewListBookingInBooking);
         ControllerViewTempMenu controllerViewTempMenu = new ControllerViewTempMenu(viewTempMenu);
     }
 
