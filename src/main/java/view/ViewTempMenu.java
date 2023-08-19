@@ -110,7 +110,6 @@ public class ViewTempMenu extends JPanel{
             a[0] = n++;
         }
         setData(data);
-//        ClientListView.setData(data);
         // Thêm dữ liệu mới vào bảng
         for (Object[] rowData : data) {
             model.addRow(rowData);

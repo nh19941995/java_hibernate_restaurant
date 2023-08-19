@@ -248,6 +248,7 @@ public class MainProgram {
         // transaction
         ControllerTransaction controllerTransaction = new ControllerTransaction(viewTransaction);
         ControllerListBooking controllerListBooking = new ControllerListBooking(viewListBooking);
+        ControllerViewTempMenu controllerViewTempMenu = new ControllerViewTempMenu(viewTempMenu);
     }
 
 

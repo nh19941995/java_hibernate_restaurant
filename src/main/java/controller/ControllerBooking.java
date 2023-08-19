@@ -24,10 +24,18 @@ public class ControllerBooking {
     private static int idMenu;
     private static int idInTempBooking;
     private static Double deposit;
+    private static int idTableInTempMenul;
 
     // get + set--------------------------------------------------------------------------------------------------------
 
 
+    public static int getIdTableInTempMenul() {
+        return idTableInTempMenul;
+    }
+
+    public static void setIdTableInTempMenul(int idTableInTempMenul) {
+        ControllerBooking.idTableInTempMenul = idTableInTempMenul;
+    }
 
     public static int getIdInTempBooking() {
         return idInTempBooking;
@@ -75,9 +83,17 @@ public class ControllerBooking {
         buttonRemoveARowFromTempBooking.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ArrayList<Booking> bookings = ControllerBooking.getBookings();
+                ArrayList<Booking> bookings = getBookings();
                 bookings.stream().forEach(s-> System.out.println(s.getId()));
+                setTableId.remove(idTableInTempMenul);
                 bookings.remove(idInTempBooking-1);
+                idInTempBooking = 0;
+                System.out.println("--------------------------");
+                for (Integer value : setTableId) {
+                    System.out.println(value);
+                }
+                System.out.println("--------------------------");
+
                 MainProgram.getViewTempMenu().loadData();
                 MainProgram.getViewTempBooking().loadData();
             }
@@ -209,13 +225,11 @@ public class ControllerBooking {
                                     clientPaymentInfo.setFlag(0);
                                 }else {
                                     if (bill-Double.parseDouble(depositString) >=0){
-
+                                        clientPaymentInfo.setFlag(0);
                                     }else {
                                         clientPaymentInfo.setFlag(1);
                                     }
                                 }
-
-
                                 ClientPaymentInfoDAO.getInstance().insert(clientPaymentInfo);
                                 // giao dịch nợ
                                 creatReceivableTransaction(viewBooking,bookingsInfo);

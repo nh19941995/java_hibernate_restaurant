@@ -61,7 +61,7 @@ public class ControllerMenu {
     }
 
     private void delete(ViewMenu viewMenu, int id){
-        System.out.println("delete(ViewMenu viewMenu, int id)");
+        System.out.println("ControllerMenu - delete(ViewMenu viewMenu, int id)");
         MenuName menuName = MenuNameDAO.getInstance().getById(id);
         menuName.setFlag(0);
         MenuNameDAO.getInstance().update(menuName);
@@ -77,7 +77,7 @@ public class ControllerMenu {
 
 
     private void search(ViewMenu viewMenu){
-        System.out.println("search(ViewMenu viewMenu)");
+        System.out.println("ControllerMenu - search(ViewMenu viewMenu)");
         Double price = Double.parseDouble(viewMenu.getInputPrice().getText());
 
         if (checkPrice(viewMenu)) {
@@ -97,7 +97,7 @@ public class ControllerMenu {
         }
     }
     private boolean checkPrice(ViewMenu viewMenu){
-        System.out.println("checkPrice(ViewMenu viewMenu)");
+        System.out.println("ControllerMenu - checkPrice(ViewMenu viewMenu)");
         String price = viewMenu.getInputPrice().getText();
         System.out.println("price: "+price);
 
