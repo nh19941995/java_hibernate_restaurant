@@ -197,14 +197,26 @@ public class ControllerBooking {
                                     s.setFlag(1);
                                     BookingDAO.getInstance().insert(s);
                                 });
+
+
                                 // tạo đối tượng ClientPaymentInfo để lưu thông tin giao dịch cọc tiền
                                 ClientPaymentInfo clientPaymentInfo = new ClientPaymentInfo();
                                 clientPaymentInfo.setBookingInfo(bookingsInfo);
                                 clientPaymentInfo.setTransaction(TransactionDAO.getInstance().getById(traransactionDepositID));
-                                clientPaymentInfo.setFlag(1);
+                                // tổng tiền phải thanh toán
+                                Double bill = BookingsInfoDAO.getInstance().getTotalPriceByInfoBookingID(bookingsInfo.getId());
+                                if (bill-Double.parseDouble(depositString) >=0){
+                                    clientPaymentInfo.setFlag(0);
+                                }else {
+                                    clientPaymentInfo.setFlag(1);
+                                }
                                 ClientPaymentInfoDAO.getInstance().insert(clientPaymentInfo);
                                 // giao dịch nợ
                                 creatReceivableTransaction(viewBooking,bookingsInfo);
+                                // làm trống data tạm
+                                bookings.clear();
+                                setTableId.clear();
+                                setNullBlockInfoPerson(viewBooking);
                             }else {
                                 StringBuilder stringBuilder = new StringBuilder();
                                 for (Integer tableId : invalidTableIdsInTempBooking) {
@@ -227,9 +239,6 @@ public class ControllerBooking {
                 }
                 MainProgram.getViewTableInBooking().reload();
                 MainProgram.getViewListBooking().reload();
-                setNullBlockInfoPerson(viewBooking);
-                bookings.clear();
-                setTableId.clear();
                 MainProgram.getViewNewMenuMain().loadData();
                 MainProgram.getViewTempMenu().loadData();
                 MainProgram.getViewListBooking().reload();
@@ -247,13 +256,6 @@ public class ControllerBooking {
         // tổng tiền phải thanh toán
         Double bill = BookingsInfoDAO.getInstance().getTotalPriceByInfoBookingID(bookingsInfo.getId());
         System.out.println("Khởi tạo bill: " + bill);
-
-//        Double receivable;
-//        if (getDeposit()==null){
-//            receivable = bill ;
-//        }else {
-//            receivable = bill - getDeposit() ;
-//        }
         tranReceivable.setQuantity(-bill);
         tranReceivable.setFlag(1);
         tranReceivable.setPerson(PersonDAO.getInstance().getById(idPerson));
@@ -263,7 +265,7 @@ public class ControllerBooking {
         ClientPaymentInfo clientPaymentInfo = new ClientPaymentInfo();
         clientPaymentInfo.setBookingInfo(bookingsInfo);
         clientPaymentInfo.setTransaction(tranReceivable);
-        clientPaymentInfo.setFlag(1);
+        clientPaymentInfo.setFlag(0);
         ClientPaymentInfoDAO.getInstance().insert(clientPaymentInfo);
         // reload form
         MainProgram.getViewTransaction().loadData();

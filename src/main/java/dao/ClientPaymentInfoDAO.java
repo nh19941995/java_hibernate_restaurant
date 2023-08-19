@@ -121,5 +121,20 @@ public class ClientPaymentInfoDAO implements DAOInterface<ClientPaymentInfo,Inte
     }
 
 
+    public static ClientPaymentInfo getClientPaymentInfo(int bookingInfoID) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        try {
+            String queryStr = "SELECT c FROM ClientPaymentInfo c " +
+                    "WHERE c.bookingInfo.id = :bookingInfoID AND c.flag = 1";
+
+            TypedQuery<ClientPaymentInfo> query = entityManager.createQuery(queryStr, ClientPaymentInfo.class);
+            query.setParameter("bookingInfoID", bookingInfoID);
+
+            return query.setMaxResults(1).getResultList().stream().findFirst().orElse(null);
+        } finally {
+            entityManager.close();
+        }
+    }
+
 
 }

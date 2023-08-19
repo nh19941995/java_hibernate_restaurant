@@ -102,25 +102,40 @@ public class ControllerListBooking {
     private void creatPayment(ViewListBooking viewListBooking){
         String paymentValue = viewListBooking.getInputPaymentValue().getText();
         BookingsInfo bookingsInfo = BookingsInfoDAO.getInstance().getById(viewListBooking.getIdSelect());
-        Person person = bookingsInfo.getPerson();
-        TransactionsType transactionsType = TransactionsTypeDAO.getInstance().getByName("Thu - Khách hàng thanh toán");
-        Transaction transaction = new Transaction();
+        if(ClientPaymentInfoDAO.getClientPaymentInfo(viewListBooking.getIdSelect())==null){
+            Person person = bookingsInfo.getPerson();
+            TransactionsType transactionsType = TransactionsTypeDAO.getInstance().getByName("Thu - Khách hàng thanh toán");
+            Transaction transaction = new Transaction();
+            transaction.setType(transactionsType);
+            transaction.setDateCreat(LocalDateTime.now());
+            transaction.setQuantity(Double.parseDouble(paymentValue));
+            transaction.setComment("Payment: "+bookingsInfo.getInfo());
+            transaction.setPerson(person);
+            transaction.setFlag(1);
+            TransactionDAO.getInstance().insert(transaction);
+            ClientPaymentInfo clientPaymentInfo = new ClientPaymentInfo();
+            clientPaymentInfo.setTransaction(transaction);
+            clientPaymentInfo.setBookingInfo(bookingsInfo);
+            if (ClientPaymentInfoDAO.getInstance().getTotalQuantityByBookingInfoID(bookingsInfo.getId())+ Double.parseDouble(paymentValue) >=0) {
+                clientPaymentInfo.setFlag(1);
+            }else {
+                clientPaymentInfo.setFlag(0);
+            }
+            ClientPaymentInfoDAO.getInstance().insert(clientPaymentInfo);
+            MainProgram.getViewTransaction().loadData();
+            MainProgram.getViewListBooking().reload();
 
-        transaction.setType(transactionsType);
-        transaction.setDateCreat(LocalDateTime.now());
-        transaction.setQuantity(Double.parseDouble(paymentValue));
-        transaction.setComment("Payment: "+bookingsInfo.getInfo());
-        transaction.setPerson(person);
-        transaction.setFlag(1);
-        TransactionDAO.getInstance().insert(transaction);
+            JOptionPane.showMessageDialog(null,
+                    "Payment successful, payment amount: "+paymentValue,
+                    "Notice",
+                    JOptionPane.WARNING_MESSAGE);
+            viewListBooking.getInputPaymentValue().setText("");
+        }else {
+            JOptionPane.showMessageDialog(null, "The order has been fully paid", "Notice", JOptionPane.WARNING_MESSAGE);
+        }
 
-        ClientPaymentInfo clientPaymentInfo = new ClientPaymentInfo();
-        clientPaymentInfo.setTransaction(transaction);
-        clientPaymentInfo.setBookingInfo(bookingsInfo);
-        clientPaymentInfo.setFlag(1);
-        ClientPaymentInfoDAO.getInstance().insert(clientPaymentInfo);
-        MainProgram.getViewTransaction().loadData();
-        MainProgram.getViewListBooking().reload();
+
+
 
     }
 
@@ -138,7 +153,7 @@ public class ControllerListBooking {
         if (!RegexMatcher.numberCheck(paymentValue,"").equals("")){
             if (check ==1){
                 JOptionPane.showMessageDialog(null,
-                        RegexMatcher.dayCheck(paymentValue, "Payment amount: ")
+                        RegexMatcher.numberCheck(paymentValue, "Payment amount: ")
                         , "Notice", JOptionPane.WARNING_MESSAGE);
             }
             check = 0;
